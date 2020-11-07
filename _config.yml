@@ -30,7 +30,7 @@ permalink: /:title
 
 enable-share: true
 #twitter: yourusername
-github: yourusername
+github: noorinbee-dispatcher
 #google: +yourusername
 
 rss-feed-limit: 10
