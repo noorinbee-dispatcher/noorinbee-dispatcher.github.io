@@ -42,6 +42,8 @@ rss-show-full: false
 #------------------------------------------------------------------------------
 # Configuration, plugins, gems, etc..
 #------------------------------------------------------------------------------
+baseurl: ''
+url: "https://noorinbee-dispatcher.github.io/"
 source: .
 destination: ./_site
 gems: ['jekyll-paginate']
