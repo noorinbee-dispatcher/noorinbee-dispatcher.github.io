@@ -1,0 +1,22 @@
+---
+layout: ALA_group
+title:  "Life in the Region - Fungi"
+date:   2020-10-12 13:00:00
+categories: [flora]
+---
+
+<p>Thanks to the Atlas of Living Australia, all researchers, and of course the efforts of citizen scientists.</p>
+<a href="https://biocache.ala.org.au/occurrences/search?q=*:*&lat=-37.5667&lon=149.15&radius=55.0#tab_mapView">Images source at ALA</a>
+<div>
+<table class="tab-pics fauna-list">
+</table>
+</div>
+
+<script type="text/javascript" src='ALA_API_Paneliser.js'></script>
+<script>    
+    var target = document.querySelectorAll(".fauna-list")[0];
+    var filterq = '&fq=species_group:%22'
+            + 'Fungi'
+            + '%22';
+    loopedALAGet(target, filterq, pagesize, fromstart);
+</script>
