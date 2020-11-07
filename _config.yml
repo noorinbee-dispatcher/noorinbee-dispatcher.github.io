@@ -5,9 +5,6 @@ name: "Noorinbee Dispatch"
 description: "Local, friendly, responsive."
 language: "en"
 
-url: http://localhost:4000
-baseurl: ''
-
 #------------------------------------------------------------------------------
 # Markdown processor and code highlighting
 #------------------------------------------------------------------------------
