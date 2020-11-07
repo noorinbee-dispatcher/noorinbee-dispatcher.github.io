@@ -57,8 +57,7 @@ categories: [weather]
      var target=document.querySelectorAll(".region-list")[0];
      var ext = "http://www.bom.gov.au/vic/flood/east_gippsland.shtml";
      
-        for (i=0; i < regions.length; i++) {                
-            console.log(regions[i]);
+        for (i=0; i < regions.length; i++) {  
         var ref = document.createElement("a");
         var txt = document.createElement("span");
         var holder = document.createElement("div");
