@@ -5,30 +5,33 @@ layout: default
 <section class='main-content' id='top'>
 
     <nav class="module tag-list color-4">
-        
-        {% assign top_tags = "" %}
-        {% for post in paginator.posts %}
-        {% capture tagname %}{{ post.categories | array_to_sentence_string }}{% endcapture %}
-                
-        {% unless top_tags contains tagname %}        
+            {% assign top_tags = "" %}
+            {% for post in paginator.posts %}
+            {% capture tagname %}{{ post.categories | array_to_sentence_string }}{% endcapture %}
+
+            {% unless top_tags contains tagname %}
             {%capture top_tags%}{{ top_tags | append: tagname }}{% endcapture %}
             {%capture top_tags%}{{ top_tags | append: "_" }}{% endcapture %}
-        <a class='boxed' onclick='
-        var hideClasses = document.querySelectorAll(".all-posts"),
-        showClass = document.querySelectorAll(".{{ post.categories }}")
-        l = hideClasses.length;
-        for (i=0; i < l; i++) {
-            hideClasses[i].style.display = "none";
-        };
-        l = showClass.length;
-        for (i=0; i < l; i++) {
-            showClass[i].style.display = "block";
-        };
-        ' id='{{ post.categories | array_to_sentence_string }}'>
-            {{tagname}}
-        </a>
-        {% endunless %}
-        {% endfor %}
+            <div class="box-floater">
+            <a class='boxed' onclick='
+                var hideClasses = document.querySelectorAll(".all-posts"),
+                showClass = document.querySelectorAll(".{{ post.categories }}")
+                l = hideClasses.length;
+                for (i=0; i < l; i++) {
+                    hideClasses[i].style.display = "none";
+                };
+                l = showClass.length;
+                for (i=0; i < l; i++) {
+                    showClass[i].style.display = "block";
+                };
+                ' 
+            id='{{ post.categories | array_to_sentence_string }}'>
+                {{tagname}}
+            </a>
+        </div>
+            {% endunless %}
+            {% endfor %}
+        <div style="clear:both;"></div>
     </nav>
 
     {% for post in paginator.posts %}
