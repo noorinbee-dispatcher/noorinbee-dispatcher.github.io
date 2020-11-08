@@ -60,7 +60,7 @@ window.onscroll = function (e) {
             lnk.setAttribute("target", "_blank");
             lnk.setAttribute("href", troveDecals[troveDecalsCursor]['link']);
             thumb = sslify(troveDecals[troveDecalsCursor]['thumb']);
-            pic.setAttribute("alt", "CLICK THROUGH TO TROVE");
+            pic.setAttribute("alt", "DISCOVER ON TROVE");
             pic.setAttribute("src", thumb );
             // pic.setAttribute("style", 'margin: auto; display: block; max-height:220px;min-height:120px;border: 2px solid grey;padding:5px;');
             pic.setAttribute("class", 'pad-pic');
