@@ -1,5 +1,6 @@
 <script>
 
+
     var troveDecals = [];
     var troveDecalsCursor = 0;
 
@@ -59,7 +60,7 @@
                 var pic = document.createElement("img");
                 var lnk = document.createElement("a");
                 lnk.setAttribute("target", "_blank");
-                lnk.setAttribute("href", troveDecals[troveDecalsCursor]['link']);
+                lnk.setAttribute("href", _globalHTTPS+troveDecals[troveDecalsCursor]['link']);
                 pic.setAttribute("src", troveDecals[troveDecalsCursor]['thumb']);
                 // pic.setAttribute("style", 'margin: auto; display: block; max-height:220px;min-height:120px;border: 2px solid grey;padding:5px;');
                 pic.setAttribute("class", 'pad-pic');
