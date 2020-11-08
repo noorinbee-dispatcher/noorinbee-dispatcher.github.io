@@ -52,7 +52,7 @@ window.onscroll = function (e) {
     rh = right.getBoundingClientRect()['top'];
     var left = document.getElementById('root');
     lh = left.getBoundingClientRect()['bottom'];
-    if ((lh < 400) && (rh < lh)) {
+    if ((lh < 280) && (rh < lh)) {
         if (troveDecalsCursor < troveDecals.length) {
             var pad = document.createElement("div");
             var pic = document.createElement("img");

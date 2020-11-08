@@ -145,7 +145,7 @@ nav {
 
     a, a:visited {
         color: $color-3;
-        text-transform: uppercase;
+        text-transform: capitalize;
     }
 
     a:hover { cursor: pointer; }
@@ -587,7 +587,7 @@ border:0;
     &.large {
         div {min-width:90%;height:unset;}
         a {max-width:100%;}
-        img {max-height:unset;}
+        img {max-height:unset;padding:12px;}
 }
 }
 
