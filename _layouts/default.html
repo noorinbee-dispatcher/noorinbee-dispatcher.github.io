@@ -33,6 +33,12 @@
 <body>
     <header id='root' class='main-header'>
 
+        <nav class='module main-menu color-4'>
+            <a href='{{ site.url }}/'>Home</a>
+            <a href='{{ site.url }}/realms/host/about/'>About</a>
+            <a href='{{ site.url }}/realms/host/contact/'>Contact</a>
+        </nav>
+
         <div class='module title color-1'>
             <h1><a href='{{ site.url }}/'>{{ site.name }}</a></h1>
             <img src = "{{ site.url }}/assets/img/brand/trk.jpg">
@@ -41,12 +47,6 @@
         <div class='module description color-2'>
             {{ site.description }}
         </div>
-
-        <nav class='module main-menu color-4'>
-            <a href='{{ site.url }}/'>Home</a>
-            <a href='{{ site.url }}/realms/host/about/'>About</a>
-            <a href='{{ site.url }}/realms/host/contact/'>Contact</a>
-        </nav>
 
         <div class='module links color-3'>
             <!-- <a href='https://github.com/{{ site.github }}' title='Profile in Github' target='_blank'>github</a> -->
