@@ -12,12 +12,6 @@ for (r = 0; r < a; r++) {
     region = regions[r];
     var l = region.length;
     for (i = 0; i < l; i++) {
-        var marker = document.createElement("div");
-        var jump = document.createElement("a");
-        var box = document.createElement("div");
-        var holder = document.createElement("div");
-        var panel = document.createElement("iframe");
-        var catcher = document.createElement("a");
         var url = 'http://www.bom.gov.au/australia/meteye/forecast.php?lon='
             + region[i]['longitude']
             + '&lat='
@@ -27,28 +21,32 @@ for (r = 0; r < a; r++) {
         var ext = 'http://www.bom.gov.au/places/'
             + region[i]['url']
             + '/forecast';
-        // url = "https://www.google.ie/gwt/x?u="+url;
+
+        const mark = i + '_' + region[i]['name'];
+        const shown = region[i]['name'];
         url = _globalHTTPS + url;
-        var mark = i + '_' + region[i]['name'];
-        // jump.setAttribute("href",'#'+mark);
-        jump.innerText = region[i]['name'];
-        jump.setAttribute("class", 'boxed');
-        jump.setAttribute("onclick", 'document.getElementById("' + mark + '").scrollIntoView({behavior:"smooth"});');
-        // marker.setAttribute("style",'float:left;padding-bottom: 18px;');
-        marker.setAttribute("class", 'box-floater');
-        box.setAttribute("id", mark);
-        holder.setAttribute("style", 'width:470px;height:320px;display:block;margin:auto;');
-        panel.setAttribute("src", url);
-        panel.setAttribute("id", ' bom_' + r + '_' + i);
-        panel.setAttribute("style", 'height: 120%;');
-        catcher.setAttribute("class", 'cast-catch');
-        catcher.setAttribute("href", ext);
-        catcher.setAttribute("target", '_blank');
-        target.appendChild(box);
-        box.appendChild(holder);
-        holder.appendChild(panel);
-        holder.appendChild(catcher);
-        jumps.appendChild(marker);
-        marker.appendChild(jump);
+        fetch(url).then(function (response) {
+            response.text().then(function (bom) {
+               bom = bom.replace(/img src=\"/g, 'img src="' + _globalHTTPS + 'http://www.bom.gov.au');
+                bom = bom.replace(/href=\"/g, 'target = "_blank" href="http://www.bom.gov.au');
+                bom = bom.replace(/See text views for location/g, '(more details at BOM)');
+                //console.log(bom);
+                var box = document.createElement("div");
+                box.innerHTML = bom;
+                box.setAttribute("id", mark);
+                box.setAttribute("class",'pad-pic');
+                box.setAttribute("style",'max-height: 100%;padding: 20px;margin-bottom: 32px;margin-top: 32px;');
+                target.appendChild(box);
+                var marker = document.createElement("div");
+                var jump = document.createElement("a");
+                // jump.setAttribute("href", '#' + mark);
+                jump.innerText = shown;
+                jump.setAttribute("class", 'boxed');
+                marker.setAttribute("onclick", 'document.getElementById("' + mark + '").scrollIntoView({behavior:"smooth"});');
+                marker.setAttribute("class", 'box-floater');
+                jumps.appendChild(marker);
+                marker.appendChild(jump);
+            });
+        });
     };
 };
