@@ -1,7 +1,8 @@
 #------------------------------------------------------------------------------
 # General
 #------------------------------------------------------------------------------
-name: "Noorinbee Dispatch"
+name: "Noorinbee Dispatcher"
+title: "Noorinbee Dispatcher"
 description: "Local, friendly, responsive."
 language: "en"
 
@@ -43,7 +44,7 @@ baseurl: ''
 url: "https://noorinbee-dispatcher.github.io/"
 source: .
 destination: ./_site
-gems: ['jekyll-paginate']
+plugins: ['jekyll-paginate']
 collections_dir: realms
 collections:
   - nature

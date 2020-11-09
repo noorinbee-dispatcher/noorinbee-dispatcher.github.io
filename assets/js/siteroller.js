@@ -49,10 +49,11 @@ window.onscroll = function (e) {
         troveTrawl();
     }
     var right = document.getElementById('top');
-    rh = right.getBoundingClientRect()['top'];
+    var rht = right.getBoundingClientRect()['top'];
+    var rhb = right.getBoundingClientRect()['bottom'];
     var left = document.getElementById('root');
-    lh = left.getBoundingClientRect()['bottom'];
-    if ((lh < 280) && (rh < lh)) {
+    var lhb = left.getBoundingClientRect()['bottom'];
+    if ((lhb < 280) && (rht < lhb) && (lhb < rhb)) {
         if (troveDecalsCursor < troveDecals.length) {
             var pad = document.createElement("div");
             var pic = document.createElement("img");
@@ -62,10 +63,10 @@ window.onscroll = function (e) {
             thumb = sslify(troveDecals[troveDecalsCursor]['thumb']);
             pic.setAttribute("alt", "DISCOVER ON TROVE");
             pic.setAttribute("src", thumb );
-            // pic.setAttribute("style", 'margin: auto; display: block; max-height:220px;min-height:120px;border: 2px solid grey;padding:5px;');
             pic.setAttribute("class", 'pad-pic');
-            // pad.setAttribute("style", 'padding: 60px; margin:10px;max-width:85%');
             pad.setAttribute("class", 'main-pad');
+            pad.setAttribute("style", 'display:none');
+            pic.setAttribute("onload", 'this.parentNode.parentNode.setAttribute("style","display:block");');
             left.appendChild(pad);
             pad.appendChild(lnk);
             lnk.appendChild(pic);
