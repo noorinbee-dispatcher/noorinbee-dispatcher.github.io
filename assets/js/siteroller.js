@@ -6,6 +6,7 @@ var troveBaseurl = 'https://api.trove.nla.gov.au/v2';
 var troveBaseKey = '&key=8m38np2oj39vl4a6';
 
 var pullingDecals = false;
+var poppingDecals = 0;
 
 var troveDecalsurl = troveBaseurl
     + '/result?' + troveBaseKey
@@ -17,6 +18,7 @@ var troveDecalsurl = troveBaseurl
     + ' fulltext:%22cann%20river%22~0'
     + '&zone=picture&reclevel=brief'
     + '&l-availability=y%2Ff&encoding=json'
+    // + '&sortby=relevance';
     + '&sortby=dateasc';
 
 function troveTrawl() {
@@ -44,7 +46,7 @@ function troveTrawl() {
 }
 
 window.onscroll = function (e) {
-    if (pullingDecals) { return; }
+    if (pullingDecals || (poppingDecals>2)) { return; }
     if (troveDecalsCursor == troveDecals.length) {
         troveTrawl();
     }
@@ -66,7 +68,9 @@ window.onscroll = function (e) {
             pic.setAttribute("class", 'pad-pic');
             pad.setAttribute("class", 'main-pad');
             pad.setAttribute("style", 'display:none');
-            pic.setAttribute("onload", 'this.parentNode.parentNode.setAttribute("style","display:block");');
+            pic.setAttribute("onload", 'poppingDecals--;this.parentNode.parentNode.setAttribute("style","display:block");');
+            pic.setAttribute("onerror", 'poppingDecals--;');
+            poppingDecals++;
             left.appendChild(pad);
             pad.appendChild(lnk);
             lnk.appendChild(pic);

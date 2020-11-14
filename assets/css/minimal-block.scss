@@ -11,12 +11,12 @@
 -   SASS variables.
 -------------------------------------------------------------------------*/
 
-$color-0: #f5f3de; //#f5f7de; //#d8e2d2; //#d1d1d1; /* Main background */
-$color-1: #2c5b45; //#2c3e50; /* Title background */
-$color-2: #4c7b5a; //#34495e; /* Description background */
-$color-3: #fbf8f2; //#f2f2f2; /* Modules background */
-$color-4: #b2baa2; //#7f8c8d; /* Main menu background */
-$color-5: #f2efc9; //#d2daa9; //#bac4c9; /* Lifted background */
+$color-0: #f5f3de; /*//#f5f7de; //#d8e2d2; //#d1d1d1; /* Main background */
+$color-1: #2c5b45; /*//#2c3e50; /* Title background */
+$color-2: #4c7b5a; /*//#34495e; /* Description background */
+$color-3: #fbf8f2; /*//#f2f2f2; /* Modules background */
+$color-4: #b2baa2; /*//#7f8c8d; /* Main menu background */
+$color-5: #f2efc9; /*//#d2daa9; //#bac4c9; /* Lifted background */
 
 $font-stack: "Open Sans", sans-serif;
 $font-size: 18px;
@@ -96,6 +96,11 @@ nav {
     line-height: 1.5em;
     text-align: center;
     padding: 0.4em;
+
+    &.major {
+    border: 1px solid $color-2 !important;
+    border-radius: 3px;
+    }
 
     a, a:visited {
         border-bottom: 2px solid transparent;
@@ -621,8 +626,8 @@ table.tab-frames {
         -webkit-transform-origin: 0 0;
         
     }
-    &.full div.rain-box {padding-bottom:10px;}
-    &.full a.rain-catch {z-index:5;width: 100%;height: 95%;position:relative; top:-100%; left:0; display:inline-block;}
+    &.full div.full-box {padding-bottom:10px;}
+    &.full a.full-catch {z-index:5;width: 100%;height: 95%;position:relative; top:-100%; left:0; display:inline-block;}
     
 }
 
@@ -650,8 +655,8 @@ table.tab-frames {
                 -webkit-transform: scale(0.75);
                 -webkit-transform-origin: 0 0;
             } 
-            &.full div.rain-box {margin-bottom: -110px;}
-            &.full a.rain-catch {height: 70%;width: 75%;}
+            &.full div.full-box {margin-bottom: -110px;}
+            &.full a.full-catch {height: 70%;width: 75%;}
         }
 }
 
@@ -699,7 +704,7 @@ table.tab-frames {
             -webkit-transform-origin: 0 0;
         } 
 
-        &.full div.rain-box {margin-bottom: -260px;}
-        &.full a.rain-catch {height: 47%;width: 50%;}
+        &.full div.full-box {margin-bottom: -260px;}
+        &.full a.full-catch {height: 47%;width: 50%;}
     }
 }
