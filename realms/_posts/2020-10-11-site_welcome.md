@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Noorinbee Dispatch"
+title:  "Noorinbee Dispatcher"
 date:   2020-10-11 12:00:00
 categories: [welcome]
 ---

@@ -1,5 +1,6 @@
 ---
 layout: default
+categories: [home]
 ---
 
 <section class='main-content' id='top'>
@@ -24,6 +25,8 @@ layout: default
                 for (i=0; i < l; i++) {
                     showClass[i].style.display = "block";
                 };
+                fixlink=document.getElementById("filterlink");
+                fixlink.innerHTML = "{{ post.categories | array_to_sentence_string }}";
                 ' 
             id='{{ post.categories | array_to_sentence_string }}'>
                 {{tagname}}
@@ -68,3 +71,9 @@ layout: default
     </div>
 
 </section>
+
+<script>
+    
+
+
+</script>

@@ -1,9 +1,10 @@
 ---
 layout: ALA_group
-title:  "Flora of the Region - Lillies"
-name: "Lillies"
+title:  "Flora of the Region - Mixed"
+name: "test"
 date:   2020-10-12 13:00:00
-categories: [flora]
+categories: [nature]
+ALA: [flora]
 ---
 
 <p>Thanks to the Atlas of Living Australia, all researchers, and of course the efforts of citizen scientists.</p>
@@ -17,10 +18,24 @@ categories: [flora]
 <script>    
     var target = document.querySelectorAll(".flora-list")[0];
     var filterq = '&fq=species_group:%22'
-            + 'Plants'//'FernsAndAllies'
-            + '%22'
+            + 'Plants'//'FernsAndAllies'Lauraceae
+            + '%22' 	
             + '&fq=order:%22'
-            + 'Liliales'
-            + '%22';
+            + 'Laurales' //'Malpighiales'
+            + '%22'
+            // + '%22' 	
+            // + '&fq=order:%22'
+            // + 'Sapindales' //'Malpighiales'
+            // + '%22'
+            // + '&fq=family:%22'
+            // + 'Convolvulaceae'
+            // + '%22'
+            // + '&fq=family:%22'
+            // + 'Chenopodiaceae'
+            // + '%22'
+            // + '&fq=family:%22'
+            // + 'Campanulaceae'
+            // + '%22'
+            ;
     loopedALAGet(target, filterq, pagesize, fromstart);
 </script>

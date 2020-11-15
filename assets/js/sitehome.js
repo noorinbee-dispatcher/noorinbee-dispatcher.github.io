@@ -1,0 +1,9 @@
+window.onload = function () {
+    var currentUrl = document.URL;
+    var urlParts = currentUrl.split('#');
+
+    if (urlParts.length > 1) {
+        var anch = urlParts[1];
+        document.getElementById(anch).click();
+    }
+}

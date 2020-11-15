@@ -1,9 +1,10 @@
 ---
 layout: ALA_group
-title:  "Animals of the Region - Mammals"
-name: "Mammals"
+title:  "Animals of the Region - Birds"
+name: "Birds"
 date:   2020-10-12 13:00:00
-categories: [fauna]
+categories: [nature]
+ALA: [fauna]
 ---
 
 <p>Thanks to the Atlas of Living Australia, all researchers, and of course the efforts of citizen scientists.</p>
@@ -17,7 +18,7 @@ categories: [fauna]
 <script>    
     var target = document.querySelectorAll(".fauna-list")[0];
     var filterq = '&fq=species_group:%22'
-            + 'Mammals'
+            + 'Birds'
             + '%22';
     loopedALAGet(target, filterq, pagesize, fromstart);
 </script>

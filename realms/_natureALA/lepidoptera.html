@@ -1,9 +1,10 @@
 ---
 layout: ALA_group
-title:  "Flora of the Region - Proteaceae"
-name: "Proteaceae"
+title:  "Fauna of the Region - Butterflies and Moths"
+name: "Lepidoptera"
 date:   2020-10-12 13:00:00
-categories: [flora]
+categories: [nature]
+ALA: [fauna]
 ---
 
 <p>Thanks to the Atlas of Living Australia, all researchers, and of course the efforts of citizen scientists.</p>
@@ -17,11 +18,10 @@ categories: [flora]
 <script>    
     var target = document.querySelectorAll(".flora-list")[0];
     var filterq = '&fq=species_group:%22'
-            + 'Plants'//'FernsAndAllies'
+            + 'Animals'//'FernsAndAllies'
             + '%22'
-            + '&fq=family:%22'
-            + 'Proteaceae'
+            + '&fq=order:%22'
+            + 'Lepidoptera'
             + '%22';
-
     loopedALAGet(target, filterq, pagesize, fromstart);
 </script>

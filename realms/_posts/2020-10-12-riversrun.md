@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "River Heights"
+title:  "River heights"
 date:   2020-10-12 13:00:00
 categories: [weather]
 ---

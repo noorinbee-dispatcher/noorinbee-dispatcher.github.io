@@ -47,9 +47,9 @@ destination: ./_site
 plugins: ['jekyll-paginate']
 collections_dir: realms
 collections:
-  - nature
+  - natureALA
 collections:
-  nature:
+  natureALA:
     output: true
 
 sass:

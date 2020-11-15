@@ -156,6 +156,10 @@ nav {
     a:hover { cursor: pointer; }
     a:active { text-decoration: underline; }
 
+    a.filterlink {
+        color: $color-1;
+    }
+
 
     .description { color: $color-3; }
     
@@ -663,7 +667,7 @@ table.tab-frames {
 @media (max-width: 700px) {
 
     body { font-size: large; }
-    .main-pad { display:none; }
+    .main-pad { display:none !important; }
 
     .main-header,
     .main-content {
