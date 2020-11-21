@@ -4,9 +4,9 @@ var target = document.querySelectorAll("#overlayCell")[0];
 var ext = "http://www.bom.gov.au/products/IDR682.loop.shtml";
 var urlStub = "http://www.bom.gov.au";
 var wholeBlock = ''
-    + '<img style = "z-index:99; max-width:80%; max-height:560px; border:0; position:absolute;" id="animation"  alt="Finding Radar images" >'
+    + '<img style = "z-index:99; max-width:80%; height:auto; border:0; position:absolute;" id="animation"  alt="Finding Radar images" >'
 
-    + '<img style = "z-index:55; max-width:80%;  position:absolute;" src="'
+    + '<img style = "z-index:55; max-width:80%; height:auto; position:absolute;" src="'
     + urlStub + '/products/radar_transparencies/IDR.legend.0.png'
     + '">'
     + '<img style = "z-index:1; max-width:80%;  position:absolute; border:0;" src="'

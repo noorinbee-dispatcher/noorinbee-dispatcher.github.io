@@ -581,6 +581,7 @@ div.awesomplete {
     border: 1px solid gray;
     border-radius: 12px;
     color: $color-1;
+    overflow: hidden;
 }
 
 table.tab-pics {
@@ -588,7 +589,7 @@ border:0;
   
   a{max-width:180px;word-wrap: break-word;display: block;}
   span{margin-left: -10%;padding-right: 8px;display: block;border-right: 1px solid gray;}
-  div{height:260px;min-width:31%;max-width:95%;margin:auto; float:left;text-align:right;padding:8px;margin-top:26px}
+  div{height:260px;min-width:242px;max-width:95%;margin:auto; float:left;text-align:right;padding:8px;margin-top:26px}
   img {max-height:220px;width:115%;margin: auto; display: block; padding: 2px;
     border: 1px solid gray;
     border-radius: 12px;}
