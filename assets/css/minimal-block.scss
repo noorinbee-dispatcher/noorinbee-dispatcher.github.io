@@ -75,7 +75,31 @@ a {
 header {
     margin: 0 !important;
     padding: 0 !important; 
+      
+    }
+
+header#root {
+        &.flip-off { display: none !important; }
+    }
+
+header div#t0 {
+    position:absolute; top:.3em; left:0;
+    &.flip-off { display: none !important; }
 }
+    img.t0 { width:22px !important; }
+
+header#t1 {
+        position:fixed !important;
+         min-width:24px !important; 
+         width:2% !important; 
+         display:block !important;
+        &.flip-off { display: none !important; }
+        img.t1 { margin-left: 3px; margin-top: 36px; width:22px; }
+        }
+
+#top {
+        &.flip-wide { width:98% !important; }
+    }
 
 article {
     padding: 21px !important;
@@ -584,6 +608,13 @@ div.awesomplete {
     overflow: hidden;
 }
 
+div.map-box {
+        height:480px;margin: auto; display: block; padding: 2px;
+      border: 1px solid gray;
+      border-radius: 12px;
+          }
+      
+
 table.tab-pics {
 border:0;
   
@@ -593,6 +624,7 @@ border:0;
   img {max-height:220px;width:115%;margin: auto; display: block; padding: 2px;
     border: 1px solid gray;
     border-radius: 12px;}
+  
 
     &.large {
         div {min-width:90%;height:unset;}

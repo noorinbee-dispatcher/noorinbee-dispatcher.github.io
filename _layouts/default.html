@@ -34,30 +34,54 @@
 </head>
 
 <body>
+
     <header id='root' class='main-header'>
 
         <nav class='module main-menu color-4 major' id="links">
-            <a class = "filterlink" id = "filterlink" href="/#{{ page.categories }}">
+            <a class="filterlink" id="filterlink" href="/#{{ page.categories }}">
                 {{ page.categories }}
             </a>
+
+            <div id='t0'>
+                <a onclick='
+                var hideClass = document.querySelectorAll("#root")[0];
+                hideClass.classList.toggle("flip-off"); //.style.display = "none";
+                var maxClass = document.querySelectorAll("#top")[0];
+                maxClass.classList.toggle("flip-wide"); //style.width = "98%";
+                var flipClass = document.querySelectorAll("#t1")[0];
+                flipClass.classList.toggle("flip-off"); //.style.display = "block";'>
+                <img class='t0' src='/assets/img/nav/exit.svg'>
+                </a>
+            </div>
         </nav>
 
         <div class='module title color-1'>
             <h1><a href='{{ site.url }}/'>{{ site.name }}</a></h1>
-            <img src="{{ site.url }}/assets/img/brand/trk.jpg">
+            <a href='{{ site.url }}/'><img src="{{ site.url }}/assets/img/brand/trk.jpg"></a>
         </div>
 
         <div class='module description color-2'>
             {{ site.description }}
         </div>
-        
+
         <nav class='module main-menu color-4 major'>
             <a href='{{ site.url }}/'>Home</a>
             <a href='{{ site.url }}/realms/host/about/'>About</a>
             <a href='{{ site.url }}/realms/host/contact/'>Contact</a>
         </nav>
 
-
+    </header>
+    
+    <header id='t1' class='main-header flip-off'>
+            <a  href="#top" onclick='
+                var hideClass = document.querySelectorAll("#root")[0];
+                hideClass.classList.toggle("flip-off"); //.style.display = "block";
+                var maxClass = document.querySelectorAll("#top")[0];
+                maxClass.classList.toggle("flip-wide"); //.style.width = "68%";
+                var flipClass = document.querySelectorAll("#t1")[0];
+                flipClass.classList.toggle("flip-off"); //.style.display = "none";'>
+                <img  class = 't1' src='/assets/img/nav/enter.svg'>
+            </a>
     </header>
 
     {{ content }}
@@ -67,4 +91,5 @@
 
 </body>
 <script type="text/javascript" src="assets/js/sitehome.js"></script>
+
 </html>
