@@ -27,16 +27,22 @@ for (r = 0; r < a; r++) {
         url = _globalHTTPS + url;
         fetch(url).then(function (response) {
             response.text().then(function (bom) {
-               bom = bom.replace(/img src=\"/g, 'img src="' + _globalHTTPS + 'http://www.bom.gov.au');
+                bom = bom.replace(/img src=\"/g, 'img src="' + _globalHTTPS + 'http://www.bom.gov.au');
                 bom = bom.replace(/href=\"/g, 'target = "_blank" href="http://www.bom.gov.au');
-                bom = bom.replace(/See text views for location/g, '(more details at BOM)');
+                bom = bom.replace(/See text views for location/, '(more details at BOM)');
+                bom = bom.replace(/table/, 'table id="precis_'+mark+'"');
                 //console.log(bom);
                 var box = document.createElement("div");
                 box.innerHTML = bom;
                 box.setAttribute("id", mark);
-                box.setAttribute("class",'pad-pic');
-                box.setAttribute("style",'max-height: 100%;padding: 20px;margin-bottom: 32px;margin-top: 32px;');
+                box.setAttribute("class", 'pad-pic');
+                box.setAttribute("style", 'max-height: 100%;padding: 20px;margin-bottom: 32px;margin-top: 32px;');
                 target.appendChild(box);
+                var info = document.getElementById("precis_"+mark).rows[1];
+                var verbose = info.cells[1].firstElementChild.alt;
+                box.innerHTML += "<br><span>Today: " + verbose + "<span><br>";
+                verbose = info.cells[2].firstElementChild.alt;
+                box.innerHTML += "<br><span>Tomorrow: " + verbose + "<span>";
                 var marker = document.createElement("div");
                 var jump = document.createElement("a");
                 // jump.setAttribute("href", '#' + mark);

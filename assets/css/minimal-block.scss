@@ -11,7 +11,7 @@
 -   SASS variables.
 -------------------------------------------------------------------------*/
 
-$color-0: #f5f3de; /*//#f5f7de; //#d8e2d2; //#d1d1d1; /* Main background */
+$color-0: #e6e2cd; //#f5f3de; /*//#f5f7de; //#d8e2d2; //#d1d1d1; /* Main background */
 $color-1: #2c5b45; /*//#2c3e50; /* Title background */
 $color-2: #4c7b5a; /*//#34495e; /* Description background */
 $color-3: #fbf8f2; /*//#f2f2f2; /* Modules background */
@@ -102,8 +102,10 @@ header#t1 {
     }
 
 article {
-    padding: 21px !important;
+    padding: 14px !important;
     margin: 0;
+
+    li { margin-left: 2.2em; }
 }
 
 p { line-height: 1.5em; }
@@ -252,15 +254,15 @@ article {
 
     h1 {
         color: #333;
-        font: 700 1.6em $font-stack;
-        margin: 0.5em 0 !important;
+        font: 700 1.4em $font-stack;
+        margin: 0.25em 0 !important;
     }
 
-    h2 { @extend h1; font-size: 1.6em; }
-    h3 { @extend h1; font-size: 1.5em; }
-    h4 { @extend h1; font-size: 1.4em; }
-    h5 { @extend h1; font-size: 1.3em; }
-    h6 { @extend h1; font-size: 1.2em; }
+    h2 { @extend h1; font-size: 1.4em; }
+    h3 { @extend h1; font-size: 1.3em; }
+    h4 { @extend h1; font-size: 1.2em; }
+    h5 { @extend h1; font-size: 1.1em; }
+    h6 { @extend h1; font-size: 1.0em; }
 
 
     p {
