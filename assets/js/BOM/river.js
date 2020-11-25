@@ -47,19 +47,21 @@ var regions = [
 var target = document.querySelectorAll(".region-list")[0];
 var ext = "http://www.bom.gov.au/vic/flood/east_gippsland.shtml";
 
-for (i = 0; i < regions.length; i++) {
-    var ref = document.createElement("a");
-    var txt = document.createElement("span");
-    var holder = document.createElement("div");
-    var panel = document.createElement("img");
+function pageLaunch() {
+    for (i = 0; i < regions.length; i++) {
+        var ref = document.createElement("a");
+        var txt = document.createElement("span");
+        var holder = document.createElement("div");
+        var panel = document.createElement("img");
 
-    panel.setAttribute("src", _globalHTTPS + regions[i]['link']);
-    ref.setAttribute("href", ext);
-    ref.setAttribute("target", "_blank");
-    txt.innerHTML = regions[i]['name'];
+        panel.setAttribute("src", _globalHTTPS + regions[i]['link']);
+        ref.setAttribute("href", ext);
+        ref.setAttribute("target", "_blank");
+        txt.innerHTML = regions[i]['name'];
 
-    target.appendChild(holder);
-    holder.appendChild(ref);
-    ref.appendChild(panel);
-    ref.appendChild(txt);
-};
+        target.appendChild(holder);
+        holder.appendChild(ref);
+        ref.appendChild(panel);
+        ref.appendChild(txt);
+    };
+}

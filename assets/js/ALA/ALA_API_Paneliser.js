@@ -15,7 +15,7 @@ function loopedALAGet(target, filterq, pagesize, fromstart) {
         + '&pageSize=' + pagesize
         + '&start=' + fromstart
         + '&n=50';
-    fetch(url).then(function (response) {
+    fetcherise(url, {}, function (response) {
         response.json().then(function (occ) {
             if (occ['occurrences'].length > 0 && fromstart < maxloop) {
                 loopALAPage(target, occ['occurrences']);
@@ -79,8 +79,8 @@ function loopALAPage(target, results) {
                 desc = desc + (results[i]['dataResourceName'] + " ").truncateBySent(1);
             }
 
-        if(desc.length>72) {
-            desc = desc.substr(0,72)+'...';
+        if (desc.length > 72) {
+            desc = desc.substr(0, 72) + '...';
         }
         txt.innerHTML = desc;
 

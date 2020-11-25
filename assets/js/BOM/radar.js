@@ -27,8 +27,11 @@ var panel = document.querySelectorAll("#animation")[0];
 
 var now = new Date();
 var radarImages = [];
-bomCrawl(now, 8);
-bomFlip(0);
+
+function pageLaunch() {
+    bomCrawl(now, 8);
+    bomFlip(0);
+}
 
 function bomFlip(i) {
     //console.log(radarImages.length +" : "+ i);

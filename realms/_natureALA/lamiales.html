@@ -14,7 +14,6 @@ ALA: [flora]
 </table>
 </div>
 
-<script type="text/javascript" src='ALA_API_Paneliser.js'></script>
 <script>    
     var target = document.querySelectorAll(".flora-list")[0];
     var filterq = '&fq=species_group:%22'
@@ -23,5 +22,5 @@ ALA: [flora]
             + '&fq=order:%22'
             + 'Lamiales'
             + '%22';
-    loopedALAGet(target, filterq, pagesize, fromstart);
+    function pageLaunch() { loopedALAGet(target, filterq, pagesize, fromstart); }
 </script>

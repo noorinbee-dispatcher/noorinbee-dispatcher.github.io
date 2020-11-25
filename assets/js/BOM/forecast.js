@@ -8,51 +8,55 @@ regions.push(JSON.parse('{"object":"list","data":[{"object":"search_locations","
 var jumps = document.querySelectorAll(".id-list")[0];
 var target = document.querySelectorAll(".region-list")[0];
 var a = regions.length;
-for (r = 0; r < a; r++) {
-    region = regions[r];
-    var l = region.length;
-    for (i = 0; i < l; i++) {
-        var url = 'http://www.bom.gov.au/australia/meteye/forecast.php?lon='
-            + region[i]['longitude']
-            + '&lat='
-            + region[i]['latitude']
-            + '&dataUrl='
-            + region[i]['url'];
-        var ext = 'http://www.bom.gov.au/places/'
-            + region[i]['url']
-            + '/forecast';
 
-        const mark = i + '_' + region[i]['name'];
-        const shown = region[i]['name'];
-        url = _globalHTTPS + url;
-        fetch(url).then(function (response) {
-            response.text().then(function (bom) {
-                bom = bom.replace(/img src=\"/g, 'img src="' + _globalHTTPS + 'http://www.bom.gov.au');
-                bom = bom.replace(/href=\"/g, 'target = "_blank" href="http://www.bom.gov.au');
-                bom = bom.replace(/See text views for location/, '(more details at BOM)');
-                bom = bom.replace(/table/, 'table id="precis_'+mark+'"');
-                //console.log(bom);
-                var box = document.createElement("div");
-                box.innerHTML = bom;
-                box.setAttribute("id", mark);
-                box.setAttribute("class", 'pad-pic');
-                box.setAttribute("style", 'max-height: 100%;padding: 20px;margin-bottom: 32px;margin-top: 32px;');
-                target.appendChild(box);
-                var info = document.getElementById("precis_"+mark).rows[1];
-                var verbose = info.cells[1].firstElementChild.alt;
-                box.innerHTML += "<br><span>Today: " + verbose + "<span><br>";
-                verbose = info.cells[2].firstElementChild.alt;
-                box.innerHTML += "<br><span>Tomorrow: " + verbose + "<span>";
-                var marker = document.createElement("div");
-                var jump = document.createElement("a");
-                // jump.setAttribute("href", '#' + mark);
-                jump.innerText = shown;
-                jump.setAttribute("class", 'boxed');
-                marker.setAttribute("onclick", 'document.getElementById("' + mark + '").scrollIntoView({behavior:"smooth"});');
-                marker.setAttribute("class", 'box-floater');
-                jumps.appendChild(marker);
-                marker.appendChild(jump);
+function pageLaunch() {
+    for (r = 0; r < a; r++) {
+        region = regions[r];
+        var l = region.length;
+        for (i = 0; i < l; i++) {
+            var url = 'http://www.bom.gov.au/australia/meteye/forecast.php?lon='
+                + region[i]['longitude']
+                + '&lat='
+                + region[i]['latitude']
+                + '&dataUrl='
+                + region[i]['url'];
+            var ext = 'http://www.bom.gov.au/places/'
+                + region[i]['url']
+                + '/forecast';
+
+            const mark = i + '_' + region[i]['name'];
+            const shown = region[i]['name'];
+            url = _globalHTTPS + url;
+            // fetch(url).then(function (response) {
+            fetcherise(url, {}, function (response) {
+                response.text().then(function (bom) {
+                    bom = bom.replace(/img src=\"/g, 'img src="' + _globalHTTPS + 'http://www.bom.gov.au');
+                    bom = bom.replace(/href=\"/g, 'target = "_blank" href="http://www.bom.gov.au');
+                    bom = bom.replace(/See text views for location/, '(more details at BOM)');
+                    bom = bom.replace(/table/, 'table id="precis_' + mark + '"');
+                    //console.log(bom);
+                    var box = document.createElement("div");
+                    box.innerHTML = bom;
+                    box.setAttribute("id", mark);
+                    box.setAttribute("class", 'pad-pic');
+                    box.setAttribute("style", 'max-height: 100%;padding: 20px;margin-bottom: 32px;margin-top: 32px;');
+                    target.appendChild(box);
+                    var info = document.getElementById("precis_" + mark).rows[1];
+                    var verbose = info.cells[1].firstElementChild.alt;
+                    box.innerHTML += "<br><span>Today: " + verbose + "<span><br>";
+                    verbose = info.cells[2].firstElementChild.alt;
+                    box.innerHTML += "<br><span>Tomorrow: " + verbose + "<span>";
+                    var marker = document.createElement("div");
+                    var jump = document.createElement("a");
+                    // jump.setAttribute("href", '#' + mark);
+                    jump.innerText = shown;
+                    jump.setAttribute("class", 'boxed');
+                    marker.setAttribute("onclick", 'document.getElementById("' + mark + '").scrollIntoView({behavior:"smooth"});');
+                    marker.setAttribute("class", 'box-floater');
+                    jumps.appendChild(marker);
+                    marker.appendChild(jump);
+                });
             });
-        });
+        };
     };
-};
+}
