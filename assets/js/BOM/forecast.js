@@ -24,7 +24,7 @@ function pageLaunch() {
                 + region[i]['url']
                 + '/forecast';
 
-            const mark = i + '_' + region[i]['name'];
+            const mark = i + '-' + region[i]['name'].replace(/ /g, "");
             const shown = region[i]['name'];
             url = _globalHTTPS + url;
             // fetch(url).then(function (response) {
@@ -36,22 +36,31 @@ function pageLaunch() {
                     bom = bom.replace(/table/, 'table id="precis_' + mark + '"');
                     //console.log(bom);
                     var box = document.createElement("div");
+                    var blurb = document.createElement("div");
                     box.innerHTML = bom;
                     box.setAttribute("id", mark);
-                    box.setAttribute("class", 'pad-pic');
+                    box.setAttribute("class", 'pad-pic bom-box ' + mark);
                     box.setAttribute("style", 'max-height: 100%;padding: 20px;margin-bottom: 32px;margin-top: 32px;');
                     target.appendChild(box);
+                    blurb.setAttribute("class", 'bom-blurb ' + mark);
                     var info = document.getElementById("precis_" + mark).rows[1];
                     var verbose = info.cells[1].firstElementChild.alt;
-                    box.innerHTML += "<br><span>Today: " + verbose + "<span><br>";
+                    blurb.innerHTML += "<br><span>Today: " + verbose + "<span><br>";
                     verbose = info.cells[2].firstElementChild.alt;
-                    box.innerHTML += "<br><span>Tomorrow: " + verbose + "<span>";
+                    blurb.innerHTML += "<br><span>Tomorrow: " + verbose + "<span>";
+                    blurb.setAttribute("style", "display: none");
+                    box.appendChild(blurb);
                     var marker = document.createElement("div");
                     var jump = document.createElement("a");
                     // jump.setAttribute("href", '#' + mark);
                     jump.innerText = shown;
                     jump.setAttribute("class", 'boxed');
-                    marker.setAttribute("onclick", 'document.getElementById("' + mark + '").scrollIntoView({behavior:"smooth"});');
+                    // marker.setAttribute("onclick", 'document.getElementById("' + mark + '").scrollIntoView({behavior:"smooth"});');
+                    marker.setAttribute("onclick",
+                        'var desc = hideShow("bom-box", "' + mark + '").querySelectorAll(".bom-blurb");'
+                        + ' desc.style.display = "block";'
+                        + ' desc.scrollIntoView({behavior:"smooth"});'
+                    );
                     marker.setAttribute("class", 'box-floater');
                     jumps.appendChild(marker);
                     marker.appendChild(jump);

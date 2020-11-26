@@ -43,13 +43,7 @@
             </a>
 
             <div id='t0'>
-                <a onclick='
-                var hideClass = document.querySelectorAll("#root")[0];
-                hideClass.classList.toggle("flip-off"); //.style.display = "none";
-                var maxClass = document.querySelectorAll("#top")[0];
-                maxClass.classList.toggle("flip-wide"); //style.width = "98%";
-                var flipClass = document.querySelectorAll("#t1")[0];
-                flipClass.classList.toggle("flip-off"); //.style.display = "block";'>
+                <a onclick='panelView();'>
                 <img class='t0' src='/assets/img/nav/exit.svg'>
                 </a>
             </div>
@@ -73,14 +67,11 @@
     </header>
     
     <header id='t1' class='main-header flip-off'>
-            <a  href="#top" onclick='
-                var hideClass = document.querySelectorAll("#root")[0];
-                hideClass.classList.toggle("flip-off"); //.style.display = "block";
-                var maxClass = document.querySelectorAll("#top")[0];
-                maxClass.classList.toggle("flip-wide"); //.style.width = "68%";
-                var flipClass = document.querySelectorAll("#t1")[0];
-                flipClass.classList.toggle("flip-off"); //.style.display = "none";'>
+            <a  href="#top" onclick='wideView();'>
                 <img  class = 't1' src='/assets/img/nav/enter.svg'>
+            </a>
+            <a  href="#top">
+                <img  class = 't1 p1 rotate90' src='/assets/img/nav/enter.svg' rotate=>
             </a>
     </header>
 

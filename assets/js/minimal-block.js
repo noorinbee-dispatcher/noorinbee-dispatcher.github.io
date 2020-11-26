@@ -1,31 +1,36 @@
 // build stage
 
-
-var _globalHTTPS = "https://yacdn.org/proxy/";
-var _globalTrap = false;
-
-function sslify(url) {
-    if (url.substr(0, 5) !== "https") {
-        url = _globalHTTPS + url;
-    }
-    return url;
+function panelView() {
+    var hideClass = document.querySelectorAll("#root")[0];
+    hideClass.classList.toggle("flip-off"); //.style.display = "none";
+    var maxClass = document.querySelectorAll("#top")[0];
+    maxClass.classList.toggle("flip-wide"); //style.width = "98%";
+    var flipClass = document.querySelectorAll("#t1")[0];
+    flipClass.classList.toggle("flip-off"); //.style.display = "block";
 }
 
-function fetcherise(url, headers, thendo) {
-    console.log("Fetcherising:" + url);
-    fetch(url, headers)
-        .then(function (response) {
-            if (!response.ok) {
-                throw Error(response.statusText);
-            }
-            return response;
-        }).then(function (response) {
-            thendo(response)
-        }).catch(function (error) {
-            console.log("Fetcherised unhappy result!");
-            console.log(error);
-            if (_globalTrap) {
-                window.location.href = "/trap";
-            }
-        });
+function wideView() {
+    var hideClass = document.querySelectorAll("#root")[0];
+    hideClass.classList.toggle("flip-off"); //.style.display = "block";
+    var maxClass = document.querySelectorAll("#top")[0];
+    maxClass.classList.toggle("flip-wide"); //.style.width = "68%";
+    var flipClass = document.querySelectorAll("#t1")[0];
+    flipClass.classList.toggle("flip-off"); //.style.display = "none";
+}
+
+function hideShow(hideclass, showclass) {
+    console.log("Show only: " + showclass);
+    var hideClasses = document.getElementsByClassName(hideclass);
+    var showClass = document.getElementsByClassName(showclass);
+    var shown;
+    var l = hideClasses.length;
+    for (i = 0; i < l; i++) {
+        hideClasses[i].style.display = "none";
+    };
+    var l = showClass.length;
+    for (i = 0; i < l; i++) {
+        shown = showClass[i];
+        shown.style.display = "block";
+    };
+    return shown;
 }
