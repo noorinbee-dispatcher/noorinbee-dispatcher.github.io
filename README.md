@@ -1,8 +1,9 @@
 
 Perhaps you didn't come here for the code?
-Visit the Dispatcher live at --> https://noorinbee-dispatcher.github.io/
+Visit the Dispatcher live at:
+https://noorinbee-dispatcher.github.io/
 ----------------
-We Are Setting up
+We Are Setting up.
 ----------------
    <h1>How did we get here?</h1>
         <hr>
