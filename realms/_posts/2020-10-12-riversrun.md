@@ -9,5 +9,5 @@ categories: [weather]
 <table class="region-list tab-pics large"></table>
 
 
-<script type="text/javascript" src="/assets/js/minimal-block.js"></script>
+
 <script type="text/javascript" src="/assets/js/BOM/river.js"></script>

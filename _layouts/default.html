@@ -7,7 +7,7 @@
         {% if page.title %}
         {{ page.title }}
         {% else %}
-        {{ site.name }} &mdash; {{ site.description }}
+        {{ site.name }}
         {% endif %}
     </title>
 
@@ -28,9 +28,13 @@
     <link href='//fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
     <link rel='alternate' type='application/rss+xml' title='{{ site.name }}' href='{{ site.url }}/feed.xml'>
 
-    <!-- <meta property="og:title" content="Preventing trace event record loss with LTTng-UST's blocking mode &mdash; LTTng"> -->
-    <!-- <meta property="og:image" content="http://lttng.org/blog/images/matthew-hamilton-159691.jpg"> -->
-
+    <meta property="og:title" content="Noorinbee Dispatcher - Local, friendly, responsive.">
+    <meta property="og:image" content="https://noorinbee-dispatcher.github.io//assets/img/brand/trk.jpg">
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/brand/favi/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/brand/favi/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/brand/favi/favicon-16x16.png">
+    <link rel="manifest" href="assets/img/brand/favi/site.webmanifest">
 </head>
 
 <body>
@@ -71,7 +75,13 @@
                 <img  class = 't1' src='/assets/img/nav/enter.svg'>
             </a>
             <a  href="#top">
-                <img  class = 't1 p1 rotate90' src='/assets/img/nav/enter.svg' rotate=>
+                <img  class = 't1 p1 unrotate90' src='/assets/img/nav/enter.svg'>
+            </a>
+            <a  href="#end">
+                <img  class = 't1 p1 rotate90' src='/assets/img/nav/enter.svg'>
+            </a>
+            <a  href="{{ site.url }}">
+                <img  class = 't1 p1' src='/assets/img/nav/home.svg'>
             </a>
     </header>
 
@@ -81,6 +91,8 @@
     {% include roller.html %}
 
 </body>
+
+<script type="text/javascript" src="/assets/js/minimal-block.js"></script>
 <script type="text/javascript" src="{{ site.url }}/assets/js/sitehome.js"></script>
 
 </html>
