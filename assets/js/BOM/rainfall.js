@@ -23,7 +23,7 @@ function pageLaunch() {
         holder.setAttribute("style", 'min-width:75%;');
         ref.setAttribute("href", ext);
         ref.setAttribute("target", "_blank");
-        panel.setAttribute("src", _globalHTTPS + regions[i]['link']);
+        panel.setAttribute("src", sslify(regions[i]['link']));
         txt.innerHTML = "All details at BOM";
 
         target.appendChild(holder);

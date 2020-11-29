@@ -1,6 +1,9 @@
 
 
-var _globalHTTPS = "https://yacdn.org/proxy/";
+var _globalHTTPS = "https://api.allorigins.win/raw?url="; 
+// https://github.com/gnuns/allorigins
+//"https://thingproxy.freeboard.io/fetch/"; //"https://yacdn.org/proxy/";
+
 var _globalTrap = false;
 
 const siteCoverage = [
@@ -16,7 +19,7 @@ window.onload = function () {
 
     if (urlParts.length > 1) {
         var anch = urlParts[1];
-        var jump = document.getElementById(anch);
+        var jump = (anch) ? document.getElementById(anch) : null;
         if (jump) {
             jump.click();
             window.scrollTo(0, 0);
@@ -40,7 +43,7 @@ window.onload = function () {
 
 function sslify(url) {
     if (url.substr(0, 5) !== "https") {
-        url = _globalHTTPS + url;
+        url = _globalHTTPS + encodeURIComponent(url);
     }
     return url;
 }

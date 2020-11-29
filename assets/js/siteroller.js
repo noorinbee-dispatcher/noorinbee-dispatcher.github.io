@@ -63,7 +63,7 @@ window.onscroll = function (e) {
             lnk.setAttribute("target", "_blank");
             lnk.setAttribute("href", troveDecals[troveDecalsCursor]['link']);
             thumb = sslify(troveDecals[troveDecalsCursor]['thumb']);
-            pic.setAttribute("alt", "DISCOVER ON TROVE");
+            pic.setAttribute("alt", "DISCOVER ON TROVE");");
             pic.setAttribute("src", thumb );
             pic.setAttribute("class", 'pad-pic');
             pad.setAttribute("class", 'main-pad');

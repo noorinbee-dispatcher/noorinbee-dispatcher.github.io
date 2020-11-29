@@ -8,7 +8,7 @@ regions.push(JSON.parse('{"object":"list","data":[{"object":"search_locations","
 var jumps = document.querySelectorAll(".id-list")[0];
 var target = document.querySelectorAll(".region-list")[0];
 var a = regions.length;
-
+//http://www.bom.gov.au/australia/meteye/forecast.php?lon=149.21516802241&lat=-37.508814728674&dataUrl=%2Fvic%2Fnoorinbee%2F
 function pageLaunch() {
     for (r = 0; r < a; r++) {
         region = regions[r];
@@ -26,11 +26,12 @@ function pageLaunch() {
 
             const mark = i + '-' + region[i]['name'].replace(/ /g, "");
             const shown = region[i]['name'];
-            url = _globalHTTPS + url;
+            url = sslify(url); 
+            //_globalHTTPS + encodeURIComponent(url);
             // fetch(url).then(function (response) {
-            fetcherise(url, {}, function (response) {
+            fetcherise(url, {method: 'GET'}, function (response) {
                 response.text().then(function (bom) {
-                    bom = bom.replace(/img src=\"/g, 'img src="' + _globalHTTPS + 'http://www.bom.gov.au');
+                    bom = bom.replace(/img src=\"/g, 'img src="' + sslify('http://www.bom.gov.au'));
                     bom = bom.replace(/href=\"/g, 'target = "_blank" href="http://www.bom.gov.au');
                     bom = bom.replace(/See text views for location/, '(more details at BOM)');
                     bom = bom.replace(/table/, 'table id="precis_' + mark + '"');

@@ -27,9 +27,10 @@ var panel = document.querySelectorAll("#animation")[0];
 
 var now = new Date();
 var radarImages = [];
+var carryOver;
 
 function pageLaunch() {
-    bomCrawl(now, 8);
+    bomCrawl(now, 18);
     bomFlip(0);
 }
 
@@ -46,27 +47,42 @@ function bomFlip(i) {
 }
 
 function bomCrawl(timeSet, bailOut) {
-    bailOut--;
-    if (bailOut == 0) { return; }
+    var recurse = bailOut -1;
+    console.log("ahhhhhhh"+recurse);
+    // bailOut--;
+    if (recurse == 0) { return; }
     var checking = new Date(timeSet);
     alt = "IDR682.T." + checking.toISOString().replace(/[^0-9]/g, "").slice(0, -5) + ".png";
     //console.log(alt);
-    url = _globalHTTPS + urlStub + "/radar/" + alt;
-    fetch(url).then(function (response) {
-        if (response["status"] != 200) {
-            throw 'NoFileAtTime!';
+    url = sslify(urlStub + "/radar/" + alt);
+    fetch(url).then(function (response) {//console.log(response['headers']);//return;
+        if (response["status"] != 200 ) {
+            throw 'NoFileCanRead!';
         }
-        //console.log(response["url"]);
-        radarImages.unshift(response["url"]);
+        carryOver = response["url"];
+        response.blob().then(function(dat) {
+            if(dat.size == 0) {
+                throw 'NoFileAtTime!';
+            }
+        //console.log(response["url"]);dat
+        radarImages.unshift(carryOver);
         if (radarImages.length == 1) {
-            panel.setAttribute("src", response["url"]);
+            panel.setAttribute("src", carryOver);
         }
         var dd = checking.setMinutes(checking.getMinutes() - 5);
-        bomCrawl(dd, 2);
+        console.log("yaaaaaa");
+        setTimeout(function() { bomCrawl(dd, 2); },200);
     }).catch(function () {
+        console.log("hmmmmmm"+recurse);
 
         var dd = checking.setMinutes(checking.getMinutes() - 1);
-        bomCrawl(dd, bailOut);
+        setTimeout(function() { bomCrawl(dd, recurse); },500);
+    });
+    }).catch(function () {
+        console.log("errrrrr");
+        return;
+        // var dd = checking.setMinutes(checking.getMinutes() - 1);
+        // bomCrawl(dd, bailOut);
     });
 
 }

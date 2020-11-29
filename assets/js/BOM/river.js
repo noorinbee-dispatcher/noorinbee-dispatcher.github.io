@@ -54,7 +54,7 @@ function pageLaunch() {
         var holder = document.createElement("div");
         var panel = document.createElement("img");
 
-        panel.setAttribute("src", _globalHTTPS + regions[i]['link']);
+        panel.setAttribute("src", sslify(regions[i]['link']));
         ref.setAttribute("href", ext);
         ref.setAttribute("target", "_blank");
         txt.innerHTML = regions[i]['name'];
