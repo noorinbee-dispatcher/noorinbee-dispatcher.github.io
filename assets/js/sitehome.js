@@ -1,8 +1,11 @@
 
 
-var _globalHTTPS = "https://api.allorigins.win/raw?url="; 
-// https://github.com/gnuns/allorigins
-//"https://thingproxy.freeboard.io/fetch/"; //"https://yacdn.org/proxy/";
+var _globalHTTPS = "https://api.allorigins.win/raw?url=";
+//"https://cors-anywhere.herokuapp.com/";
+// https://api.allorigins.win/raw?url=
+//"https://thingproxy.freeboard.io/fetch/"; 
+//"https://yacdn.org/proxy/";
+var _globalEncode = true;
 
 var _globalTrap = false;
 
@@ -43,7 +46,8 @@ window.onload = function () {
 
 function sslify(url) {
     if (url.substr(0, 5) !== "https") {
-        url = _globalHTTPS + encodeURIComponent(url);
+        url = (_globalEncode)?encodeURIComponent(url):url;
+        url = _globalHTTPS + url;
     }
     return url;
 }
