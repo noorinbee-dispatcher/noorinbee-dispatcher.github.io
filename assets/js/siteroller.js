@@ -10,16 +10,38 @@ var poppingDecals = 0;
 
 var troveDecalsurl = troveBaseurl
     + '/result?' + troveBaseKey
-    + '&q='
-    + 'buldah OR combienbar OR '
-    + ' noorinbee OR tamboon OR '
-    + ' croajingolong OR coopracambra OR errinundra OR '
-    + ' fulltext:%22bemm%20river%22~0 OR '
-    + ' fulltext:%22cann%20river%22~0'
-    + '&zone=picture&reclevel=brief'
-    + '&l-availability=y%2Ff&encoding=json'
-    // + '&sortby=relevance';
-    + '&sortby=dateasc';
+    + '&q=';
+
+
+
+
+function pagePlug() {
+    for (var i = 0; i < siteCoverage.length; i++) {
+        if (siteCoverage[i].trove) {
+            troveDecalsurl = troveDecalsurl
+                + ' fulltext:%22'
+                + siteCoverage[i].name.replace(" ", "%20")
+                + '%22~0 ';
+            if (i < siteCoverage.length - 1) {
+                troveDecalsurl = troveDecalsurl
+                    + ' OR ';
+            }
+        }
+    }
+    // + 'buldah OR combienbar OR '
+    // + ' noorinbee OR tamboon OR '
+    // + ' croajingolong OR coopracambra OR errinundra OR '
+    // + ' fulltext:%22bemm%20river%22~0 OR '
+    // + ' fulltext:%22cann%20river%22~0'
+
+    troveDecalsurl = troveDecalsurl
+        + '&zone=picture&reclevel=brief'
+        + '&l-availability=y%2Ff&encoding=json'
+        // + '&sortby=relevance';
+        + '&sortby=dateasc';
+
+    window.onscroll = troveRoll;
+}
 
 function troveTrawl() {
     pullingDecals = true;
@@ -45,17 +67,22 @@ function troveTrawl() {
     });
 }
 
-window.onscroll = function (e) {
-    if (pullingDecals || (poppingDecals>2)) { return; }
-    if (troveDecalsCursor == troveDecals.length) {
-        troveTrawl();
-    }
+function troveRoll(e) {
+    if (pullingDecals || (poppingDecals > 2)) { return; }
     var right = document.getElementById('top');
+    if (right.classList.contains('flip-wide')) {
+        return;
+    }
     var rht = right.getBoundingClientRect()['top'];
     var rhb = right.getBoundingClientRect()['bottom'];
     var left = document.getElementById('root');
     var lhb = left.getBoundingClientRect()['bottom'];
     if ((lhb < 280) && (rht < lhb) && (lhb < rhb)) {
+
+        if (troveDecalsCursor == troveDecals.length) {
+            troveTrawl();
+        }
+        
         if (troveDecalsCursor < troveDecals.length) {
             var pad = document.createElement("div");
             var pic = document.createElement("img");
@@ -63,8 +90,8 @@ window.onscroll = function (e) {
             lnk.setAttribute("target", "_blank");
             lnk.setAttribute("href", troveDecals[troveDecalsCursor]['link']);
             thumb = sslify(troveDecals[troveDecalsCursor]['thumb']);
-            pic.setAttribute("alt", "DISCOVER ON TROVE");");
-            pic.setAttribute("src", thumb );
+            pic.setAttribute("alt", "DISCOVER ON TROVE");
+            pic.setAttribute("src", thumb);
             pic.setAttribute("class", 'pad-pic');
             pad.setAttribute("class", 'main-pad');
             pad.setAttribute("style", 'display:none');
