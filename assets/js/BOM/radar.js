@@ -30,12 +30,12 @@ var radarImages = [];
 var carryOver;
 
 function pageLaunch() {
-    bomCrawl(now, 18);
+    bomCrawl(now, 8);
     bomFlip(0);
 }
 
 function bomFlip(i) {
-    //console.log(radarImages.length +" : "+ i);
+    console.log("Running radar loop : "+radarImages.length +" : "+ i);
     if (radarImages.length > 0) {
         panel.setAttribute("src", radarImages[i]);
         i++;
@@ -48,14 +48,12 @@ function bomFlip(i) {
 
 function bomCrawl(timeSet, bailOut) {
     var recurse = bailOut -1;
-    console.log("ahhhhhhh"+recurse);
-    // bailOut--;
     if (recurse == 0) { return; }
     var checking = new Date(timeSet);
     alt = "IDR682.T." + checking.toISOString().replace(/[^0-9]/g, "").slice(0, -5) + ".png";
-    //console.log(alt);
-    url = sslify(urlStub + "/radar/" + alt);
-    fetch(url).then(function (response) {//console.log(response['headers']);//return;
+    unq = "#"+uniquify();
+    url = sslify(urlStub + "/radar/" + alt + unq);
+    fetch(url).then(function (response) {
         if (response["status"] != 200 ) {
             throw 'NoFileCanRead!';
         }
@@ -64,25 +62,18 @@ function bomCrawl(timeSet, bailOut) {
             if(dat.size == 0) {
                 throw 'NoFileAtTime!';
             }
-        //console.log(response["url"]);dat
         radarImages.unshift(carryOver);
         if (radarImages.length == 1) {
             panel.setAttribute("src", carryOver);
         }
         var dd = checking.setMinutes(checking.getMinutes() - 5);
-        console.log("yaaaaaa");
         setTimeout(function() { bomCrawl(dd, 2); },200);
     }).catch(function () {
-        console.log("hmmmmmm"+recurse);
-
         var dd = checking.setMinutes(checking.getMinutes() - 1);
         setTimeout(function() { bomCrawl(dd, recurse); },500);
     });
     }).catch(function () {
-        console.log("errrrrr");
         return;
-        // var dd = checking.setMinutes(checking.getMinutes() - 1);
-        // bomCrawl(dd, bailOut);
     });
 
 }

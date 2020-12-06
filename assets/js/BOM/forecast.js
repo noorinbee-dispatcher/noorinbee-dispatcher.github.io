@@ -26,10 +26,10 @@ function pageLaunch() {
 
             const mark = i + '-' + region[i]['name'].replace(/ /g, "");
             const shown = region[i]['name'];
-            url = sslify(url); 
+            url = sslify(url);
             //_globalHTTPS + encodeURIComponent(url);
             // fetch(url).then(function (response) {
-            fetcherise(url, {method: 'GET'}, function (response) {
+            fetcherise(url, { method: 'GET' }, function (response) {
                 response.text().then(function (bom) {
                     bom = bom.replace(/img src=\"/g, 'img src="' + sslify('http://www.bom.gov.au'));
                     bom = bom.replace(/href=\"/g, 'target = "_blank" href="http://www.bom.gov.au');
@@ -44,11 +44,16 @@ function pageLaunch() {
                     box.setAttribute("style", 'max-height: 100%;padding: 20px;margin-bottom: 32px;margin-top: 32px;');
                     target.appendChild(box);
                     blurb.setAttribute("class", 'bom-blurb ' + mark);
-                    var info = document.getElementById("precis_" + mark).rows[1];
-                    var verbose = info.cells[1].firstElementChild.alt;
-                    blurb.innerHTML += "<br><span>Today: " + verbose + "<span><br>";
-                    verbose = info.cells[2].firstElementChild.alt;
-                    blurb.innerHTML += "<br><span>Tomorrow: " + verbose + "<span>";
+                    var info = document.getElementById("precis_" + mark);
+                    var today = "No details available.";
+                    var tomorrow = today;
+                    if (info) {
+                        info = info.rows[1];
+                        today = info.cells[1].firstElementChild.alt;
+                        tomorrow = info.cells[2].firstElementChild.alt;
+                    }
+                    blurb.innerHTML += "<br><span>Today: " + today + "<span><br>";
+                    blurb.innerHTML += "<br><span>Tomorrow: " + tomorrow + "<span>";
                     blurb.setAttribute("style", "display: none");
                     box.appendChild(blurb);
                     var marker = document.createElement("div");
