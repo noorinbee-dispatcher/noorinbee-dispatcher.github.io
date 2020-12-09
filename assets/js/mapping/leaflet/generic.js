@@ -96,19 +96,34 @@ function legendStyle(desc, symbol) {
 
         _legendList[desc] = symbol.options;
         var applying = _legendList[desc];
+        var icon = symbol.marker ?? null;
+        var tagx = 20;
         legendStyle.counter++;
-        applying.locy = ((2 - legendStyle.counter) * 25);
+        applying.locy = ((2.5-legendStyle.counter) * 25);
         // var marker = new L.marker([(legendStyle.counter*20),0], { opacity: 0.01 }); //opacity may be set to zero
         // console.log(legendStyle.counter + ":" + applying.locy);
-        var blot = new L.circleMarker([applying.locy, -64], {
+        var blot;
+        if(!icon) {
+            blot = new L.circleMarker([applying.locy, -64], {
             radius: applying.radius, //8,
             fillColor: applying.fillColor, //"#CA6FA8",
             color: applying.color, //"#AA78B0",
             weight: applying.weight, //1,
             opacity: applying.opacity, //1,
             fillOpacity: applying.fillOpacity, //0.3,
-        });
-        blot.bindTooltip(desc, { permanent: true, className: "legend-label", offset: [10, 0], opacity: 0.85 });
+        }); } else {
+            if(icon=="line"){
+                tagx = 32;
+                blot = new L.rectangle([[applying.locy-1,-90],[applying.locy+1,-55]], {
+                fillColor: applying.fillColor, //"#CA6FA8",
+                color: applying.color, //"#AA78B0",
+                weight: applying.weight, //1,
+                opacity: applying.opacity, //1,
+                fillOpacity: applying.fillOpacity, //0.3,
+            }); }
+        }
+
+        blot.bindTooltip(desc, { permanent: true, className: "legend-label", offset: [tagx, 0], opacity: 0.85 });
         // marker.addTo(legend);
         blot.addTo(_globalLegend);
     }
@@ -118,7 +133,7 @@ function legendStyle(desc, symbol) {
 function getWFS(URL, theMap, _symStyles, _symPoints, _popupFilters, addto, listed, transform) {
     addto = addto ?? true;
     var WFSLayer = null;
-
+    
     fetch(URL).then(function (response) {
         response.json().then(function (lyr) {
             if (typeof transform === "function") {

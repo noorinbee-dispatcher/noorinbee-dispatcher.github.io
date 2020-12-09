@@ -1,7 +1,5 @@
 
 
-
-
 function pageLaunch() {
 
     var mymap = L.map('lf-map', { attributionControl: false }).setView([-37.56655532524054, 149.1559270001807], 11);
@@ -30,20 +28,31 @@ function pageLaunch() {
     setFocusLayer(L.tileLayer(''));
     freshenLeaflet(mymap);
 
+    var layerParameters = {
+        service: 'WFS',
+        version: '2.0.0',
+        request: 'GetFeature',
+        maxFeatures: 200,
+        outputFormat: 'application/json',
+        bbox: '-37.853854677977594,148.09321731872052,-36.620632663222686,150.03230420798283'
+    };
+
+    var rootUrl = 'https://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wfs?';
+
     var _polyInterest = {
         symbology: {
             fillColor: "#930eab", //EAAFD8",
             color: "#edbbcd", //FAEFA8",
-            weight: 0.5,
+            weight: 1,
             opacity: 1,
             fillOpacity: 0.5,
         },
         _symFilter: function (feature) { return null; }
     };
 
-    var _symInterest = {};
-    Object.assign(_symInterest, _polyInterest);
-    _symInterest.radius = 8;
+    var _symInterest = {symbology:{}};
+    Object.assign(_symInterest.symbology, _polyInterest.symbology);
+    _symInterest.symbology.radius = 8;
 
     var _symObject = {
         symbology: {
@@ -123,17 +132,6 @@ function pageLaunch() {
         return layer.feature.properties.ASSET_CLS;
     }
 
-    var layerParameters = {
-        service: 'WFS',
-        version: '2.0.0',
-        request: 'GetFeature',
-        maxFeatures: 200,
-        outputFormat: 'application/json',
-        bbox: '-37.853854677977594,148.09321731872052,-36.620632663222686,150.03230420798283'
-    };
-
-    var rootUrl = 'https://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wfs?';
-
     layerParameters.typeName = 'datavic:FORESTS_RECWEB_ASSET';
     var URL = rootUrl + L.Util.getParamString(layerParameters);
     var l1 = getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters);
@@ -142,28 +140,47 @@ function pageLaunch() {
     var l2 = getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters);
 
     var bufferLine = function (buffering) {
-        return turf.buffer(buffering, 3.5, { units: 'metres' });
+        return turf.buffer(buffering, 1.5, { units: 'metres' });
     };
 
-    var _polyLinework = {};
-    Object.assign(_polyLinework, _polyInterest);
+    var _polyLinework = {symbology:{}};
+    Object.assign(_polyLinework.symbology, _polyInterest.symbology);
+    _polyLinework.symbology.weight=3;
+    _polyLinework.symbology.color="#930eab";
+    _polyLinework.symbology.opacity=0.5;
+    _polyLinework.symbology.radius=2;
+
+    legendStyle(
+        "Routes",{marker: "line", options: _polyLinework.symbology}
+    );
+
     _polyLinework._symFilter = function (feature) {
         return true;
     }
 
-    var _popupQuick = function (layer) {
+    var _popupTrans = function (layer) {
         var ezi = (layer.feature.properties.EZI_ROAD_NAME_LABEL == "Unnamed")
             ? null : layer.feature.properties.EZI_ROAD_NAME_LABEL;
         return (ezi ?? layer.feature.properties.LEFT_LOCALITY)
             ?? layer.feature.properties.RIGHT_LOCALITY;
     }
-
     layerParameters.typeName = 'datavic:VMTRANS_WALKING_TRACK';
     var URL = rootUrl + L.Util.getParamString(layerParameters);
-    var l2 = getWFS(URL, mymap, [_polyLinework], [], _popupQuick, false, "Walking", bufferLine);
-    // layerParameters.typeName = 'datavic:FORESTS_RECWEB_TRACK';
-    // var URL = rootUrl + L.Util.getParamString(layerParameters);
-    // var l2 = getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters);
+    var l10 = getWFS(URL, mymap, [_polyLinework], [], _popupTrans, false, "Walking", bufferLine);
+
+    var _popupTour = function (layer) {
+    if(layer.feature.properties.F_COMMENT) {
+        return layer.feature.properties.F_COMMENT
+        + " ("+layer.feature.properties.F_DISTANCE
+        +layer.feature.properties.F_DISTUOM+")";
+    }
+       return layer.feature.properties.COMMENTS + " - "
+       + layer.feature.properties.ACCESS_DSC
+       + " (" +layer.feature.properties.TRK_CLASS + ")";
+    }
+    layerParameters.typeName = 'datavic:FORESTS_RECWEB_TRACK';
+    var URL = rootUrl + L.Util.getParamString(layerParameters);
+    var l11 = getWFS(URL, mymap, [_polyLinework], [], _popupTour, true, "Exploring", bufferLine);
 
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_H_A_C_FEAT_RES';
     var URL = rootUrl + L.Util.getParamString(layerParameters);
@@ -192,57 +209,32 @@ function pageLaunch() {
     var l9 = getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters, false, "Coastal");
 
     ////////////////////////////////////////////////
+
+    
+    var _symGreendot = {
+        symbology: {
+            radius: 4,
+            fillColor: "#6AF880",
+            color: "#4AcF68",
+            weight: 3,
+            opacity: 1,
+            fillOpacity: 0.25,
+        },
+        _symFilter: function (feature) { return "Waterfall"; }
+    };    
+
+    var _popupFalls = function (layer) {
+        if (layer.feature.properties.NAME) {
+            return layer.feature.properties.NAME;
+        }
+            return "Waterfalls";
+        };
+
+        layerParameters.typeName = 'datavic:VMHYDRO_WATERFALL';
+        var URL = rootUrl + L.Util.getParamString(layerParameters);
+        var l12 = getWFS(URL, mymap, [], [_symGreendot], _popupFalls);
+
     ////////////////////////////////////////////////
-
-    var layerParameters = {
-        service: 'WFS',
-        version: '2.0.0',
-        request: 'GetFeature',
-        typeName: 'datavic:VMHYDRO_WATERFALL',
-        // typeName: 'datavic:FORESTS_OG100', 
-        //, ,datavic:FORESTS_OG100 datavic:FLORAFAUNA1_NV2005_EVCBCS_9_1',datavic:FORESTS_RECWEB_POI
-        maxFeatures: 200,
-        outputFormat: 'application/json',
-    };
-
-    var parameters = L.Util.extend(layerParameters);
-    var URL = rootUrl + L.Util.getParamString(parameters);
-
-    var WFSLayer = null;
-    fetch(URL).then(function (response) {
-        response.json().then(function (lyr) {
-            WFSLayer = L.geoJson(lyr, {
-
-                pointToLayer: function (feature, latlng) {
-                    return legendStyle("Waterfall",
-                        L.circleMarker(latlng, {
-                            radius: 4,
-                            fillColor: "#6AF880",
-                            color: "#4AcF68",
-                            weight: 3,
-                            opacity: 1,
-                            fillOpacity: 0.25,
-                        })
-                    );
-                }
-
-            }).bindPopup(function (layer) {
-                if (layer.feature.properties.NAME) {
-                    return layer.feature.properties.NAME;
-                } else {
-                    return "Waterfalls";
-                }
-            }).addTo(mymap);
-        })
-            .then(function () {
-                setFocusLayer(WFSLayer);
-            });
-    });
-
-
-    /*Legend specific*/
-
-    //////////////////////////////////////////////////////
 
     // var wmsLayer = L.tileLayer.wms("http://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/datavic/ows?", {
     //   dpiMode: '7',
