@@ -29,15 +29,18 @@
 var _globalMap = null;
 var _globalControl = null;
 var _globalLegend = null;
+var _legendElement = null;
 var _legendList = [];
 var _focusLayer = null;
+var _floatLayers = [];
 
 function connectMap(theMap) {
     _globalMap = theMap;
 }
 
-function connectLegend(theLegend) {
+function connectLegend(theLegend, id) {
     _globalLegend = theLegend;
+    _legendElement = document.getElementById(id);
 }
 
 function connectControl(theControl) {
@@ -46,6 +49,14 @@ function connectControl(theControl) {
 
 function setFocusLayer(theLayer) {
     _focusLayer = theLayer;
+}
+
+function setFloatLayer(theLayers) {
+    _floatLayers = theLayers;
+}
+
+function resetFloatLayer(theLayers) {
+    _floatLayers = [];
 }
 // VIC Basemaps:
 //CARTO_VG CARTO_OVERLAY_VG AERIAL_VG
@@ -65,6 +76,9 @@ function baseVicWms(name) {
 function freshenLeaflet(freshmap) {
     var recall = freshmap;
     freshmap.invalidateSize();
+    for(f=0;f<_floatLayers.length;f++) {
+        _floatLayers[f].bringToFront();
+    }
     _focusLayer.bringToFront();
     setTimeout(function () { freshenLeaflet(recall); }, 750);
 }
@@ -73,14 +87,20 @@ function legendStyle(desc, symbol) {
     if (typeof legendStyle.counter == 'undefined') {
         legendStyle.counter = 0;
     }
+
     if (!(desc in _legendList)) {
+        var eh = _legendElement.offsetHeight;
+        eh+=32;
+        _legendElement.style.height=eh+"px";
+        _globalLegend.invalidateSize();
+
         _legendList[desc] = symbol.options;
         var applying = _legendList[desc];
         legendStyle.counter++;
         applying.locy = ((2 - legendStyle.counter) * 25);
         // var marker = new L.marker([(legendStyle.counter*20),0], { opacity: 0.01 }); //opacity may be set to zero
-        console.log(legendStyle.counter + ":" + applying.locy);
-        var blot = new L.circleMarker([applying.locy, 10], {
+        // console.log(legendStyle.counter + ":" + applying.locy);
+        var blot = new L.circleMarker([applying.locy, -64], {
             radius: applying.radius, //8,
             fillColor: applying.fillColor, //"#CA6FA8",
             color: applying.color, //"#AA78B0",
@@ -95,12 +115,15 @@ function legendStyle(desc, symbol) {
     return symbol;
 }
 
-function getWFS(URL, theMap, _symStyles, _symPoints, _popupFilters, addto, listed) {
+function getWFS(URL, theMap, _symStyles, _symPoints, _popupFilters, addto, listed, transform) {
     addto = addto ?? true;
     var WFSLayer = null;
 
     fetch(URL).then(function (response) {
         response.json().then(function (lyr) {
+            if (typeof transform === "function") {
+                lyr = transform(lyr);
+            }
             WFSLayer = L.geoJson(lyr, {
                 style: function (feature) {
                     for (var s = 0; s < _symStyles.length; s++) {
@@ -129,6 +152,8 @@ function getWFS(URL, theMap, _symStyles, _symPoints, _popupFilters, addto, liste
             .then(function () { 
                 if(listed) {
                     _globalControl.addOverlay(WFSLayer, listed);
+                } else {
+                    _floatLayers.push(WFSLayer);
                 }
                 if(addto) {
                 WFSLayer.addTo(theMap);
@@ -171,6 +196,14 @@ function hangEdges(myBounds, pad) {
     return myStretch;
 }
 
+/* turf => for things like:
+
+    var bufferLine = function(buffering) {        
+        return turf.buffer(buffering, 25, {units: 'metres'});
+    };
+
+    */
+   
     // // // pointToLayer: function (feature, latlng) {
     // // //     //     return L.marker(latlng, {
     // // //     //         // icon

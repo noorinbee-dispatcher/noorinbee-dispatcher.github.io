@@ -4,27 +4,29 @@
 
 function pageLaunch() {
 
-    var mymap = L.map('lf-map').setView([-37.56655532524054, 149.1559270001807], 11);
-    var legend = L.map('legend', { zoomControl: false, attributionControl: false, dragging: false }).setView([0, 300], 1);
+    var mymap = L.map('lf-map', { attributionControl: false }).setView([-37.56655532524054, 149.1559270001807], 11);
+    var legend = L.map('legend', { zoomControl: false, attributionControl: false, dragging: false }).setView([0, 0], 1);
 
     connectMap(mymap);
-    connectLegend(legend);
+    connectLegend(legend, 'legend');
 
     var carto = baseVicWms("CARTO_VG").addTo(mymap);
     var photo = baseVicWms("AERIAL_VG");
     var ovrly = baseVicWms("CARTO_OVERLAY_VG");
-    
-    var compo = L.layerGroup([photo,ovrly]);
+
+    var compo = L.layerGroup([photo, ovrly]);
 
     var baseMaps = {
         "Basemap": carto,
         "Image": compo,
     };
 
-    var popControl = L.control.layers(baseMaps);
+    var popControl = L.control.layers(baseMaps, null, { sortLayers: true });
     connectControl(popControl);
 
     popControl.addTo(mymap);
+    L.control.scale({ imperial: false, metric: true, updateWhenIdle: true }).addTo(mymap);
+    L.control.attribution({ prefix: false }).addAttribution("From: DELWP Web Map Services").addTo(mymap);
     setFocusLayer(L.tileLayer(''));
     freshenLeaflet(mymap);
 
@@ -78,7 +80,7 @@ function pageLaunch() {
             feature.properties.CATEGORY == 'Gate' ||
             feature.properties.CATEGORY == 'Bench - Seat') {
             return generalDescriptor;
-        }  
+        }
         var structures = [
             'PICNIC SHELTER',
             'TOILET BLOCK',
@@ -127,6 +129,7 @@ function pageLaunch() {
         request: 'GetFeature',
         maxFeatures: 200,
         outputFormat: 'application/json',
+        bbox: '-37.853854677977594,148.09321731872052,-36.620632663222686,150.03230420798283'
     };
 
     var rootUrl = 'https://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wfs?';
@@ -137,6 +140,30 @@ function pageLaunch() {
     layerParameters.typeName = 'datavic:FORESTS_RECWEB_SITE';
     var URL = rootUrl + L.Util.getParamString(layerParameters);
     var l2 = getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters);
+
+    var bufferLine = function (buffering) {
+        return turf.buffer(buffering, 3.5, { units: 'metres' });
+    };
+
+    var _polyLinework = {};
+    Object.assign(_polyLinework, _polyInterest);
+    _polyLinework._symFilter = function (feature) {
+        return true;
+    }
+
+    var _popupQuick = function (layer) {
+        var ezi = (layer.feature.properties.EZI_ROAD_NAME_LABEL == "Unnamed")
+            ? null : layer.feature.properties.EZI_ROAD_NAME_LABEL;
+        return (ezi ?? layer.feature.properties.LEFT_LOCALITY)
+            ?? layer.feature.properties.RIGHT_LOCALITY;
+    }
+
+    layerParameters.typeName = 'datavic:VMTRANS_WALKING_TRACK';
+    var URL = rootUrl + L.Util.getParamString(layerParameters);
+    var l2 = getWFS(URL, mymap, [_polyLinework], [], _popupQuick, false, "Walking", bufferLine);
+    // layerParameters.typeName = 'datavic:FORESTS_RECWEB_TRACK';
+    // var URL = rootUrl + L.Util.getParamString(layerParameters);
+    // var l2 = getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters);
 
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_H_A_C_FEAT_RES';
     var URL = rootUrl + L.Util.getParamString(layerParameters);
@@ -155,7 +182,7 @@ function pageLaunch() {
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_NATURE_CONSERV';
     var URL = rootUrl + L.Util.getParamString(layerParameters);
     var l7 = getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters, false, "Conservation");
-    
+
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_ALPINE_RESORT';
     var URL = rootUrl + L.Util.getParamString(layerParameters);
     var l8 = getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters, false, "Resorts");
@@ -163,18 +190,6 @@ function pageLaunch() {
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_COASTAL_RES';
     var URL = rootUrl + L.Util.getParamString(layerParameters);
     var l9 = getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters, false, "Coastal");
-
-    
-    // var comm = L.layerGroup([l3,l4]);
-    // var parks = L.layerGroup([l5,l8]);
-    // var natural = L.layerGroup([l6,l7]);
-    // var coastal = L.layerGroup([l9]);
-    var topMaps = {
-        // "History and community": comm,
-        // "Parks and resorts": parks,
-        // "Conservation": natural,
-        // "Coastal": coastal,
-    };
 
     ////////////////////////////////////////////////
     ////////////////////////////////////////////////
@@ -199,19 +214,6 @@ function pageLaunch() {
             WFSLayer = L.geoJson(lyr, {
 
                 pointToLayer: function (feature, latlng) {
-                    //     return L.marker(latlng, {
-                    //         // icon
-                    //         // keyboard
-                    //         // title
-                    //         // alt
-                    //         // zIndexOffset
-                    //         // opacity
-                    //         // riseOnHover
-                    //         // riseOffset
-                    //         // pane
-                    //         // shadowPane
-                    //     });
-                    // },
                     return legendStyle("Waterfall",
                         L.circleMarker(latlng, {
                             radius: 4,
@@ -232,9 +234,9 @@ function pageLaunch() {
                 }
             }).addTo(mymap);
         })
-        .then(function(){ 
-            setFocusLayer(WFSLayer);
-        });
+            .then(function () {
+                setFocusLayer(WFSLayer);
+            });
     });
 
 
