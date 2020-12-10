@@ -76,7 +76,7 @@ function baseVicWms(name) {
 function freshenLeaflet(freshmap) {
     var recall = freshmap;
     freshmap.invalidateSize();
-    for(f=0;f<_floatLayers.length;f++) {
+    for (f = 0; f < _floatLayers.length; f++) {
         _floatLayers[f].bringToFront();
     }
     _focusLayer.bringToFront();
@@ -90,42 +90,63 @@ function legendStyle(desc, symbol) {
 
     if (!(desc in _legendList)) {
         var eh = _legendElement.offsetHeight;
-        eh+=32;
-        _legendElement.style.height=eh+"px";
+        eh += 36;
+        _legendElement.style.height = eh + "px";
+        var oh = 36 * (legendStyle.counter + 2) / 2;
+        var mid = _globalLegend.layerPointToLatLng([128, oh]);
         _globalLegend.invalidateSize();
+        _globalLegend.panTo(mid);
 
-        _legendList[desc] = symbol.options;
-        var applying = _legendList[desc];
+        var applying = symbol.options;
         var icon = symbol.marker ?? null;
         var tagx = 20;
         legendStyle.counter++;
-        applying.locy = ((2.5-legendStyle.counter) * 25);
-        // var marker = new L.marker([(legendStyle.counter*20),0], { opacity: 0.01 }); //opacity may be set to zero
-        // console.log(legendStyle.counter + ":" + applying.locy);
+        applying.locx = 64;
+        applying.locy = (36 * legendStyle.counter);
+        _legendList[desc] = applying;
         var blot;
-        if(!icon) {
-            blot = new L.circleMarker([applying.locy, -64], {
-            radius: applying.radius, //8,
-            fillColor: applying.fillColor, //"#CA6FA8",
-            color: applying.color, //"#AA78B0",
-            weight: applying.weight, //1,
-            opacity: applying.opacity, //1,
-            fillOpacity: applying.fillOpacity, //0.3,
-        }); } else {
-            if(icon=="line"){
-                tagx = 32;
-                blot = new L.rectangle([[applying.locy-1,-90],[applying.locy+1,-55]], {
+        if (!icon) {
+            blot = new L.circleMarker(
+                _globalLegend.layerPointToLatLng([applying.locx, applying.locy]), {
+                radius: applying.radius, //8,
                 fillColor: applying.fillColor, //"#CA6FA8",
                 color: applying.color, //"#AA78B0",
                 weight: applying.weight, //1,
                 opacity: applying.opacity, //1,
                 fillOpacity: applying.fillOpacity, //0.3,
-            }); }
+            });
+        } else {
+            if (icon == "line") {
+                tagx = 23;
+                blot = new L.rectangle([
+                    _globalLegend.layerPointToLatLng([applying.locx - 22, applying.locy - 1]),
+                    _globalLegend.layerPointToLatLng([applying.locx + 16, applying.locy + 1])
+                ], {
+                    fillColor: applying.fillColor, //"#CA6FA8",
+                    color: applying.color, //"#AA78B0",
+                    weight: applying.weight, //1,
+                    opacity: applying.opacity, //1,
+                    fillOpacity: applying.fillOpacity, //0.3,
+                });
+            }
+            if (icon == "block") {
+                tagx = 20;
+                blot = new L.rectangle([
+                    _globalLegend.layerPointToLatLng([applying.locx - 12, applying.locy - 8]),
+                    _globalLegend.layerPointToLatLng([applying.locx + 12, applying.locy + 8])
+                ], {
+                    fillColor: applying.fillColor, //"#CA6FA8",
+                    color: applying.color, //"#AA78B0",
+                    weight: applying.weight, //1,
+                    opacity: applying.opacity, //1,
+                    fillOpacity: applying.fillOpacity, //0.3,
+                });
+            }
         }
-
-        blot.bindTooltip(desc, { permanent: true, className: "legend-label", offset: [tagx, 0], opacity: 0.85 });
-        // marker.addTo(legend);
-        blot.addTo(_globalLegend);
+        if (blot) {
+            blot.bindTooltip(desc, { permanent: true, className: "legend-label", offset: [tagx, 0], opacity: 0.85 });
+            blot.addTo(_globalLegend);
+        }
     }
     return symbol;
 }
@@ -133,7 +154,7 @@ function legendStyle(desc, symbol) {
 function getWFS(URL, theMap, _symStyles, _symPoints, _popupFilters, addto, listed, transform) {
     addto = addto ?? true;
     var WFSLayer = null;
-    
+
     fetch(URL).then(function (response) {
         response.json().then(function (lyr) {
             if (typeof transform === "function") {
@@ -162,18 +183,19 @@ function getWFS(URL, theMap, _symStyles, _symPoints, _popupFilters, addto, liste
 
             }).bindPopup(function (layer) {
                 return _popupFilters(layer);
-            }) // .addTo(theMap);
+            })
         })
-            .then(function () { 
-                if(listed) {
+            .then(function () {
+                if (listed) {
                     _globalControl.addOverlay(WFSLayer, listed);
                 } else {
                     _floatLayers.push(WFSLayer);
                 }
-                if(addto) {
-                WFSLayer.addTo(theMap);
+                if (addto) {
+                    WFSLayer.addTo(theMap);
                 }
-                return WFSLayer; });
+                return WFSLayer;
+            });
     });
 }
 
@@ -213,12 +235,12 @@ function hangEdges(myBounds, pad) {
 
 /* turf => for things like:
 
-    var bufferLine = function(buffering) {        
+    var bufferLine = function(buffering) {
         return turf.buffer(buffering, 25, {units: 'metres'});
     };
 
     */
-   
+
     // // // pointToLayer: function (feature, latlng) {
     // // //     //     return L.marker(latlng, {
     // // //     //         // icon
