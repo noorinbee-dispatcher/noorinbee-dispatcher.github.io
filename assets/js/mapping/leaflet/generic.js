@@ -76,6 +76,7 @@ function baseVicWms(name) {
 function freshenLeaflet(freshmap) {
     var recall = freshmap;
     freshmap.invalidateSize();
+    _globalMap.attributionControl.setPrefix(_globalMap.getCenter().toString() + "<br>");
     for (f = 0; f < _floatLayers.length; f++) {
         _floatLayers[f].bringToFront();
     }
