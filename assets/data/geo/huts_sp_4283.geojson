@@ -1,0 +1,17 @@
+{
+"type": "FeatureCollection",
+"name": "huts_sp_4283",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::4283" } },
+"features": [
+{ "type": "Feature", "properties": { "PARK_NAME": "Alpine National Park", "HUT_CLASS_NAME": "Buildings & Services - Roofed Accommodation", "ASSET_DESC": "Mussurie Hut site (burnt in 2003)", "Z": 55, "E": 597536, "N": 5901260, "PARK_ID": 1 }, "geometry": { "type": "Point", "coordinates": [ 148.096614390667327, -37.029796857089032 ] } },
+{ "type": "Feature", "properties": { "PARK_NAME": "Alpine National Park", "HUT_CLASS_NAME": "Buildings & Services - Heritage Building", "ASSET_DESC": "Rogers Hut", "Z": 55, "E": 604000, "N": 5913800, "PARK_ID": 1 }, "geometry": { "type": "Point", "coordinates": [ 148.167549105641882, -36.916085120359377 ] } },
+{ "type": "Feature", "properties": { "PARK_NAME": "Alpine National Park", "HUT_CLASS_NAME": "Buildings & Services - Heritage Building", "ASSET_DESC": "Davies Plain Hut", "Z": 55, "E": 601819, "N": 5944074, "PARK_ID": 1 }, "geometry": { "type": "Point", "coordinates": [ 148.139023503937977, -36.643464513416411 ] } },
+{ "type": "Feature", "properties": { "PARK_NAME": "Alpine National Park", "HUT_CLASS_NAME": "Buildings & Services - Heritage Building", "ASSET_DESC": "Kennedy Hut", "Z": 55, "E": 558500, "N": 5925200, "PARK_ID": 1 }, "geometry": { "type": "Point", "coordinates": [ 147.655909664022232, -36.817247307039757 ] } },
+{ "type": "Feature", "properties": { "PARK_NAME": "Alpine National Park", "HUT_CLASS_NAME": "Buildings & Services - Heritage Building", "ASSET_DESC": "Gattamurh Creek Hut", "Z": 55, "E": 625938, "N": 5912787, "PARK_ID": 1 }, "geometry": { "type": "Point", "coordinates": [ 148.413940946386987, -36.922538611058428 ] } },
+{ "type": "Feature", "properties": { "PARK_NAME": "Mount Wills H.A", "HUT_CLASS_NAME": "Buildings & Services - Heritage Building", "ASSET_DESC": "Woollybutt Hut", "Z": 55, "E": 541755, "N": 5927782, "PARK_ID": 1 }, "geometry": { "type": "Point", "coordinates": [ 147.468027682678922, -36.794859423780913 ] } },
+{ "type": "Feature", "properties": { "PARK_NAME": "Alpine National Park", "HUT_CLASS_NAME": "Buildings & Services - Heritage Building", "ASSET_DESC": "Lazy H Hut", "Z": 55, "E": 566100, "N": 5935200, "PARK_ID": 1 }, "geometry": { "type": "Point", "coordinates": [ 147.740248622470148, -36.726606569888816 ] } },
+{ "type": "Feature", "properties": { "PARK_NAME": "Alpine National Park", "HUT_CLASS_NAME": "Buildings & Services - Heritage Building", "ASSET_DESC": "Davies Plain Hut", "Z": 55, "E": 601813, "N": 5944064, "PARK_ID": 1 }, "geometry": { "type": "Point", "coordinates": [ 148.138957722622649, -36.643555286978987 ] } },
+{ "type": "Feature", "properties": { "PARK_NAME": "Alpine National Park", "HUT_CLASS_NAME": "Visitor Facilities - Shelter", "ASSET_DESC": "Quart Pot Flat Hut (Refuge Shelter Only)", "Z": 55, "E": 555000, "N": 5934500, "PARK_ID": 1 }, "geometry": { "type": "Point", "coordinates": [ 147.615998185002809, -36.733624772726401 ] } },
+{ "type": "Feature", "properties": { "PARK_NAME": "Alpine National Park", "HUT_CLASS_NAME": "Visitor Facilities - Shelter", "ASSET_DESC": "Wombat Post Office Hut (Refuge Shelter Only)", "Z": 55, "E": 553100, "N": 5929300, "PARK_ID": 1 }, "geometry": { "type": "Point", "coordinates": [ 147.59508128109556, -36.780607427818126 ] } }
+]
+}

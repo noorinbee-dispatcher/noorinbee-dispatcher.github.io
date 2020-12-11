@@ -24,9 +24,8 @@ function buildCustomGeography() {
         }
         return "Waterfalls";
     };
-
     layerParameters.typeName = 'datavic:VMHYDRO_WATERFALL';
     URL = rootUrl + L.Util.getParamString(layerParameters);
     getWFS(URL, mymap, [], [_symGreendot], _popupFalls, false, "Waterfalls");
-    
+        
 }

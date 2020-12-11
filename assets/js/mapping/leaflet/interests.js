@@ -26,7 +26,8 @@ function buildCustomInterests(mymap) {
 
     _symInterest._symFilter = function (feature) {
         if (
-            (feature.properties.FAC_TYPE == "REC SITES")
+            (feature.properties.FAC_TYPE == "REC SITES") ||
+            (feature.properties.PARK_ID > 0)
         ) {
             return "Recreation and Nature";
         }
@@ -79,6 +80,10 @@ function buildCustomInterests(mymap) {
                 layer.feature.properties.CATEGORY == 'Bench - Seat')) {
             return layer.feature.properties.CATEGORY;
         }
+        if (layer.feature.properties.PARK_ID > 0) {
+        return layer.feature.properties.ASSET_DESC + " - "
+        + layer.feature.properties.PARK_NAME;
+    }
         return layer.feature.properties.ASSET_CLS;
     }
 
@@ -90,6 +95,13 @@ function buildCustomInterests(mymap) {
     layerParameters.typeName = 'datavic:FORESTS_RECWEB_SITE';
     URL = rootUrl + L.Util.getParamString(layerParameters);
     getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters);
+
+    
+    URL = 'assets/data/geo/camps_sp_4283.geojson';
+    getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters);
+    URL = 'assets/data/geo/huts_sp_4283.geojson';
+    getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters);
+    
 
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_H_A_C_FEAT_RES';
     URL = rootUrl + L.Util.getParamString(layerParameters);
