@@ -26,8 +26,8 @@ function buildCustomInterests(mymap) {
 
     _symInterest._symFilter = function (feature) {
         if (
-            (feature.properties.FAC_TYPE == "REC SITES") ||
-            (feature.properties.PARK_ID > 0)
+            (feature.properties.FAC_TYPE == "REC SITES") 
+            ||(feature.properties.PARK_ID > 0)
         ) {
             return "Recreation and Nature";
         }
@@ -59,6 +59,7 @@ function buildCustomInterests(mymap) {
 
     var _symStyles = [_polyInterest];
     var _symPoints = [_symInterest, _symObject];
+    
     var _popupFilters = function (layer) {
         if (layer.feature.properties.ACT) {
             if ((layer.feature.properties.LABEL ? layer.feature.properties.LABEL : " ") == " ") {

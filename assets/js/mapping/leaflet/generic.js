@@ -175,7 +175,7 @@ function legendStyle(desc, symbol) {
 }
 
 function getWFS(URL, theMap, _symStyles, _symPoints, _popupFilters, addto, listed, transform) {
-    addto = (addto !== 'undefined') ? addto : true;
+    addto = (typeof(addto) !== 'undefined') ? addto : true;
     var WFSLayer = null;
 
     fetch(URL).then(function (response) {
@@ -258,7 +258,7 @@ Then on map move end event re-send your request and replace your geoJson layer b
 // eg:     myLimitBox = hangEdges(mymap.getBounds()).toBBoxString();
 
 function hangEdges(myBounds, pad) {
-    pad = (pad !== 'undefined') ? pad : 1;
+    pad = (typeof(pad) !== 'undefined') ? pad : 1;
     console.log(myBounds);
     var myMid = {
         lat: (myBounds._northEast.lat + myBounds._southWest.lat) / 2,
