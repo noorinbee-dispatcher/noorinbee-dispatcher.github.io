@@ -61,15 +61,15 @@ function buildCustomInterests(mymap) {
     var _symPoints = [_symInterest, _symObject];
     var _popupFilters = function (layer) {
         if (layer.feature.properties.ACT) {
-            if ((layer.feature.properties.LABEL ?? " ") == " ") {
+            if ((layer.feature.properties.LABEL ? layer.feature.properties.LABEL : " ") == " ") {
                 return layer.feature.properties.NAME;
             } else {
                 return layer.feature.properties.LABEL;
             }
         }
         if (layer.feature.properties.FAC_TYPE == "REC SITES") {
-            captioned = layer.feature.properties.LABEL ?? "Site of interest.";
-            detailed = layer.feature.properties.COMMENTS ?? "";
+            captioned = layer.feature.properties.LABEL ? layer.feature.properties.LABEL : "Site of interest.";
+            detailed = layer.feature.properties.COMMENTS ? layer.feature.properties.COMMENTS : "";
             if (captioned && detailed) {
                 captioned += " - " + detailed;
             }
@@ -81,9 +81,9 @@ function buildCustomInterests(mymap) {
             return layer.feature.properties.CATEGORY;
         }
         if (layer.feature.properties.PARK_ID > 0) {
-        return layer.feature.properties.ASSET_DESC + " - "
-        + layer.feature.properties.PARK_NAME;
-    }
+            return layer.feature.properties.ASSET_DESC + " - "
+                + layer.feature.properties.PARK_NAME;
+        }
         return layer.feature.properties.ASSET_CLS;
     }
 
@@ -96,12 +96,13 @@ function buildCustomInterests(mymap) {
     URL = rootUrl + L.Util.getParamString(layerParameters);
     getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters);
 
-    
+
     URL = 'assets/data/geo/camps_sp_4283.geojson';
     getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters);
     URL = 'assets/data/geo/huts_sp_4283.geojson';
     getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters);
-    
+    //forests RECWEBHUTS???
+
 
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_H_A_C_FEAT_RES';
     URL = rootUrl + L.Util.getParamString(layerParameters);
@@ -128,6 +129,6 @@ function buildCustomInterests(mymap) {
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_COASTAL_RES';
     URL = rootUrl + L.Util.getParamString(layerParameters);
     getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters, false, "Coastal");
-    
+
 }
 

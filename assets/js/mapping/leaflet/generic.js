@@ -2,11 +2,33 @@
 //////////////////////////////////////////////////////////////
 
 // http://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/datavic/ows?
-// https://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wfs?
 // http://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wms?
-// http://www.bom.gov.au/climate/outlooks/mapcache
+// https://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wfs?
 // https://base.maps.vic.gov.au/service?
 // https://services.land.vic.gov.au/DELWPmaps/DFW/index.html
+
+// https://services.arcgis.com/eWtBtpDzVX6pO9iZ/arcgis/rest/services/DCE_Development_View/FeatureServer/2/query?f=pbf&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometry=%7B%22xmin%22%3A16280475.528509032%2C%22ymin%22%3A-5009377.08569302%2C%22xmax%22%3A17532819.799933027%2C%22ymax%22%3A-3757032.8142690174%2C%22spatialReference%22%3A%7B%22wkid%22%3A102100%2C%22latestWkid%22%3A3857%7D%7D&geometryType=esriGeometryEnvelope&inSR=102100&outFields=*&returnCentroid=false&returnExceededLimitFeatures=false&maxRecordCountFactor=3&outSR=102100&resultType=tile&quantizationParameters=%7B%22mode%22%3A%22view%22%2C%22originPosition%22%3A%22upperLeft%22%2C%22tolerance%22%3A2445.984905125002%2C%22extent%22%3A%7B%22xmin%22%3A16280475.528509032%2C%22ymin%22%3A-5009377.08569302%2C%22xmax%22%3A17532819.79993303%2C%22ymax%22%3A-3757032.8142690193%2C%22spatialReference%22%3A%7B%22wkid%22%3A102100%2C%22latestWkid%22%3A3857%7D%7D%7D
+// https://services.arcgis.com/eWtBtpDzVX6pO9iZ/arcgis/rest/services/FeaturesOfInterest/FeatureServer/0/query?f=geojson&returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometry=%7B%22xmin%22%3A16280475.528509032%2C%22ymin%22%3A-5009377.08569302%2C%22xmax%22%3A17532819.799933027%2C%22ymax%22%3A-3757032.8142690174%2C%22spatialReference%22%3A%7B%22wkid%22%3A102100%2C%22latestWkid%22%3A3857%7D%7D&geometryType=esriGeometryEnvelope&inSR=102100&outFields=*&returnCentroid=false&returnExceededLimitFeatures=false&maxRecordCountFactor=3&outSR=102100&resultType=tile&quantizationParameters=%7B%22mode%22%3A%22view%22%2C%22originPosition%22%3A%22upperLeft%22%2C%22tolerance%22%3A2445.984905125002%2C%22extent%22%3A%7B%22xmin%22%3A16280475.528509032%2C%22ymin%22%3A-5009377.08569302%2C%22xmax%22%3A17532819.79993303%2C%22ymax%22%3A-3757032.8142690193%2C%22spatialReference%22%3A%7B%22wkid%22%3A102100%2C%22latestWkid%22%3A3857%7D%7D%7D
+// http://nvt.dse.vic.gov.au/arcgis/rest/services/BusinessApps
+// http://services.land.vic.gov.au/arcgis/rest/services
+// https://services2.arcgis.com/18ajPSI0b3ppsmMt/arcgis/rest/services
+// https://services1.arcgis.com/vHnIGBHHqDR6y0CR/arcgis/rest/services
+// http://data.vicroads.vic.gov.au/arcgis/rest/services
+// http://emap.ffm.vic.gov.au/arcgis/rest/services
+// https://nkmaps.biodiversity.vic.gov.au/arcgis/rest/services
+// https://gisportal.melbourne.vic.gov.au/server_wa/rest/services
+
+// https://gis.mapshare.vic.gov.au/arcgis/rest/
+// https://gis.mapshare.vic.gov.au/arcgis/rest/services
+// https://stg-gis.mapshare.vic.gov.au/arcgis/rest/services
+// https://geo.mapshare.vic.gov.au/arcgis/rest/services
+// http://uat-gis.mapshare.vic.gov.au/arcgis/rest/
+// http://mapshare.vic.gov.au/Geocortex/Essentials/EXT/REST/sites
+
+// https://services.arcgis.com/eWtBtpDzVX6pO9iZ/ArcGIS/rest/services <--AUTH req'd!!!
+// https://dservices.arcgis.com/eWtBtpDzVX6pO9iZ/arcgis/services/
+
+// http://www.bom.gov.au/climate/outlooks/mapcache
 // https://www.openstreetmap.org/
 
 // typeName: 'datavic:FORESTS_OG100', 
@@ -99,7 +121,7 @@ function legendStyle(desc, symbol) {
         _globalLegend.panTo(mid);
 
         var applying = symbol.options;
-        var icon = symbol.marker ?? null;
+        var icon = symbol.marker ? symbol.marker : null;
         var tagx = 20;
         legendStyle.counter++;
         applying.locx = 64;
@@ -153,7 +175,7 @@ function legendStyle(desc, symbol) {
 }
 
 function getWFS(URL, theMap, _symStyles, _symPoints, _popupFilters, addto, listed, transform) {
-    addto = addto ?? true;
+    addto = (addto !== 'undefined') ? addto : true;
     var WFSLayer = null;
 
     fetch(URL).then(function (response) {
@@ -201,6 +223,27 @@ function getWFS(URL, theMap, _symStyles, _symPoints, _popupFilters, addto, liste
 }
 
 
+function getOverlays() {
+    // create hash to hold all layers
+    var layers = {};
+
+    // loop thru all layers in control
+    _globalControl._layers.forEach(function (obj) {
+        var layerName;
+
+        // check if layer is an overlay
+        if (obj.overlay) {
+            // get name of overlay
+            layerName = obj.name;
+            if (_globalControl._map.hasLayer(obj.layer)) {
+                return layers[layerName] = _globalControl._map.hasLayer(obj.layer);
+            }
+        }
+    });
+
+    return layers;
+}
+
 //////////////////////////////////////////////////////
 /*
 // https://gis.stackexchange.com/questions/169129/how-to-add-a-bounding-box-filter-to-this-leaflet-wfs-request
@@ -215,7 +258,7 @@ Then on map move end event re-send your request and replace your geoJson layer b
 // eg:     myLimitBox = hangEdges(mymap.getBounds()).toBBoxString();
 
 function hangEdges(myBounds, pad) {
-    pad = pad ?? 1;
+    pad = (pad !== 'undefined') ? pad : 1;
     console.log(myBounds);
     var myMid = {
         lat: (myBounds._northEast.lat + myBounds._southWest.lat) / 2,
@@ -277,4 +320,3 @@ function hangEdges(myBounds, pad) {
     // // //                 // fillOpacity	Number	0.2	Fill opacity.
     // // //                 // };
     // // //             }
-

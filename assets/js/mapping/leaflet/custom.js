@@ -61,7 +61,7 @@ function getMainLineStyle() {
     _polyLinework.symbology.weight = 3;
     _polyLinework.symbology.color = "#930eab";
     _polyLinework.symbology.opacity = 0.5;
-    _polyLinework.symbology.radius = 2;
+    // _polyLinework.symbology.radius = 2;
     return _polyLinework;
 }
 function getMinorPointStyle() {

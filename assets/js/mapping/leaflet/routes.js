@@ -12,22 +12,35 @@ function buildCustomRoutes(mymap) {
     };
 
     var _polyLinework = getMainLineStyle();
+    var _polyLightLinework = getMainLineStyle();
+    
+    _polyLightLinework.symbology.weight = 1.25;
+    // _polyLinework.symbology.color = "#930eab";
+    _polyLightLinework.symbology.opacity = 0.85;
+
     legendStyle(
         "Routes", { marker: "line", options: _polyLinework.symbology }
     );
     _polyLinework._symFilter = function (feature) {
         return true;
     }
+    _polyLightLinework._symFilter = function (feature) {
+        return true;
+    }
 
     var _popupTrans = function (layer) {
         var ezi = (layer.feature.properties.EZI_ROAD_NAME_LABEL == "Unnamed")
             ? null : layer.feature.properties.EZI_ROAD_NAME_LABEL;
-        return (ezi ?? layer.feature.properties.LEFT_LOCALITY)
-            ?? layer.feature.properties.RIGHT_LOCALITY;
+            ezi = (ezi ?ezi: layer.feature.properties.LEFT_LOCALITY);
+        return ezi?ezi:layer.feature.properties.RIGHT_LOCALITY;
     }
     layerParameters.typeName = 'datavic:VMTRANS_WALKING_TRACK';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getWFS(URL, mymap, [_polyLinework], [], _popupTrans, false, "Walking", bufferLine);
+    getWFS(URL, mymap, [_polyLightLinework], [], _popupTrans, false, "Walking", bufferLine);
+    //clip_Bicycle Paths - Road Network - Vicmap Transport
+    //clip_Road Permanently Closed - Road Network - Vicmap Transport
+    //clip_Road Permanently Closed - Road Network - Vicmap Transport
+    //clip_Road Permanently Closed - Road Network - Vicmap Transport
 
     var _popupTour = function (layer) {
         if (layer.feature.properties.F_COMMENT) {

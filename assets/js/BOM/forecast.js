@@ -20,9 +20,9 @@ function pageLaunch() {
                 + region[i]['latitude']
                 + '&dataUrl='
                 + region[i]['url'];
-            var ext = 'http://www.bom.gov.au/places/'
-                + region[i]['url']
-                + '/forecast';
+            // var ext = 'http://www.bom.gov.au/places/'
+            //     + region[i]['url']
+            //     + '/forecast';
 
             const mark = i + '-' + region[i]['name'].replace(/ /g, "");
             const shown = region[i]['name'];
