@@ -98,9 +98,9 @@ function buildCustomInterests(mymap) {
     getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters);
 
 
-    URL = '_site/assets/data/geo/camps_sp_4283.geojson';
+    URL = 'assets/data/geo/camps_sp_4283.geojson';
     getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters);
-    URL = '_site/assets/data/geo/huts_sp_4283.geojson';
+    URL = 'assets/data/geo/huts_sp_4283.geojson';
     getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters);
     //forests RECWEBHUTS???
 
