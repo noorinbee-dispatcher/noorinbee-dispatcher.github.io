@@ -18,7 +18,7 @@ function pageLaunch() {
 
 function baseMaps() {
     var wholeBlock = ''
-        + '<img style = "z-index:99; max-width:80%; height:auto; border:0; position:absolute;" id="animation"  alt="Finding Radar images" >'
+        + '<img style = "z-index:10; max-width:80%; height:auto; border:0; position:absolute;" id="animation"  alt="Finding Radar images" >'
 
         + '<img style = "z-index:55; max-width:80%; height:auto; position:absolute;" src="'
         + sslify(urlStub + '/products/radar_transparencies/IDR.legend.0.png')
@@ -29,10 +29,10 @@ function baseMaps() {
         + '<img style = "z-index:2; max-width:80%;  position:absolute; border:0;" src="'
         + sslify(urlStub + '/products/radar_transparencies/IDR682.topography.png')
         + '">'
-        + '<img style = "z-index:3; max-width:80%;  position:absolute; border:0;" src="'
+        + '<img style = "z-index:11; max-width:80%;  position:absolute; border:0;" src="'
         + sslify(urlStub + '/products/radar_transparencies/IDR682.locations.png')
         + '">'
-        + '<img style = "z-index:4; max-width:80%;  position:absolute; border:0;" src="'
+        + '<img style = "z-index:12; max-width:80%;  position:absolute; border:0;" src="'
         + sslify(urlStub + '/products/radar_transparencies/IDR682.range.png')
         + '">';
 

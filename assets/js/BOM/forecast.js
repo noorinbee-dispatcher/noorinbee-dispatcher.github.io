@@ -26,7 +26,7 @@ function pageLaunch() {
 
             const mark = i + '-' + region[i]['name'].replace(/ /g, "");
             const shown = region[i]['name'];
-            url = sslify(url);
+            url = sslify(url+"#" + uniquify());
             //_globalHTTPS + encodeURIComponent(url);
             // fetch(url).then(function (response) {
             fetcherise(url, { method: 'GET' }, function (response) {
