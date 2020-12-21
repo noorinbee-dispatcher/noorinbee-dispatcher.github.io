@@ -64,6 +64,19 @@ function getMainLineStyle() {
     // _polyLinework.symbology.radius = 2;
     return _polyLinework;
 }
+
+function getAltLineStyle() {
+    var _trackLinework = { symbology: {} };
+    // Object.assign(_polyLinework.symbology, getMainPolyStyle().symbology);
+    _trackLinework.symbology.weight = 1.25;
+    _trackLinework.symbology.opacity = 0.85;
+    _trackLinework.symbology.color = "#e09951";
+    _trackLinework._symFilter = function (feature) {
+        return true;
+    }
+    return _trackLinework;
+}
+
 function getMinorPointStyle() {
     return {
         symbology: {

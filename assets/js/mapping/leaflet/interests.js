@@ -90,46 +90,54 @@ function buildCustomInterests(mymap) {
 
     // main layout and popups
 
+    var commonStyling = {
+        applyStyles: _symStyles,
+        applyPoints: _symPoints,
+        applyPopups: _popupFilters,
+        zIndex: 5
+    };
     layerParameters.typeName = 'datavic:FORESTS_RECWEB_ASSET';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters);
+    getGeojson(URL, mymap, commonStyling);
+
+    commonStyling.zIndex=10;
     layerParameters.typeName = 'datavic:FORESTS_RECWEB_SITE';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters);
+    getGeojson(URL, mymap, commonStyling);
 
 
     URL = 'assets/data/geo/camps_sp_4283.geojson';
-    getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters);
+    getGeojson(URL, mymap, commonStyling);
     URL = 'assets/data/geo/huts_sp_4283.geojson';
-    getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters);
+    getGeojson(URL, mymap, commonStyling);
     //forests RECWEBHUTS???
 
 
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_H_A_C_FEAT_RES';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters, false, "Historical");
+    getGeojson(URL, mymap, commonStyling, false, "Historical");
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_COMM_USE_AREA';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters, false, "Community");
+    getGeojson(URL, mymap, commonStyling, false, "Community");
 
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_FOREST_PARK';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters, false, "Forest parks");
+    getGeojson(URL, mymap, commonStyling, false, "Forest parks");
 
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_NATURAL_FEAT';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters, false, "Landscape");
+    getGeojson(URL, mymap, commonStyling, false, "Landscape");
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_NATURE_CONSERV';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters, false, "Conservation");
+    getGeojson(URL, mymap, commonStyling, false, "Conservation");
 
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_ALPINE_RESORT';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters, false, "Resorts");
+    getGeojson(URL, mymap, commonStyling, false, "Resorts");
 
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_COASTAL_RES';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getWFS(URL, mymap, _symStyles, _symPoints, _popupFilters, false, "Coastal");
+    getGeojson(URL, mymap, commonStyling, false, "Coastal");
 
 }
 

@@ -14,9 +14,11 @@ function buildCustomRoutes(mymap) {
     var _polyLinework = getMainLineStyle();
     var _polyLightLinework = getMainLineStyle();
     
-    _polyLightLinework.symbology.weight = 1.25;
+    _polyLightLinework.symbology.weight = 2.25;
     // _polyLinework.symbology.color = "#930eab";
     _polyLightLinework.symbology.opacity = 0.85;
+    _polyLightLinework.symbology.fillOpacity = 0.15;
+    _polyLightLinework.symbology.dashArray = '2.5, 11.5';
 
     legendStyle(
         "Routes", { marker: "line", options: _polyLinework.symbology }
@@ -30,17 +32,20 @@ function buildCustomRoutes(mymap) {
 
     var _popupTrans = function (layer) {
         var ezi = (layer.feature.properties.EZI_ROAD_NAME_LABEL == "Unnamed")
-            ? null : layer.feature.properties.EZI_ROAD_NAME_LABEL;
-            ezi = (ezi ?ezi: layer.feature.properties.LEFT_LOCALITY);
-        return ezi?ezi:layer.feature.properties.RIGHT_LOCALITY;
+            ? "Track" : layer.feature.properties.EZI_ROAD_NAME_LABEL;
+            // ezi = (ezi ?ezi: layer.feature.properties.LEFT_LOCALITY);
+        return ezi; //?ezi:layer.feature.properties.RIGHT_LOCALITY;
     }
+    var lightStyling = {
+        applyStyles: [_polyLightLinework],
+        applyPoints: [],
+        applyPopups: _popupTrans,
+        zIndex: 5
+    };
     layerParameters.typeName = 'datavic:VMTRANS_WALKING_TRACK';
+    layerParameters.typeName += ',datavic:VMTRANS_TR_ROAD_BIKE_PATH';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getWFS(URL, mymap, [_polyLightLinework], [], _popupTrans, false, "Walking", bufferLine);
-    //clip_Bicycle Paths - Road Network - Vicmap Transport
-    //clip_Road Permanently Closed - Road Network - Vicmap Transport
-    //clip_Road Permanently Closed - Road Network - Vicmap Transport
-    //clip_Road Permanently Closed - Road Network - Vicmap Transport
+    getGeojson(URL, mymap, lightStyling, false, "Walking, Cycling", bufferLine);
 
     var _popupTour = function (layer) {
         if (layer.feature.properties.F_COMMENT) {
@@ -52,8 +57,14 @@ function buildCustomRoutes(mymap) {
             + layer.feature.properties.ACCESS_DSC
             + " (" + layer.feature.properties.TRK_CLASS + ")";
     }
+    var lineStyling = {
+        applyStyles: [_polyLinework],
+        applyPoints: [],
+        applyPopups: _popupTour,
+        zIndex: 5
+    };
     layerParameters.typeName = 'datavic:FORESTS_RECWEB_TRACK';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getWFS(URL, mymap, [_polyLinework], [], _popupTour, true, "Exploring", bufferLine);
+    getGeojson(URL, mymap, lineStyling, true, "Exploring", bufferLine);
 
 }

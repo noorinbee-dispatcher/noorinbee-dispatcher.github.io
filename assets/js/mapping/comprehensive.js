@@ -7,5 +7,6 @@ function pageLaunch() {
     buildCustomRoutes(mymap);
     buildCustomGeography(mymap);
     buildCustomBiome(mymap);
+    buildCustomRoads(mymap);
 }
 

@@ -49,12 +49,14 @@
 //////////////////////////////////////////////////////////////
 
 var _globalMap = null;
+var _globalLayerParity = 0;
 var _globalControl = null;
 var _globalLegend = null;
 var _legendElement = null;
 var _legendList = [];
 var _focusLayer = null;
 var _floatLayers = [];
+var _parityCallbacks = [];
 
 function connectMap(theMap) {
     _globalMap = theMap;
@@ -73,11 +75,39 @@ function setFocusLayer(theLayer) {
     _focusLayer = theLayer;
 }
 
-function setFloatLayer(theLayers) {
-    _floatLayers = theLayers;
+function addParityCallback(callback) {
+    _parityCallbacks.push(callback);
 }
 
-function resetFloatLayer(theLayers) {
+function resetParityCallbacks() {
+    _parityCallbacks = [];
+}
+
+function runParityCallbacks() {
+    _globalLayerParity--;
+    if(!_parityCallbacks) {
+        return;
+    }
+    var repeatCalls = [];
+    var closed;
+    if (_globalLayerParity == 0) {
+        for (i = 0; i < _parityCallbacks.length; i++) {
+            closed = _parityCallbacks[i](_globalMap);
+            if (!closed) {
+                repeatCalls.push(_parityCallbacks[i]);
+            };
+        }
+    }
+    Object.assign(_parityCallbacks, repeatCalls);
+}
+
+function sortFloatLayers() {
+    _floatLayers.sort(function(a,b){
+        return a.zIndex - b.zIndex;
+    });
+}
+
+function resetFloatLayers() {
     _floatLayers = [];
 }
 // VIC Basemaps:
@@ -97,10 +127,15 @@ function baseVicWms(name) {
 
 function freshenLeaflet(freshmap) {
     var recall = freshmap;
+    var prefix = _globalMap.getCenter().toString() + "<br>";
     freshmap.invalidateSize();
-    _globalMap.attributionControl.setPrefix(_globalMap.getCenter().toString() + "<br>");
+    if (_globalLayerParity > 0) {
+        prefix = "<b style='color:blue'>LOADING:</b> " + _globalLayerParity + " more layers.<br>" + prefix;
+    }
+    _globalMap.attributionControl.setPrefix(prefix);
+    sortFloatLayers();
     for (f = 0; f < _floatLayers.length; f++) {
-        _floatLayers[f].bringToFront();
+       _floatLayers[f].layer.bringToFront();
     }
     _focusLayer.bringToFront();
     setTimeout(function () { freshenLeaflet(recall); }, 750);
@@ -174,9 +209,14 @@ function legendStyle(desc, symbol) {
     return symbol;
 }
 
-function getWFS(URL, theMap, _symStyles, _symPoints, _popupFilters, addto, listed, transform) {
-    addto = (typeof(addto) !== 'undefined') ? addto : true;
+function getGeojson(URL, theMap, styleUI, addto, listed, transform, callback) {
+    _globalLayerParity++;
+    addto = (typeof (addto) !== 'undefined') ? addto : true;
     var WFSLayer = null;
+    var _symStyles = styleUI.applyStyles;
+    var _symPoints = styleUI.applyPoints;
+    var _popupFilters = styleUI.applyPopups;
+    var _zIndex = styleUI.zIndex;
 
     fetch(URL).then(function (response) {
         response.json().then(function (lyr) {
@@ -211,14 +251,22 @@ function getWFS(URL, theMap, _symStyles, _symPoints, _popupFilters, addto, liste
             .then(function () {
                 if (listed) {
                     _globalControl.addOverlay(WFSLayer, listed);
-                } else {
-                    _floatLayers.push(WFSLayer);
                 }
                 if (addto) {
                     WFSLayer.addTo(theMap);
+                    if(!listed){
+                        _zIndex=(typeof(_zIndex)!=='undefined')?_zIndex:0;
+                        _floatLayers.push({layer: WFSLayer, zIndex: _zIndex});
+                    }
                 }
+                if (typeof callback === "function") {
+                    callback(WFSLayer);
+                }
+                runParityCallbacks();
                 return WFSLayer;
             });
+    }).catch(function () {
+        runParityCallbacks(null);
     });
 }
 
@@ -244,6 +292,12 @@ function getOverlays() {
     return layers;
 }
 
+/*
+  map.on('zoomend ', function(e) {
+         if ( map.getZoom() > 13 ){ map.removeLayer( vector )}
+         else if ( map.getZoom() <= 13 ){ map.addLayer( vector )}
+    });
+*/
 //////////////////////////////////////////////////////
 /*
 // https://gis.stackexchange.com/questions/169129/how-to-add-a-bounding-box-filter-to-this-leaflet-wfs-request
@@ -258,8 +312,7 @@ Then on map move end event re-send your request and replace your geoJson layer b
 // eg:     myLimitBox = hangEdges(mymap.getBounds()).toBBoxString();
 
 function hangEdges(myBounds, pad) {
-    pad = (typeof(pad) !== 'undefined') ? pad : 1;
-    console.log(myBounds);
+    pad = (typeof (pad) !== 'undefined') ? pad : 1;
     var myMid = {
         lat: (myBounds._northEast.lat + myBounds._southWest.lat) / 2,
         lng: (myBounds._northEast.lng + myBounds._southWest.lng) / 2,
@@ -273,10 +326,12 @@ function hangEdges(myBounds, pad) {
         myMid.lng + ((myBounds._southWest.lng - myMid.lng) * pad)
     );
     myStretch = L.latLngBounds(ne, sw);
-    console.log(myStretch);
     return myStretch;
 }
 
+function toLatLngBBoxString(bbox) {
+    return bbox._southWest.lat + ',' + bbox._southWest.lng + ',' + bbox._northEast.lat + ',' + bbox._northEast.lng;
+}
 /* turf => for things like:
 
     var bufferLine = function(buffering) {

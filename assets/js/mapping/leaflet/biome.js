@@ -29,9 +29,15 @@ function buildCustomBiome(mymap) {
         return "Mature forest";
     };
 
+    var forestStyling = {
+        applyStyles: [_polyForest],
+        applyPoints: [],
+        applyPopups: _popupForest,
+        zIndex: 5
+    };
     layerParameters.typeName = 'datavic:FORESTS_OG100_OGONLY';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getWFS(URL, mymap, [_polyForest], [], _popupForest, false, "Mature Forest");
+    getGeojson(URL, mymap, forestStyling, false, "Mature Forest");
 
     var _polyWetForest = {
         symbology: {
@@ -56,9 +62,15 @@ function buildCustomBiome(mymap) {
         return "Rain forest";
     };
 
+    var wetForestStyling = {
+        applyStyles: [_polyWetForest],
+        applyPoints: [],
+        applyPopups: _popupWetForest,
+        zIndex: 5
+    };
     layerParameters.typeName = 'FLORAFAUNA1_NV2005_EVCBCS_9_1';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getWFS(URL, mymap, [_polyWetForest], [], _popupWetForest, false, "Rain Forest");
+    getGeojson(URL, mymap, wetForestStyling, false, "Rain Forest");
 
 }
 

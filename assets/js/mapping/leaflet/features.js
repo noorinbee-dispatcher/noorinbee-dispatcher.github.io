@@ -24,8 +24,15 @@ function buildCustomGeography() {
         }
         return "Waterfalls";
     };
+    
+    var waterfallStyling = {
+        applyStyles: [],
+        applyPoints: [_symGreendot],
+        applyPopups: _popupFalls,
+        zIndex: 5
+    };
     layerParameters.typeName = 'datavic:VMHYDRO_WATERFALL';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getWFS(URL, mymap, [], [_symGreendot], _popupFalls, false, "Waterfalls");
+    getGeojson(URL, mymap, waterfallStyling, false, "Waterfalls");
         
 }
