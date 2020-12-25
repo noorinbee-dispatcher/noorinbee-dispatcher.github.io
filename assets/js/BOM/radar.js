@@ -43,7 +43,6 @@ function baseMaps() {
 
 
 function bomFlip(i) {
-    console.log("Running radar loop : " + radarImages.length + " : " + i);
     if (radarImages.length > 0) {
         panel.setAttribute("src", radarImages[i]);
         i++;

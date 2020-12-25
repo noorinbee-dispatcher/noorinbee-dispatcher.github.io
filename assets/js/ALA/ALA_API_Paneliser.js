@@ -4,7 +4,6 @@ var pagesize = 3;
 var fromstart = 0;
 var maxloop = 1200;
 
-
 //////////////////////////////////////////////////
 
 function loopedALAGet(target, filterq, pagesize, fromstart) {
@@ -27,36 +26,20 @@ function loopedALAGet(target, filterq, pagesize, fromstart) {
 
 function loopALAPage(target, results) {
 
-    // var row = document.createElement("tr");
-    // target.appendChild(row);
-
     for (i = 0; i < results.length; i++) {
-        //console.log(results[i]);
-        // var column = document.createElement("td");
-
-        // row.appendChild(column);
         var ref = document.createElement("a");
         var txt = document.createElement("span");
         var holder = document.createElement("div");
         var panel = document.createElement("img");
 
         panel.setAttribute("src", results[i]['smallImageUrl']);
-        // panel.setAttribute("style", 'max-height:220px;width:115%;margin: auto; display: block; padding-top:6px;');
-
-        // ref.setAttribute("style", 'max-width:180px;word-wrap: break-word;display: inline-block;');
         ref.setAttribute("href", 'https://biocache.ala.org.au/occurrences/' + results[i]['uuid']);
         ref.setAttribute("target", "_blank");
-
-        // txt.setAttribute("style",'margin-left: -10%;padding-right: 8px;display: block;border-right: 1px solid gray;');
-
-        // holder.setAttribute("style", 'height:260px;min-width:31%;max-width:95%;margin:auto; float:left;text-align:right;padding:8px;margin-top:26px');
-        // holder.setAttribute("style", 'max-width:240px;margin:auto; display: block;text-align:right;padding-top:4px;padding-bottom:8px;');
 
         desc = "";
         if (results[i]['vernacularName']) {
             desc = results[i]['vernacularName'] + " ";
         }
-
 
         if (results[i]['species']) {
             desc = desc + "(" + results[i]['species'] + ") ";
@@ -71,7 +54,6 @@ function loopALAPage(target, results) {
                         desc = desc + "(" + results[i]['scientificName'] + ") ";
                     }
 
-
         if (results[i]['raw_occurrenceRemarks']) {
             desc = desc + (results[i]['raw_occurrenceRemarks'] + " ").truncateBySent(1);
         } else
@@ -83,9 +65,6 @@ function loopALAPage(target, results) {
             desc = desc.substr(0, 72) + '...';
         }
         txt.innerHTML = desc;
-
-        // ref.innerHTML = desc;
-        // column.appendChild(holder);
         target.appendChild(holder);
         holder.appendChild(ref);
         ref.appendChild(panel);
@@ -99,7 +78,6 @@ String.prototype.truncateBySent = function (sentCount = 3, moreText = "") {
     //match ".","!","?" - english ending sentence punctuation
     var sentences = this.match(/[^\.!\?]+[\.!\?]+/g);
     if (sentences) {
-        //console.log(sentences.length);
         if (sentences.length >= sentCount && sentences.length > sentCount) {
             //has enough sentences
             return sentences.slice(0, sentCount).join(" ") + moreText;

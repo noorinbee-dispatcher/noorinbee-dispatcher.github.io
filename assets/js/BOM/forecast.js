@@ -20,22 +20,16 @@ function pageLaunch() {
                 + region[i]['latitude']
                 + '&dataUrl='
                 + region[i]['url'];
-            // var ext = 'http://www.bom.gov.au/places/'
-            //     + region[i]['url']
-            //     + '/forecast';
 
             const mark = i + '-' + region[i]['name'].replace(/ /g, "");
             const shown = region[i]['name'];
             url = sslify(url+"#" + uniquify());
-            //_globalHTTPS + encodeURIComponent(url);
-            // fetch(url).then(function (response) {
             fetcherise(url, { method: 'GET' }, function (response) {
                 response.text().then(function (bom) {
                     bom = bom.replace(/img src=\"/g, 'img src="' + sslify('http://www.bom.gov.au'));
                     bom = bom.replace(/href=\"/g, 'target = "_blank" href="http://www.bom.gov.au');
                     bom = bom.replace(/See text views for location/, '(more details at BOM)');
                     bom = bom.replace(/table/, 'table id="precis_' + mark + '"');
-                    //console.log(bom);
                     var box = document.createElement("div");
                     var blurb = document.createElement("div");
                     box.innerHTML = bom;
@@ -58,10 +52,8 @@ function pageLaunch() {
                     box.appendChild(blurb);
                     var marker = document.createElement("div");
                     var jump = document.createElement("a");
-                    // jump.setAttribute("href", '#' + mark);
                     jump.innerText = shown;
                     jump.setAttribute("class", 'boxed');
-                    // marker.setAttribute("onclick", 'document.getElementById("' + mark + '").scrollIntoView({behavior:"smooth"});');
                     marker.setAttribute("onclick",
                         'var desc = hideShow("bom-box", "' + mark + '").querySelectorAll(".bom-blurb");'
                         + ' desc.style.display = "block";'

@@ -40,7 +40,27 @@ const siteCoverage = [
 
 window.onload = function () {
     var currentUrl = document.URL;
-    var urlParts = currentUrl.split('#');
+    var optParts = currentUrl.split('?');
+    var urlParts = optParts[0].split('#');
+    var launchOpt = {};
+    var optPair;
+
+    if (optParts.length > 1) {
+        allOpt = optParts[1].split('&');
+        for (i = 0; i < allOpt.length; i++) {
+            optPair = allOpt[i].split("=");
+            if (optPair.length == 1) {
+                optPair[1] = "";
+            }
+            launchOpt[optPair[0]] = decodeURI(optPair[1]);
+        }
+
+        if (typeof (launchOpt.wide) !== 'undefined') {
+            wideView();
+        }
+    } else {
+        launchOpt = {};
+    }
 
     if (urlParts.length > 1) {
         var anch = urlParts[1];
@@ -49,46 +69,44 @@ window.onload = function () {
             jump.click();
             window.scrollTo(0, 0);
         }
-
-        if (urlParts[2] == "wide") {
-            wideView();
-        }
     }
 
     console.log("Dispatching from: ");
     console.log(siteCoverage);
+    console.log("With options: ");
+    console.log(launchOpt);
 
     if (
         typeof pageLaunch === "function"
     ) {
         console.log("Page scripts commence.")
-        pageLaunch();
+        pageLaunch(launchOpt);
     }
 
     if (
         typeof pagePlug === "function"
     ) {
         console.log("Support scripts commence.")
-        pagePlug();
+        pagePlug(launchOpt);
     }
 }
 
 function uniquify() {
-return Math.random().toString(36).substr(2, 9);
+    return Math.random().toString(36).substr(2, 9);
 }
 
 function sslify(url) {
-    if (url.substr(0, 5) !== "https") {  
-        url = (_globalEncode)?encodeURIComponent(url):url; 
+    if (url.substr(0, 5) !== "https") {
+        url = (_globalEncode) ? encodeURIComponent(url) : url;
         url = _globalHTTPS + url;
     }
     return url;
 }
 
-function fetcherise(url, headers, thendo) {     
-    var distinct = "#"+uniquify();
-    distinct = (_globalEncode)?encodeURIComponent(distinct):distinct; 
-    url = (_globalUnique)?url + distinct:url;
+function fetcherise(url, headers, thendo) {
+    var distinct = "#" + uniquify();
+    distinct = (_globalEncode) ? encodeURIComponent(distinct) : distinct;
+    url = (_globalUnique) ? url + distinct : url;
     console.log("Fetcherising:" + url);
     fetch(url, headers)
         .then(function (response) {

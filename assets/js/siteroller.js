@@ -12,9 +12,6 @@ var troveDecalsurl = troveBaseurl
     + '/result?' + troveBaseKey
     + '&q=';
 
-
-
-
 function pagePlug() {
     for (var i = 0; i < siteCoverage.length; i++) {
         if (siteCoverage[i].trove) {
@@ -28,19 +25,19 @@ function pagePlug() {
             }
         }
     }
-    // + 'buldah OR combienbar OR '
-    // + ' noorinbee OR tamboon OR '
-    // + ' croajingolong OR coopracambra OR errinundra OR '
-    // + ' fulltext:%22bemm%20river%22~0 OR '
-    // + ' fulltext:%22cann%20river%22~0'
 
     troveDecalsurl = troveDecalsurl
         + '&zone=picture&reclevel=brief'
         + '&l-availability=y%2Ff&encoding=json'
         // + '&sortby=relevance';
         + '&sortby=dateasc';
+        
+    troveTime();
+}
 
-    window.onscroll = troveRoll;
+function troveTime() {
+    troveRoll();
+    setTimeout(function () {troveTime()},330);
 }
 
 function troveTrawl() {
@@ -61,14 +58,13 @@ function troveTrawl() {
                     pushDecals++;
                 }
             }
-
             pullingDecals = false;
         });
     });
 }
 
 function troveRoll(e) {
-    if (pullingDecals || (poppingDecals > 2)) { return; }
+    if (pullingDecals || (poppingDecals > 1)) { return; }
     var right = document.getElementById('top');
     if (right.classList.contains('flip-wide')) {
         return;
@@ -77,7 +73,7 @@ function troveRoll(e) {
     var rhb = right.getBoundingClientRect()['bottom'];
     var left = document.getElementById('root');
     var lhb = left.getBoundingClientRect()['bottom'];
-    if ((lhb < 280) && (rht < lhb) && (lhb < rhb)) {
+    if ((lhb < 520) && (rht < lhb) && (lhb < rhb)) {
 
         if (troveDecalsCursor == troveDecals.length) {
             troveTrawl();

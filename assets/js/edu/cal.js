@@ -27,7 +27,6 @@ function pageLaunch() {
          }
     }, function (response) {
         response.json().then(function (dat) {
-            // console.log(dat);
 
             var target = document.querySelectorAll(".termdays-list")[0];
             var tbl = document.createElement("table");
