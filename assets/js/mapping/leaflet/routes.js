@@ -8,17 +8,21 @@ function buildCustomRoutes(mymap) {
     var rootUrl = 'https://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wfs?';
 
     var bufferLine = function (buffering) {
-        return turf.buffer(buffering, 1.5, { units: 'metres' });
+        return turf.buffer(buffering, 1.25, { units: 'metres' });
+    };
+    var bufferLineWide = function (buffering) {
+        return turf.buffer(buffering, 2.5, { units: 'metres' });
     };
 
     var _polyLinework = getMainLineStyle();
-    var _polyLightLinework = getMainLineStyle();
-    
+    _polyLinework.symbology.color="#1051ad";
+
+    var _polyLightLinework = getMainLineStyle();    
     _polyLightLinework.symbology.weight = 2.25;
     // _polyLinework.symbology.color = "#930eab";
     _polyLightLinework.symbology.opacity = 0.85;
     _polyLightLinework.symbology.fillOpacity = 0.15;
-    _polyLightLinework.symbology.dashArray = '2.5, 11.5';
+    _polyLightLinework.symbology.dashArray = '2.5, 6.5';
 
     legendStyle(
         "Routes", { marker: "line", options: _polyLinework.symbology }
@@ -45,7 +49,7 @@ function buildCustomRoutes(mymap) {
     layerParameters.typeName = 'datavic:VMTRANS_WALKING_TRACK';
     layerParameters.typeName += ',datavic:VMTRANS_TR_ROAD_BIKE_PATH';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getGeojson(URL, mymap, lightStyling, false, "Walking, Cycling", bufferLine);
+    getGeojson(URL, mymap, lightStyling, false, "Walking, Cycling", bufferLineWide);
 
     var _popupTour = function (layer) {
         if (layer.feature.properties.F_COMMENT) {

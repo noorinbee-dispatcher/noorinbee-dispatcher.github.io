@@ -246,7 +246,7 @@ function getGeojson(URL, theMap, styleUI, addto, listed, transform, callback) {
 
             }).bindPopup(function (layer) {
                 return _popupFilters(layer);
-            })
+            },{autoClose:false, closeOnClick:false})
         })
             .then(function () {
                 if (listed) {

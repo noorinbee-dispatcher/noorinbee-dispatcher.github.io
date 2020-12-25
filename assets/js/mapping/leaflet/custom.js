@@ -1,6 +1,21 @@
-function buildCustomMap(pageMap, pageLegend) {
+function buildCustomMap(pageMap, pageLegend, mapSettings) {
 
-    var mymap = L.map(pageMap, { attributionControl: false }).setView([-37.56655532524054, 149.1559270001807], 11);
+    var atLat =-37.56655532524054;
+    var atLng=149.1559270001807;
+    var atZoom=11;
+console.log(mapSettings);
+if(typeof(mapSettings.lat)!=="undefined") {
+atLat=mapSettings.lat;
+}
+if(typeof(mapSettings.lng)!=="undefined") {
+atLng=mapSettings.lng;
+}
+if(typeof(mapSettings.lat)!=="undefined") {
+atZoom=mapSettings.zoom;
+}
+
+    var mymap = L.map(pageMap, { attributionControl: false})
+        .setView([atLat, atLng], atZoom);
     var legend = L.map(pageLegend, {
         zoomControl: false, attributionControl: false, dragging: false
     }).setView([0, 0], 1);
@@ -68,7 +83,7 @@ function getMainLineStyle() {
 function getAltLineStyle() {
     var _trackLinework = { symbology: {} };
     // Object.assign(_polyLinework.symbology, getMainPolyStyle().symbology);
-    _trackLinework.symbology.weight = 1.25;
+    _trackLinework.symbology.weight = 1.75;
     _trackLinework.symbology.opacity = 0.85;
     _trackLinework.symbology.color = "#e09951";
     _trackLinework._symFilter = function (feature) {
@@ -96,7 +111,7 @@ function getGeneralLayerQuery() {
         service: 'WFS',
         version: '2.0.0',
         request: 'GetFeature',
-        maxFeatures: 200,
+        // maxFeatures: 200,
         outputFormat: 'application/json',
         bbox: '-37.853854677977594,148.09321731872052,-36.620632663222686,150.03230420798283'
     };

@@ -120,9 +120,9 @@ function buildCustomInterests(mymap) {
     URL = rootUrl + L.Util.getParamString(layerParameters);
     getGeojson(URL, mymap, commonStyling, false, "Community");
 
-    layerParameters.typeName = 'datavic:CROWNLAND_PLM25_FOREST_PARK';
-    URL = rootUrl + L.Util.getParamString(layerParameters);
-    getGeojson(URL, mymap, commonStyling, false, "Forest parks");
+    // layerParameters.typeName = 'datavic:CROWNLAND_PLM25_FOREST_PARK';
+    // URL = rootUrl + L.Util.getParamString(layerParameters);
+    // getGeojson(URL, mymap, commonStyling, false, "Forest parks");
 
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_NATURAL_FEAT';
     URL = rootUrl + L.Util.getParamString(layerParameters);
@@ -131,9 +131,9 @@ function buildCustomInterests(mymap) {
     URL = rootUrl + L.Util.getParamString(layerParameters);
     getGeojson(URL, mymap, commonStyling, false, "Conservation");
 
-    layerParameters.typeName = 'datavic:CROWNLAND_PLM25_ALPINE_RESORT';
-    URL = rootUrl + L.Util.getParamString(layerParameters);
-    getGeojson(URL, mymap, commonStyling, false, "Resorts");
+    // layerParameters.typeName = 'datavic:CROWNLAND_PLM25_ALPINE_RESORT';
+    // URL = rootUrl + L.Util.getParamString(layerParameters);
+    // getGeojson(URL, mymap, commonStyling, false, "Resorts");
 
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_COASTAL_RES';
     URL = rootUrl + L.Util.getParamString(layerParameters);

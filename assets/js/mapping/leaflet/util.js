@@ -12,9 +12,10 @@ function utilMakeLink() {
     alert(
         JSON.stringify(
             {
-        mid:JSON.stringify(_globalMap.getCenter()) ,
-        zoom:JSON.stringify(_globalMap.getZoom()),
-    sel:JSON.stringify(getOverlays())
+        lat:(_globalMap.getCenter().lat),
+        lng:(_globalMap.getCenter().lng) ,
+        zoom:(_globalMap.getZoom()),
+          sel:getOverlays()
             })
     );
 
