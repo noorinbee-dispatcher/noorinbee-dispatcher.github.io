@@ -23,27 +23,28 @@ pannedLayerSet.prototype.buildCustomSet = function () {
         self.applySetLoader();
     });
     self.onmap.on('moveend', function (e) {
-        if (self._holdSet.length>0 && !self._setIsLoading) {
+        if (self._holdSet.length > 0 && !self._setIsLoading) {
             self.buildLayeredSet();
         }
     });
 }
 
 pannedLayerSet.prototype.applySetLoader = function () {
-    if ((this.onmap.getZoom() <= this.zoomSnap) && this._holdSet) {
+    if ((!this.isInZoomRange()) && this._holdSet) {
         this.dropSet();
         // this._holdSet = [];
         return;
     }
-    if (this.onmap.getZoom() > this.zoomSnap) {
-        console.log(this.zoomSnap);
-        console.log(this.onmap.getZoom() );
-        if ((this._holdSet.length==0) && !this._setIsLoading) {
+    if (this.isInZoomRange()) {
+        if ((this._holdSet.length == 0) && !this._setIsLoading) {
             this.buildLayeredSet();
         }
     }
 }
 
+pannedLayerSet.prototype.isInZoomRange = function () {
+    return (this.onmap.getZoom() > this.zoomSnap);
+}
 
 pannedLayerSet.prototype.dropSet = function () {
     if (!this._holdSet) { return; }
@@ -54,6 +55,9 @@ pannedLayerSet.prototype.dropSet = function () {
 }
 
 pannedLayerSet.prototype.showSet = function () {
+    if (!this.isInZoomRange()) {
+        return;
+    }
     for (i = 0; i < this._holdSet.length; i++) {
         this._holdSet[i].addTo(this.onmap);
     }
@@ -61,7 +65,6 @@ pannedLayerSet.prototype.showSet = function () {
 
 
 pannedLayerSet.prototype.isSetLoaded = function (self) {
-    // console.log(self._setStack);
     var gettingSet = Object.keys(self._setStack);
     for (i = 0; i < gettingSet.length; i++) {
         if (!self._setStack[gettingSet[i]].loaded) {
@@ -96,7 +99,7 @@ pannedLayerSet.prototype.waitOnLayer = function (layer) {
         self._setStack[layer].layer = lyr;
         self.builtSetCallback(self);
     };
-    // console.log("waitingOn:"+layer);
+    
     return addLayerToSet;
 }
 

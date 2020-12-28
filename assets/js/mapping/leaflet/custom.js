@@ -1,20 +1,19 @@
 function buildCustomMap(pageMap, pageLegend, mapSettings) {
 
-    var atLat =-37.56655532524054;
-    var atLng=149.1559270001807;
-    var atZoom=11;
-console.log(mapSettings);
-if(typeof(mapSettings.lat)!=="undefined") {
-atLat=mapSettings.lat;
-}
-if(typeof(mapSettings.lng)!=="undefined") {
-atLng=mapSettings.lng;
-}
-if(typeof(mapSettings.lat)!=="undefined") {
-atZoom=mapSettings.zoom;
-}
+    var atLat = -37.56655532524054;
+    var atLng = 149.1559270001807;
+    var atZoom = 11;
+    if (typeof (mapSettings.lat) !== "undefined") {
+        atLat = mapSettings.lat;
+    }
+    if (typeof (mapSettings.lng) !== "undefined") {
+        atLng = mapSettings.lng;
+    }
+    if (typeof (mapSettings.lat) !== "undefined") {
+        atZoom = mapSettings.zoom;
+    }
 
-    var mymap = L.map(pageMap, { attributionControl: false})
+    var mymap = L.map(pageMap, { attributionControl: false })
         .setView([atLat, atLng], atZoom);
     var legend = L.map(pageLegend, {
         zoomControl: false, attributionControl: false, dragging: false
