@@ -8,21 +8,21 @@ function buildCustomInterests(mymap) {
 
     var rootUrl = 'https://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wfs?';
 
-    var _polyInterest = getMainPolyStyle();
+    // var _polyInterest = getMainPolyStyle();
     var _symInterest = getMainPointStyle();
     var _symObject = getMinorPointStyle();
 
-    legendStyle(
-        "Public Space", { marker: "block", options: _polyInterest.symbology }
-    );
+    // legendStyle(
+    //     "Public Space", { marker: "block", options: _polyInterest.symbology }
+    // );
 
-    _polyInterest._symFilter = function (feature) {
-        if (feature.properties.ACT) { //GENER_TYPE == '1') {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    // _polyInterest._symFilter = function (feature) {
+    //     if (feature.properties.ACT) { //GENER_TYPE == '1') {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
 
     _symInterest._symFilter = function (feature) {
         if (
@@ -57,17 +57,17 @@ function buildCustomInterests(mymap) {
         return null;
     }
 
-    var _symStyles = [_polyInterest];
+    var _symStyles = [];
     var _symPoints = [_symInterest, _symObject];
     
     var _popupFilters = function (layer) {
-        if (layer.feature.properties.ACT) {
-            if ((layer.feature.properties.LABEL ? layer.feature.properties.LABEL : " ") == " ") {
-                return layer.feature.properties.NAME;
-            } else {
-                return layer.feature.properties.LABEL;
-            }
-        }
+        // if (layer.feature.properties.ACT) {
+        //     if ((layer.feature.properties.LABEL ? layer.feature.properties.LABEL : " ") == " ") {
+        //         return layer.feature.properties.NAME;
+        //     } else {
+        //         return layer.feature.properties.LABEL;
+        //     }
+        // }
         if (layer.feature.properties.FAC_TYPE == "REC SITES") {
             captioned = layer.feature.properties.LABEL ? layer.feature.properties.LABEL : "Site of interest.";
             detailed = layer.feature.properties.COMMENTS ? layer.feature.properties.COMMENTS : "";
@@ -111,33 +111,6 @@ function buildCustomInterests(mymap) {
     URL = 'assets/data/geo/huts_sp_4283.geojson';
     getGeojson(URL, mymap, commonStyling);
     //forests RECWEBHUTS???
-
-
-    layerParameters.typeName = 'datavic:CROWNLAND_PLM25_H_A_C_FEAT_RES';
-    URL = rootUrl + L.Util.getParamString(layerParameters);
-    getGeojson(URL, mymap, commonStyling, false, "Historical");
-    layerParameters.typeName = 'datavic:CROWNLAND_PLM25_COMM_USE_AREA';
-    URL = rootUrl + L.Util.getParamString(layerParameters);
-    getGeojson(URL, mymap, commonStyling, false, "Community");
-
-    // layerParameters.typeName = 'datavic:CROWNLAND_PLM25_FOREST_PARK';
-    // URL = rootUrl + L.Util.getParamString(layerParameters);
-    // getGeojson(URL, mymap, commonStyling, false, "Forest parks");
-
-    layerParameters.typeName = 'datavic:CROWNLAND_PLM25_NATURAL_FEAT';
-    URL = rootUrl + L.Util.getParamString(layerParameters);
-    getGeojson(URL, mymap, commonStyling, false, "Landscape");
-    layerParameters.typeName = 'datavic:CROWNLAND_PLM25_NATURE_CONSERV';
-    URL = rootUrl + L.Util.getParamString(layerParameters);
-    getGeojson(URL, mymap, commonStyling, false, "Conservation");
-
-    // layerParameters.typeName = 'datavic:CROWNLAND_PLM25_ALPINE_RESORT';
-    // URL = rootUrl + L.Util.getParamString(layerParameters);
-    // getGeojson(URL, mymap, commonStyling, false, "Resorts");
-
-    layerParameters.typeName = 'datavic:CROWNLAND_PLM25_COASTAL_RES';
-    URL = rootUrl + L.Util.getParamString(layerParameters);
-    getGeojson(URL, mymap, commonStyling, false, "Coastal");
 
 }
 

@@ -83,9 +83,9 @@ function resetParityCallbacks() {
     _parityCallbacks = [];
 }
 
-function runParityCallbacks() {
+function runParityCallbacks(lastOK) {
     _globalLayerParity--;
-    if(!_parityCallbacks) {
+    if (!_parityCallbacks) {
         return;
     }
     var repeatCalls = [];
@@ -102,7 +102,7 @@ function runParityCallbacks() {
 }
 
 function sortFloatLayers() {
-    _floatLayers.sort(function(a,b){
+    _floatLayers.sort(function (a, b) {
         return a.zIndex - b.zIndex;
     });
 }
@@ -120,8 +120,25 @@ function baseVicWms(name) {
         format: 'image/png',
         layers: name,
         transparent: true,
+        maxZoom: 20,
     });
     return wmsLayer;
+
+}
+
+function baseGoogleTiles() {
+    // Note! Used here on proviso of no API interaction with Google 'core services'
+    // This is effectively a js/browser redirect of public facing  non-auth resources
+    googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+    googleTerrain = L.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+        opacity: 0.25
+    });
+    return L.layerGroup([googleSat, googleTerrain]);
 }
 
 
@@ -135,7 +152,7 @@ function freshenLeaflet(freshmap) {
     _globalMap.attributionControl.setPrefix(prefix);
     sortFloatLayers();
     for (f = 0; f < _floatLayers.length; f++) {
-       _floatLayers[f].layer.bringToFront();
+        _floatLayers[f].layer.bringToFront();
     }
     _focusLayer.bringToFront();
     setTimeout(function () { freshenLeaflet(recall); }, 750);
@@ -185,6 +202,7 @@ function legendStyle(desc, symbol) {
                     weight: applying.weight, //1,
                     opacity: applying.opacity, //1,
                     fillOpacity: applying.fillOpacity, //0.3,
+                    dashArray: applying.dashArray,
                 });
             }
             if (icon == "block") {
@@ -197,7 +215,8 @@ function legendStyle(desc, symbol) {
                     color: applying.color, //"#AA78B0",
                     weight: applying.weight, //1,
                     opacity: applying.opacity, //1,
-                    fillOpacity: applying.fillOpacity, //0.3,
+                    fillOpacity: applying.fillOpacity,//0.3,
+                    dashArray: applying.dashArray,
                 });
             }
         }
@@ -246,7 +265,7 @@ function getGeojson(URL, theMap, styleUI, addto, listed, transform, callback) {
 
             }).bindPopup(function (layer) {
                 return _popupFilters(layer);
-            },{autoClose:false, closeOnClick:false})
+            }, { autoClose: false, closeOnClick: false })
         })
             .then(function () {
                 if (listed) {
@@ -254,15 +273,15 @@ function getGeojson(URL, theMap, styleUI, addto, listed, transform, callback) {
                 }
                 if (addto) {
                     WFSLayer.addTo(theMap);
-                    if(!listed){
-                        _zIndex=(typeof(_zIndex)!=='undefined')?_zIndex:0;
-                        _floatLayers.push({layer: WFSLayer, zIndex: _zIndex});
+                    if (!listed) {
+                        _zIndex = (typeof (_zIndex) !== 'undefined') ? _zIndex : 0;
+                        _floatLayers.push({ layer: WFSLayer, zIndex: _zIndex });
                     }
                 }
                 if (typeof callback === "function") {
                     callback(WFSLayer);
                 }
-                runParityCallbacks();
+                runParityCallbacks(true);
                 return WFSLayer;
             });
     }).catch(function () {

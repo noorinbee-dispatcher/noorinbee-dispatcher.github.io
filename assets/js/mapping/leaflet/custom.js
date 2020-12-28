@@ -28,10 +28,12 @@ atZoom=mapSettings.zoom;
     var ovrly = baseVicWms("CARTO_OVERLAY_VG");
 
     var compo = L.layerGroup([photo, ovrly]);
+    var google = baseGoogleTiles();
 
     var baseMaps = {
         "Basemap": carto,
-        "Image": compo,
+        "Image (VicGov)": compo,
+        "Terrain (Google)": google,
     };
 
     var popControl = L.control.layers(baseMaps, null, { sortLayers: true });

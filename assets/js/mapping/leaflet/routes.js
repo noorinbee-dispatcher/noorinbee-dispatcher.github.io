@@ -25,7 +25,10 @@ function buildCustomRoutes(mymap) {
     _polyLightLinework.symbology.dashArray = '2.5, 6.5';
 
     legendStyle(
-        "Routes", { marker: "line", options: _polyLinework.symbology }
+        "Tour", { marker: "line", options: _polyLinework.symbology }
+    );
+    legendStyle(
+        "Walk, Cycle", { marker: "line", options: _polyLightLinework.symbology }
     );
     _polyLinework._symFilter = function (feature) {
         return true;
@@ -69,6 +72,6 @@ function buildCustomRoutes(mymap) {
     };
     layerParameters.typeName = 'datavic:FORESTS_RECWEB_TRACK';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getGeojson(URL, mymap, lineStyling, true, "Exploring", bufferLine);
+    getGeojson(URL, mymap, lineStyling, true, "Touring", bufferLine);
 
 }

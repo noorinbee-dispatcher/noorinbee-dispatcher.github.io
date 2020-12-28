@@ -15,8 +15,10 @@ function pageLaunch(launchSpec) {
 
   buildCustomInterests(mymap);
   buildCustomRoutes(mymap);
+  buildCustomAreas(mymap);
   buildCustomGeography(mymap);
   buildCustomBiome(mymap);
   buildCustomRoads(mymap);
+  buildCustomContours(mymap);
 }
 
