@@ -1,10 +1,21 @@
 
+
+    var biomeLayers = new pannedLayerSet();
+
 function buildCustomBiome(mymap) {
+
+    biomeLayers.isInZoomRange = function () {
+        return true;
+    }
+
+    biomeLayers.buildLayeredSet =
+        function () {
 
     var URL = "";
     var layerParameters = getGeneralLayerQuery();
+    layerParameters.bbox = toLatLngBBoxString(hangEdges(mymap.getBounds(), 0.95));
 
-    var rootUrl = 'https://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wfs?';
+    var rootUrl = 'https://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wfs';
 
     var _polyForest = {
         symbology: {
@@ -35,9 +46,16 @@ function buildCustomBiome(mymap) {
         applyPopups: _popupForest,
         zIndex: 5
     };
+
+    var forestTitle = "Mature Forest";
+    var forestShown = (getOverlays()[forestTitle] == true);
+
     layerParameters.typeName = 'datavic:FORESTS_OG100_OGONLY';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getGeojson(URL, mymap, forestStyling, false, "Mature Forest");
+    // getGeojson(URL, mymap, forestStyling, false, "Mature Forest");
+    console.log(forestTitle);
+    console.log(getOverlays()[forestTitle]);
+    getGeojson(URL, mymap, forestStyling, forestShown, forestTitle, null, this.waitOnLayer("biomeMature"));
 
     var _polyWetForest = {
         symbology: {
@@ -68,9 +86,17 @@ function buildCustomBiome(mymap) {
         applyPopups: _popupWetForest,
         zIndex: 5
     };
+
+    var wetForestTitle = "Rain Forest";
+    var wetForestShown = (getOverlays()[wetForestTitle] == true);
+
     layerParameters.typeName = 'FLORAFAUNA1_NV2005_EVCBCS_9_1';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getGeojson(URL, mymap, wetForestStyling, false, "Rain Forest");
+    getGeojson(URL, mymap, wetForestStyling, wetForestShown, wetForestTitle, null, this.waitOnLayer("biomeRainForest"));
 
 }
+        
+biomeLayers.attachSet(mymap);
+}
+//datavic:VMVEG_TREE_DENSITY_DENSE
 

@@ -3,7 +3,7 @@
 
 // http://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/datavic/ows?
 // http://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wms?
-// https://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wfs?
+// https://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wfs
 // https://base.maps.vic.gov.au/service?
 // https://services.land.vic.gov.au/DELWPmaps/DFW/index.html
 
@@ -245,7 +245,7 @@ function getGeojson(URL, theMap, styleUI, addto, listed, transform, callback) {
             WFSLayer = L.geoJson(lyr, {
                 style: function (feature) {
                     for (var s = 0; s < _symStyles.length; s++) {
-                        styled = _symStyles[s]._symFilter(feature);
+                        var styled = _symStyles[s]._symFilter(feature);
                         if (styled) {
                             return _symStyles[s].symbology;
                         }
@@ -253,7 +253,7 @@ function getGeojson(URL, theMap, styleUI, addto, listed, transform, callback) {
                 },
                 pointToLayer: function (feature, latlng) {
                     for (var p = 0; p < _symPoints.length; p++) {
-                        pointed = _symPoints[p]._symFilter(feature);
+                        var pointed = _symPoints[p]._symFilter(feature);
                         if (pointed) {
                             return legendStyle(
                                 pointed,
@@ -279,7 +279,7 @@ function getGeojson(URL, theMap, styleUI, addto, listed, transform, callback) {
                     }
                 }
                 if (typeof callback === "function") {
-                    callback(WFSLayer);
+                    callback(WFSLayer, { loaded: true, added: addto, controlled: listed });
                 }
                 runParityCallbacks(true);
                 return WFSLayer;
@@ -302,15 +302,18 @@ function getOverlays() {
         if (obj.overlay) {
             // get name of overlay
             layerName = obj.name;
-            if (_globalControl._map.hasLayer(obj.layer)) {
-                return layers[layerName] = _globalControl._map.hasLayer(obj.layer);
-            }
+            // if (_globalControl._map.hasLayer(obj.layer)) {
+            return layers[layerName] = _globalControl._map.hasLayer(obj.layer);
+            // }
         }
     });
 
     return layers;
 }
 
+function removeOverlay(lyr) {
+    _globalControl.removeLayer(lyr);
+}
 /*
   map.on('zoomend ', function(e) {
          if ( map.getZoom() > 13 ){ map.removeLayer( vector )}

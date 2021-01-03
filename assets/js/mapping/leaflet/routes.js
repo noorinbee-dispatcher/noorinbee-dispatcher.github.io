@@ -5,7 +5,7 @@ function buildCustomRoutes(mymap) {
 
     var URL = "";
     var layerParameters = getGeneralLayerQuery();
-    var rootUrl = 'https://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wfs?';
+    var rootUrl = 'https://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wfs';
 
     var bufferLine = function (buffering) {
         return turf.buffer(buffering, 1.25, { units: 'metres' });

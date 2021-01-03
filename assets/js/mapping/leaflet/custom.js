@@ -117,6 +117,17 @@ function getGeneralLayerQuery() {
         bbox: '-37.853854677977594,148.09321731872052,-36.620632663222686,150.03230420798283'
     };
 }
+
+function getCqlLayerQuery(cql) {
+    return {
+        service: 'WFS',
+        version: '2.0.0',
+        request: 'GetFeature',
+        // maxFeatures: 200,
+        outputFormat: 'application/json',
+        cql_filter: cql, // BBOX('SHAPE', -37.853854677977594,148.09321731872052,-36.620632663222686,150.03230420798283)
+    };
+}
 ////////////////////////////////////////////////
 
 

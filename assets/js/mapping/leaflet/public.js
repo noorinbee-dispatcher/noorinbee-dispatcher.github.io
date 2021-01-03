@@ -6,7 +6,7 @@ function buildCustomAreas(mymap) {
     var URL = "";
     var layerParameters = getGeneralLayerQuery();
 
-    var rootUrl = 'https://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wfs?';
+    var rootUrl = 'https://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wfs';
 
     var _polyInterest = getMainPolyStyle();
     _polyInterest.symbology.fillColor = "#e3e346"; //"#71751e", //EAAFD8",
@@ -50,10 +50,10 @@ function buildCustomAreas(mymap) {
 
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_H_A_C_FEAT_RES';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getGeojson(URL, mymap, commonStyling, false, "Historical");
+    getGeojson(URL, mymap, commonStyling, false, "Historical (Public)");
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_COMM_USE_AREA';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getGeojson(URL, mymap, commonStyling, false, "Community");
+    getGeojson(URL, mymap, commonStyling, false, "Community (Public)");
 
     // layerParameters.typeName = 'datavic:CROWNLAND_PLM25_FOREST_PARK';
     // URL = rootUrl + L.Util.getParamString(layerParameters);
@@ -61,10 +61,10 @@ function buildCustomAreas(mymap) {
 
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_NATURAL_FEAT';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getGeojson(URL, mymap, commonStyling, false, "Landscape");
+    getGeojson(URL, mymap, commonStyling, false, "Landscape (Public)");
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_NATURE_CONSERV';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getGeojson(URL, mymap, commonStyling, false, "Conservation");
+    getGeojson(URL, mymap, commonStyling, false, "Conservation (Public)");
 
     // layerParameters.typeName = 'datavic:CROWNLAND_PLM25_ALPINE_RESORT';
     // URL = rootUrl + L.Util.getParamString(layerParameters);
@@ -72,7 +72,7 @@ function buildCustomAreas(mymap) {
 
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_COASTAL_RES';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getGeojson(URL, mymap, commonStyling, false, "Coastal");
+    getGeojson(URL, mymap, commonStyling, false, "Coastal (Public)");
 
 }
 

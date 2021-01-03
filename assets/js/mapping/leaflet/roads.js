@@ -9,7 +9,7 @@ function buildCustomRoads(mymap) {
             var URL = "";
             var layerParameters = getGeneralLayerQuery();
             layerParameters.bbox = toLatLngBBoxString(hangEdges(mymap.getBounds(), 1.15));
-            var rootUrl = 'https://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wfs?';
+            var rootUrl = 'https://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wfs';
 
             var _trackLinework = getAltLineStyle();
             var _popupTransMinor = function (layer) {
@@ -113,7 +113,29 @@ function buildCustomRoads(mymap) {
             URL = rootUrl + L.Util.getParamString(layerParameters);
             getGeojson(URL, mymap, coreStyling, false, null, null, this.waitOnLayer("roadsCore"));
 
+        //highway arterial sub arterial
+        var _majorLinework = getAltLineStyle();
+        _majorLinework.symbology.color = "#d9c750";
+        _majorLinework.symbology.weight = 2.75;
+        var _popupTransMajor = function (layer) {
+            var ezi = (layer.feature.properties.EZI_ROAD_NAME_LABEL == "Unnamed")
+                ? null : layer.feature.properties.EZI_ROAD_NAME_LABEL;
+            ezi = (ezi ? ezi : "Main Road: " + layer.feature.properties.LEFT_LOCALITY);
+            return ezi ? ezi : "Main Road: " + layer.feature.properties.RIGHT_LOCALITY;
         }
+        var majorStyling = {
+            applyStyles: [_majorLinework],
+            applyPoints: [],
+            applyPopups: _popupTransMajor,
+            zIndex: 4
+        };
+        layerParameters.typeName = 'datavic:VMTRANS_TR_ROAD_ARTERIAL';
+        layerParameters.typeName += ',datavic:VMTRANS_TR_ROAD_SUB_A';
+        layerParameters.typeName += ',datavic:VMTRANS_TR_ROAD_HIGHWAY';
+        URL = rootUrl + L.Util.getParamString(layerParameters);
+        getGeojson(URL, mymap, majorStyling, false, null, null, this.waitOnLayer("roadsMajor"));
+
+    }
 
         
     roadLayers.attachSet(mymap);
