@@ -12,17 +12,6 @@ function pannedLayerSet() {
     this.zoomHandler = false;
 }
 
-pannedLayerSet.prototype.suspendSet = function () {
-    this.dropSet();
-    this.active = false;
-}
-
-pannedLayerSet.prototype.restoreSet = function () {
-    if (!this.attached) { return; }
-    this.active = true;
-    this.builtSetCallback(this);
-}
-
 pannedLayerSet.prototype.attachSet = function (mymap, makeActive) {
     var self = this;
     if (self.onmap !== self.mymap) {
@@ -44,8 +33,18 @@ pannedLayerSet.prototype.attachSet = function (mymap, makeActive) {
 }
 
 pannedLayerSet.prototype.buildCustomSet = function () {
-    var self = this;
-    self.applySetLoader();
+    this.applySetLoader();
+}
+
+pannedLayerSet.prototype.suspendSet = function () {
+    this.dropSet();
+    this.active = false;
+}
+
+pannedLayerSet.prototype.restoreSet = function () {
+    if (!this.attached) { return; }
+    this.active = true;
+    this.applySetLoader();
 }
 
 pannedLayerSet.prototype.applySetLoader = function () {
@@ -108,7 +107,6 @@ pannedLayerSet.prototype.builtSetCallback = function (self) {
 
     var gotSet = Object.keys(self._setStack);
     var newHoldSet = [];
-    console.log(getOverlays());
 
     for (i = 0; i < gotSet.length; i++) {
         var addin = { layer: null, show: null, controlled: null };
@@ -117,10 +115,8 @@ pannedLayerSet.prototype.builtSetCallback = function (self) {
         addin.layer = self._setStack[gotSet[i]].layer;
         newHoldSet.push(addin);
     }
-    console.log(self._setStack);
     self.dropSet();
     Object.assign(self._holdSet, newHoldSet);
-    console.log(self._holdSet);
     self.freshenSet();
     return true;
 }

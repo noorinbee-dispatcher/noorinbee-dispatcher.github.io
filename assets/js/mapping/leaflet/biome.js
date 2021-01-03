@@ -52,9 +52,6 @@ function buildCustomBiome(mymap) {
 
     layerParameters.typeName = 'datavic:FORESTS_OG100_OGONLY';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    // getGeojson(URL, mymap, forestStyling, false, "Mature Forest");
-    console.log(forestTitle);
-    console.log(getOverlays()[forestTitle]);
     getGeojson(URL, mymap, forestStyling, forestShown, forestTitle, null, this.waitOnLayer("biomeMature"));
 
     var _polyWetForest = {
