@@ -19,7 +19,7 @@ function buildCustomInterests(mymap) {
     _symInterest._symFilter = function (feature) {
         if (
             (feature.properties.FAC_TYPE == "REC SITES")
-            || (feature.properties.PARK_ID > 0)
+            || (feature.properties.PARK_ID >= 0)
             ||  (feature.properties.FEATURE_SUBTYPE)
         ) {
             return "Recreation and Nature";
@@ -74,9 +74,9 @@ function buildCustomInterests(mymap) {
                 layer.feature.properties.CATEGORY == 'Bench - Seat')) {
             return layer.feature.properties.CATEGORY;
         }
-        if (layer.feature.properties.PARK_ID > 0) {
+        if (layer.feature.properties.PARK_ID >= 0) {
             return layer.feature.properties.ASSET_DESC + " - "
-                + layer.feature.properties.PARK_NAME;
+                + (layer.feature.properties.PARK_NAME?layer.feature.properties.PARK_NAME:layer.feature.properties.SITE_NAME);
         }
         if (layer.feature.properties.FEATURE_SUBTYPE) {
             return (layer.feature.properties.NAME_LABEL) ? layer.feature.properties.FEATURE_SUBTYPE + " - " + layer.feature.properties.NAME_LABEL : layer.feature.properties.FEATURE_SUBTYPE;
@@ -84,6 +84,7 @@ function buildCustomInterests(mymap) {
         if (layer.feature.properties.FEATURE_CODE) {
             return (layer.feature.properties.PLACE_NAME) ? layer.feature.properties.PLACE_NAME : layer.feature.properties.FEATURE;
         }
+        console.log(layer.feature.properties);
         return layer.feature.properties.ASSET_CLS;
     }
 
@@ -114,7 +115,7 @@ function buildCustomInterests(mymap) {
     URL = rootUrl + L.Util.getParamString(cqlParameters);
     getGeojson(URL, mymap, commonStyling, true, null, explodeMulti);
 
-    commonStyling.zIndex = 10;
+    commonStyling.zIndex = 5;
     cqlParameters = getCqlLayerQuery("BBOX(SHAPE, -37.853854677977594,148.09321731872052,-36.620632663222686,150.03230420798283)");
     cqlParameters.typeName = 'datavic:VMFEAT_GNR';
     cqlParameters.cql_filter += " and ( FEATURE in ("
@@ -144,9 +145,4 @@ Rail Station (disused) - Rail Network - Vicmap Transport
 </Title>
 <Abstract/>
 
-<Name>datavic:VMTRANS_RAIL_STATION_DISMANTLED</Name>
-<Title>
-Rail Station (dismantled) - Rail Network - Vicmap Transport
-</Title>
-<Abstract/>
 */
