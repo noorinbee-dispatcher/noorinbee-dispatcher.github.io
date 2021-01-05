@@ -7,8 +7,7 @@ function buildCustomRoads(mymap) {
         function () {
 
             var URL = "";
-            var layerParameters = getGeneralLayerQuery();
-            layerParameters.bbox = toLatLngBBoxString(hangEdges(mymap.getBounds(), 1.15));
+            var layerParameters = this.getBoundedRequest(1.15);
             var rootUrl = 'https://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wfs';
 
             var _trackLinework = getAltLineStyle();
@@ -25,7 +24,8 @@ function buildCustomRoads(mymap) {
             };
             layerParameters.typeName = 'datavic:VMTRANS_TR_ROAD_TRACKS';
             URL = rootUrl + L.Util.getParamString(layerParameters);
-            getGeojson(URL, mymap, trackStyling, false, null, null, this.waitOnLayer("roadTracks"));
+            this.getAutoPannedLayer("roadTracks",URL,trackStyling);
+            // getGeojson(URL, mymap, trackStyling, false, null, null, this.waitOnLayer("roadTracks"));
 
 
             var _fwdLinework = getAltLineStyle();
@@ -44,7 +44,8 @@ function buildCustomRoads(mymap) {
             };
             layerParameters.typeName = 'datavic:VMTRANS_TR_ROAD_4WD';
             URL = rootUrl + L.Util.getParamString(layerParameters);
-            getGeojson(URL, mymap, fwdStyling, false, null, null, this.waitOnLayer("roadsFwd"));
+            this.getAutoPannedLayer("roadsFwd",URL,fwdStyling);
+            // getGeojson(URL, mymap, fwdStyling, false, null, null, this.waitOnLayer("roadsFwd"));
 
 
             var _closedLinework = getAltLineStyle();
@@ -66,7 +67,8 @@ function buildCustomRoads(mymap) {
             layerParameters.typeName = 'datavic:VMTRANS_TR_ROAD_UNMAINTAINED';
             layerParameters.typeName += ',datavic:VMTRANS_TR_ROAD_CLOSED';
             URL = rootUrl + L.Util.getParamString(layerParameters);
-            getGeojson(URL, mymap, closedStyling, false, null, null, this.waitOnLayer("roadsBlocked"));
+            this.getAutoPannedLayer("roadsBlocked",URL,closedStyling);
+            // getGeojson(URL, mymap, closedStyling, false, null, null, this.waitOnLayer("roadsBlocked"));
 
             //private
             //management
@@ -90,7 +92,8 @@ function buildCustomRoads(mymap) {
             layerParameters.typeName += ',datavic:VMTRANS_TR_ROAD_PRIVATE';
             layerParameters.typeName += ',datavic:VMTRANS_TR_ROAD_SEASONAL';
             URL = rootUrl + L.Util.getParamString(layerParameters);
-            getGeojson(URL, mymap, privateStyling, false, null, null, this.waitOnLayer("roadsLimited"));
+            this.getAutoPannedLayer("roadsLimited",URL,privateStyling);
+            // getGeojson(URL, mymap, privateStyling, false, null, null, this.waitOnLayer("roadsLimited"));
 
             //collector & local
             var _coreLinework = getAltLineStyle();
@@ -111,7 +114,8 @@ function buildCustomRoads(mymap) {
             layerParameters.typeName = 'datavic:VMTRANS_TR_ROAD_COLLECTOR';
             layerParameters.typeName += ',datavic:VMTRANS_TR_ROAD_LOCAL';
             URL = rootUrl + L.Util.getParamString(layerParameters);
-            getGeojson(URL, mymap, coreStyling, false, null, null, this.waitOnLayer("roadsCore"));
+            this.getAutoPannedLayer("roadsCore",URL,coreStyling);
+            // getGeojson(URL, mymap, coreStyling, false, null, null, this.waitOnLayer("roadsCore"));
 
         //highway arterial sub arterial
         var _majorLinework = getAltLineStyle();
@@ -133,7 +137,8 @@ function buildCustomRoads(mymap) {
         layerParameters.typeName += ',datavic:VMTRANS_TR_ROAD_SUB_A';
         layerParameters.typeName += ',datavic:VMTRANS_TR_ROAD_HIGHWAY';
         URL = rootUrl + L.Util.getParamString(layerParameters);
-        getGeojson(URL, mymap, majorStyling, false, null, null, this.waitOnLayer("roadsMajor"));
+        this.getAutoPannedLayer("roadsMajor",URL,majorStyling);
+        // getGeojson(URL, mymap, majorStyling, false, null, null, this.waitOnLayer("roadsMajor"));
 
     }
 

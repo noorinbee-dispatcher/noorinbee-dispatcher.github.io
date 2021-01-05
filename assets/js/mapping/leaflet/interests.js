@@ -108,7 +108,7 @@ function buildCustomInterests(mymap) {
     // FOI - lookout & picnic site & fire lookout & rest area
     // datavic:VMFEAT_FOI_POINT
     commonStyling.zIndex = 10;
-    cqlParameters = getCqlLayerQuery("BBOX(SHAPE, -37.853854677977594,148.09321731872052,-36.620632663222686,150.03230420798283)");
+    cqlParameters = getCqlLayerQuery(getBboxAsCql());
     cqlParameters.typeName = 'datavic:VMFEAT_FOI_POINT';
     cqlParameters.cql_filter += " and FEATURE_SUBTYPE in ('lookout','picnic site','fire lookout','rest area')";
     URL = rootUrl + L.Util.getParamString(cqlParameters);
@@ -136,3 +136,17 @@ function buildCustomInterests(mymap) {
 
 }
 
+/*
+<FeatureType>
+<Name>datavic:VMTRANS_RAIL_STATION_DISUSED</Name>
+<Title>
+Rail Station (disused) - Rail Network - Vicmap Transport
+</Title>
+<Abstract/>
+
+<Name>datavic:VMTRANS_RAIL_STATION_DISMANTLED</Name>
+<Title>
+Rail Station (dismantled) - Rail Network - Vicmap Transport
+</Title>
+<Abstract/>
+*/

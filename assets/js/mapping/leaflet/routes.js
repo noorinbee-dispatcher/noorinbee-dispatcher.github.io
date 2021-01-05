@@ -1,10 +1,18 @@
+var routeLayers = new pannedLayerSet();
 
 function buildCustomRoutes(mymap) {
+
+    routeLayers.isInZoomRange = function () {
+        return true;
+    }
+
+    routeLayers.buildLayeredSet =
+        function () {
 
     // line to poly!
 
     var URL = "";
-    var layerParameters = getGeneralLayerQuery();
+    var layerParameters =  this.getBoundedRequest(0.9); //getGeneralLayerQuery();
     var rootUrl = 'https://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wfs';
 
     var bufferLine = function (buffering) {
@@ -38,6 +46,9 @@ function buildCustomRoutes(mymap) {
     }
 
     var _popupTrans = function (layer) {
+        if(layer.feature.properties.NAME) {
+            return layer.feature.properties.NAME;
+        }
         var ezi = (layer.feature.properties.EZI_ROAD_NAME_LABEL == "Unnamed")
             ? "Track" : layer.feature.properties.EZI_ROAD_NAME_LABEL;
             // ezi = (ezi ?ezi: layer.feature.properties.LEFT_LOCALITY);
@@ -51,8 +62,10 @@ function buildCustomRoutes(mymap) {
     };
     layerParameters.typeName = 'datavic:VMTRANS_WALKING_TRACK';
     layerParameters.typeName += ',datavic:VMTRANS_TR_ROAD_BIKE_PATH';
+    layerParameters.typeName += ',datavic:VMTRANS_TR_RAIL_TRAIL';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getGeojson(URL, mymap, lightStyling, false, "Walking, Cycling", bufferLineWide);
+    // getGeojson(URL, mymap, lightStyling, false, "Walking, Cycling", bufferLineWide);
+    this.getControlledPannedProcessLayer("Walking, Cycling", URL, lightStyling,bufferLineWide);
 
     var _popupTour = function (layer) {
         if (layer.feature.properties.F_COMMENT) {
@@ -72,6 +85,10 @@ function buildCustomRoutes(mymap) {
     };
     layerParameters.typeName = 'datavic:FORESTS_RECWEB_TRACK';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getGeojson(URL, mymap, lineStyling, true, "Touring", bufferLine);
+    // getGeojson(URL, mymap, lineStyling, true, "Touring", bufferLine); 
+    this.getControlledPannedProcessLayer("Touring", URL, lineStyling,bufferLine);
+}
+
+routeLayers.attachSet(mymap);
 
 }

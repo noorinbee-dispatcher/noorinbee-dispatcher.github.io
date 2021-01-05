@@ -107,6 +107,14 @@ function getMinorPointStyle() {
     };
 }
 
+function getBboxAsCql() {
+    return "BBOX(SHAPE, "+getBboxAsString()+")";
+}
+
+function getBboxAsString() {
+    return '-37.853854677977594,148.09321731872052,-36.620632663222686,150.03230420798283';
+}
+
 function getGeneralLayerQuery() {
     return {
         service: 'WFS',
@@ -114,7 +122,7 @@ function getGeneralLayerQuery() {
         request: 'GetFeature',
         // maxFeatures: 200,
         outputFormat: 'application/json',
-        bbox: '-37.853854677977594,148.09321731872052,-36.620632663222686,150.03230420798283'
+        bbox: getBboxAsString(),
     };
 }
 

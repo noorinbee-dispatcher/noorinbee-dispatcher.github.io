@@ -167,15 +167,18 @@ function legendStyle(desc, symbol) {
         var eh = _legendElement.offsetHeight;
         eh += 36;
         _legendElement.style.height = eh + "px";
-        var oh = 36 * (legendStyle.counter + 2) / 2;
-        var mid = _globalLegend.layerPointToLatLng([128, oh]);
+        legendStyle.counter++;
+    
+        _globalLegend.setZoom(20);
         _globalLegend.invalidateSize();
+        var oh = 18 * (legendStyle.counter + 1);
+        var mid = _globalLegend.layerPointToLatLng([128, oh]);
         _globalLegend.panTo(mid);
 
         var applying = symbol.options;
         var icon = symbol.marker ? symbol.marker : null;
         var tagx = 20;
-        legendStyle.counter++;
+
         applying.locx = 64;
         applying.locy = (36 * legendStyle.counter);
         _legendList[desc] = applying;
@@ -221,7 +224,7 @@ function legendStyle(desc, symbol) {
             }
         }
         if (blot) {
-            blot.bindTooltip(desc, { permanent: true, className: "legend-label", offset: [tagx, 0], opacity: 0.85 });
+            blot.bindTooltip(desc, { direction: "right", permanent: true, className: "legend-label", offset: [tagx, 0], opacity: 0.85 });
             blot.addTo(_globalLegend);
         }
     }

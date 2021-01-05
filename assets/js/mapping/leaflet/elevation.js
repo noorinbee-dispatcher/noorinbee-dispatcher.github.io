@@ -1,7 +1,8 @@
 
 
+var contourLayers = new pannedLayerSet();
+
 function buildCustomContours(mymap) {
-    var contourLayers = new pannedLayerSet();
     contourLayers.zoomSnap = 14;
 
     var _elevationLinework = getAltLineStyle();
@@ -46,8 +47,7 @@ function buildCustomContours(mymap) {
         function () {
 
             var URL = "";
-            var layerParameters = getGeneralLayerQuery();
-            layerParameters.bbox = toLatLngBBoxString(hangEdges(mymap.getBounds(), 1.15));
+            var layerParameters = this.getBoundedRequest(1);
             var rootUrl = 'https://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wfs';
 
             var lineStyling = {
@@ -58,7 +58,9 @@ function buildCustomContours(mymap) {
             };
             layerParameters.typeName = 'datavic:VMELEV_EL_CONTOUR';
             URL = rootUrl + L.Util.getParamString(layerParameters);
-            getGeojson(URL, mymap, lineStyling, false, null, null, this.waitOnLayer("25kElevation"));
+
+            this.getAutoPannedLayer("25kElevation", URL, lineStyling);
+            // getGeojson(URL, mymap, lineStyling, false, null, null, this.waitOnLayer("25kElevation"));
         }
 
     contourLayers.attachSet(mymap);

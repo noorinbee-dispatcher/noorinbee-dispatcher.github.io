@@ -52,9 +52,9 @@ pannedLayerSet.prototype.applySetLoader = function () {
         this.dropSet();
         return;
     }
-        if (!this.active) { return; }
+    if (!this.active) { return; }
     if (this.isInZoomRange()) {
-            if (!this._setIsLoading) {
+        if (!this._setIsLoading) {
             this._setIsLoading = true;
             this.buildLayeredSet();
             for (i = 0; i < this._holdSet.length; i++) {
@@ -83,7 +83,7 @@ pannedLayerSet.prototype.freshenSet = function () {
     }
     for (i = 0; i < this._holdSet.length; i++) {
         if (!this._holdSet[i].controlled) {
-           this._holdSet[i].layer.addTo(this.onmap);
+            this._holdSet[i].layer.addTo(this.onmap);
         }
 
     }
@@ -111,7 +111,7 @@ pannedLayerSet.prototype.builtSetCallback = function (self) {
     for (i = 0; i < gotSet.length; i++) {
         var addin = { layer: null, show: null, controlled: null };
         addin.added = self._setStack[gotSet[i]].added;
-        addin.controlled = self._setStack[gotSet[i]].controlled;        
+        addin.controlled = self._setStack[gotSet[i]].controlled;
         addin.layer = self._setStack[gotSet[i]].layer;
         newHoldSet.push(addin);
     }
@@ -137,6 +137,32 @@ pannedLayerSet.prototype.waitOnLayer = function (layer) {
     return addLayerToSet;
 }
 
+pannedLayerSet.prototype.getAutoPannedLayer = function (title, URL, styling) {
+    return getGeojson(URL, this.onmap, styling, false, null, null, this.waitOnLayer(title));
+}
+
+pannedLayerSet.prototype.getControlledPannedLayer = function (title, URL, styling) {
+    var titledIsShown = (getOverlays()[title] == true);
+    return getGeojson(URL, this.onmap, styling, titledIsShown, title, null, this.waitOnLayer("ctrl:" + title));
+}
+
+pannedLayerSet.prototype.getControlledPannedProcessLayer = function (title, URL, styling, process) {
+    var titledIsShown = (getOverlays()[title] == true);
+    return getGeojson(URL, this.onmap, styling, titledIsShown, title, process, this.waitOnLayer("ctrl:" + title));
+}
+
+pannedLayerSet.prototype.getBoundedRequest = function (fit) {
+    var layerParameters = getGeneralLayerQuery();
+
+    var paneBoxList = toLatLngBBoxString(hangEdges(this.onmap.getBounds(), fit)).split(",");
+    var worldBoxList = getBboxAsString().split(",");
+    var panePoly = turf.bboxPolygon(paneBoxList);
+    var worldPoly = turf.bboxPolygon(worldBoxList);
+    var clipped = turf.bbox(turf.intersect(panePoly, worldPoly));
+    layerParameters.bbox = clipped[0] + "," + clipped[1] + "," + clipped[2] + "," + clipped[3];
+
+    return layerParameters;
+}
 
 pannedLayerSet.prototype.buildLayeredSet = function () {
 

@@ -1,10 +1,19 @@
 
+var publicLayers = new pannedLayerSet();
+
 function buildCustomAreas(mymap) {
+
+    publicLayers.isInZoomRange = function () {
+        return true;
+    }
+
+    publicLayers.buildLayeredSet =
+        function () {
 
     // recweb & public areas:
 
     var URL = "";
-    var layerParameters = getGeneralLayerQuery();
+    var layerParameters = this.getBoundedRequest(0.9); //getGeneralLayerQuery();
 
     var rootUrl = 'https://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wfs';
 
@@ -50,10 +59,12 @@ function buildCustomAreas(mymap) {
 
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_H_A_C_FEAT_RES';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getGeojson(URL, mymap, commonStyling, false, "Historical (Public)");
+    // getGeojson(URL, mymap, commonStyling, false, "Historical (Public)");
+    this.getControlledPannedLayer("Historical (Public)", URL, commonStyling);
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_COMM_USE_AREA';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getGeojson(URL, mymap, commonStyling, false, "Community (Public)");
+    // getGeojson(URL, mymap, commonStyling, false, "Community (Public)");
+    this.getControlledPannedLayer("Community (Public)", URL, commonStyling);
 
     // layerParameters.typeName = 'datavic:CROWNLAND_PLM25_FOREST_PARK';
     // URL = rootUrl + L.Util.getParamString(layerParameters);
@@ -61,10 +72,12 @@ function buildCustomAreas(mymap) {
 
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_NATURAL_FEAT';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getGeojson(URL, mymap, commonStyling, false, "Landscape (Public)");
+    // getGeojson(URL, mymap, commonStyling, false, "Landscape (Public)");
+    this.getControlledPannedLayer("Landscape (Public)", URL, commonStyling);
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_NATURE_CONSERV';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getGeojson(URL, mymap, commonStyling, false, "Conservation (Public)");
+    // getGeojson(URL, mymap, commonStyling, false, "Conservation (Public)");
+    this.getControlledPannedLayer("Conservation (Public)", URL, commonStyling);
 
     // layerParameters.typeName = 'datavic:CROWNLAND_PLM25_ALPINE_RESORT';
     // URL = rootUrl + L.Util.getParamString(layerParameters);
@@ -72,7 +85,11 @@ function buildCustomAreas(mymap) {
 
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_COASTAL_RES';
     URL = rootUrl + L.Util.getParamString(layerParameters);
-    getGeojson(URL, mymap, commonStyling, false, "Coastal (Public)");
+    // getGeojson(URL, mymap, commonStyling, false, "Coastal (Public)"); 
+    this.getControlledPannedLayer("Coastal (Public)", URL, commonStyling);
+ }
+
+    publicLayers.attachSet(mymap);
 
 }
 
