@@ -20,5 +20,6 @@ function pageLaunch(launchSpec) {
   buildCustomBiome(mymap);
   buildCustomRoads(mymap);
   buildCustomContours(mymap);
+  buildCustomHydroLines(mymap);
 }
 

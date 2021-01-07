@@ -116,7 +116,7 @@ function buildCustomInterests(mymap) {
     getGeojson(URL, mymap, commonStyling, true, null, explodeMulti);
 
     commonStyling.zIndex = 5;
-    cqlParameters = getCqlLayerQuery("BBOX(SHAPE, -37.853854677977594,148.09321731872052,-36.620632663222686,150.03230420798283)");
+    cqlParameters = getCqlLayerQuery(getBboxAsCql());
     cqlParameters.typeName = 'datavic:VMFEAT_GNR';
     cqlParameters.cql_filter += " and ( FEATURE in ("
         + "'WALKING TRACK', 'WATER TANK', 'CEMETERY', "

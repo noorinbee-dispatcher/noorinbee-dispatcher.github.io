@@ -1,14 +1,77 @@
 
 
 function buildCustomRoads(mymap) {
-    var roadLayers = new pannedLayerSet();
+    var roadLayersHi = new pannedLayerSet();
+    var roadLayersLo = new pannedLayerSet();
+    roadLayersHi.zoomSnap = 12;
+    roadLayersLo.zoomSnap = 10;
 
-    roadLayers.buildLayeredSet =
+    roadLayersLo.buildLayeredSet =
         function () {
 
             var URL = "";
             var layerParameters = this.getBoundedRequest(1.15);
             var rootUrl = 'https://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wfs';
+
+            var slimline=1;
+            if (this.onmap.getZoom()<=roadLayersHi.zoomSnap) {
+                slimline = 1.75+roadLayersHi.zoomSnap-this.onmap.getZoom();//2.75;
+            }
+
+            //collector & local
+            var _coreLinework = getAltLineStyle();
+            _coreLinework.symbology.color = "#ad4805";
+            _coreLinework.symbology.weight = 2 / slimline;
+            _coreLinework.symbology.opacity /=  slimline;
+            var _popupTransLocal = function (layer) {
+                var ezi = (layer.feature.properties.EZI_ROAD_NAME_LABEL == "Unnamed")
+                    ? null : layer.feature.properties.EZI_ROAD_NAME_LABEL;
+                ezi = (ezi ? ezi : "Road: " + layer.feature.properties.LEFT_LOCALITY);
+                return ezi ? ezi : "Road: " + layer.feature.properties.RIGHT_LOCALITY;
+            }
+            var coreStyling = {
+                applyStyles: [_coreLinework],
+                applyPoints: [],
+                applyPopups: _popupTransLocal,
+                zIndex: 4
+            };
+            layerParameters.typeName = 'datavic:VMTRANS_TR_ROAD_COLLECTOR';
+            layerParameters.typeName += ',datavic:VMTRANS_TR_ROAD_LOCAL';
+            URL = rootUrl + L.Util.getParamString(layerParameters);
+            this.getAutoPannedLayer("roadsCore",URL,coreStyling);
+            // getGeojson(URL, mymap, coreStyling, false, null, null, this.waitOnLayer("roadsCore"));
+
+        //highway arterial sub arterial
+        var _majorLinework = getAltLineStyle();
+        _majorLinework.symbology.color = "#d9c750";
+        _majorLinework.symbology.weight = 2.75 / slimline;
+        var _popupTransMajor = function (layer) {
+            var ezi = (layer.feature.properties.EZI_ROAD_NAME_LABEL == "Unnamed")
+                ? null : layer.feature.properties.EZI_ROAD_NAME_LABEL;
+            ezi = (ezi ? ezi : "Main Road: " + layer.feature.properties.LEFT_LOCALITY);
+            return ezi ? ezi : "Main Road: " + layer.feature.properties.RIGHT_LOCALITY;
+        }
+        var majorStyling = {
+            applyStyles: [_majorLinework],
+            applyPoints: [],
+            applyPopups: _popupTransMajor,
+            zIndex: 4
+        };
+        layerParameters.typeName = 'datavic:VMTRANS_TR_ROAD_ARTERIAL';
+        layerParameters.typeName += ',datavic:VMTRANS_TR_ROAD_SUB_A';
+        layerParameters.typeName += ',datavic:VMTRANS_TR_ROAD_HIGHWAY';
+        URL = rootUrl + L.Util.getParamString(layerParameters);
+        this.getAutoPannedLayer("roadsMajor",URL,majorStyling);
+        // getGeojson(URL, mymap, majorStyling, false, null, null, this.waitOnLayer("roadsMajor"));
+
+    }
+    roadLayersHi.buildLayeredSet =
+        function () {
+
+            var URL = "";
+            var layerParameters = this.getBoundedRequest(1.15);
+            var rootUrl = 'https://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wfs';
+
 
             var _trackLinework = getAltLineStyle();
             var _popupTransMinor = function (layer) {
@@ -95,53 +158,7 @@ function buildCustomRoads(mymap) {
             this.getAutoPannedLayer("roadsLimited",URL,privateStyling);
             // getGeojson(URL, mymap, privateStyling, false, null, null, this.waitOnLayer("roadsLimited"));
 
-            //collector & local
-            var _coreLinework = getAltLineStyle();
-            _coreLinework.symbology.color = "#ad4805";
-            _coreLinework.symbology.weight = 2;
-            var _popupTransLocal = function (layer) {
-                var ezi = (layer.feature.properties.EZI_ROAD_NAME_LABEL == "Unnamed")
-                    ? null : layer.feature.properties.EZI_ROAD_NAME_LABEL;
-                ezi = (ezi ? ezi : "Road: " + layer.feature.properties.LEFT_LOCALITY);
-                return ezi ? ezi : "Road: " + layer.feature.properties.RIGHT_LOCALITY;
-            }
-            var coreStyling = {
-                applyStyles: [_coreLinework],
-                applyPoints: [],
-                applyPopups: _popupTransLocal,
-                zIndex: 4
-            };
-            layerParameters.typeName = 'datavic:VMTRANS_TR_ROAD_COLLECTOR';
-            layerParameters.typeName += ',datavic:VMTRANS_TR_ROAD_LOCAL';
-            URL = rootUrl + L.Util.getParamString(layerParameters);
-            this.getAutoPannedLayer("roadsCore",URL,coreStyling);
-            // getGeojson(URL, mymap, coreStyling, false, null, null, this.waitOnLayer("roadsCore"));
-
-        //highway arterial sub arterial
-        var _majorLinework = getAltLineStyle();
-        _majorLinework.symbology.color = "#d9c750";
-        _majorLinework.symbology.weight = 2.75;
-        var _popupTransMajor = function (layer) {
-            var ezi = (layer.feature.properties.EZI_ROAD_NAME_LABEL == "Unnamed")
-                ? null : layer.feature.properties.EZI_ROAD_NAME_LABEL;
-            ezi = (ezi ? ezi : "Main Road: " + layer.feature.properties.LEFT_LOCALITY);
-            return ezi ? ezi : "Main Road: " + layer.feature.properties.RIGHT_LOCALITY;
-        }
-        var majorStyling = {
-            applyStyles: [_majorLinework],
-            applyPoints: [],
-            applyPopups: _popupTransMajor,
-            zIndex: 4
-        };
-        layerParameters.typeName = 'datavic:VMTRANS_TR_ROAD_ARTERIAL';
-        layerParameters.typeName += ',datavic:VMTRANS_TR_ROAD_SUB_A';
-        layerParameters.typeName += ',datavic:VMTRANS_TR_ROAD_HIGHWAY';
-        URL = rootUrl + L.Util.getParamString(layerParameters);
-        this.getAutoPannedLayer("roadsMajor",URL,majorStyling);
-        // getGeojson(URL, mymap, majorStyling, false, null, null, this.waitOnLayer("roadsMajor"));
-
-    }
-
-        
-    roadLayers.attachSet(mymap);
+    }  
+    roadLayersHi.attachSet(mymap);
+    roadLayersLo.attachSet(mymap);
 }

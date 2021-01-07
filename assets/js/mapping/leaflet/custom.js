@@ -1,8 +1,9 @@
 function buildCustomMap(pageMap, pageLegend, mapSettings) {
 
-    var atLat = -37.56655532524054;
-    var atLng = 149.1559270001807;
+    var atLat = _globalViewFrom[0];//-37.56655532524054;
+    var atLng = _globalViewFrom[1];//149.1559270001807;
     var atZoom = 11;
+    
     if (typeof (mapSettings.lat) !== "undefined") {
         atLat = mapSettings.lat;
     }
@@ -112,7 +113,12 @@ function getBboxAsCql() {
 }
 
 function getBboxAsString() {
-    return '-37.853854677977594,148.09321731872052,-36.620632663222686,150.03230420798283';
+    var bboxList = getBboxAsList();
+    return bboxList[0]+","+bboxList[1]+","+bboxList[2]+","+bboxList[3];
+}
+
+function getBboxAsList() {
+    return _globalBounds;
 }
 
 function getGeneralLayerQuery() {
@@ -120,7 +126,7 @@ function getGeneralLayerQuery() {
         service: 'WFS',
         version: '2.0.0',
         request: 'GetFeature',
-        // maxFeatures: 200,
+        // maxFeatures: 200, // VIC servers seem to ignore & impose their own max!
         outputFormat: 'application/json',
         bbox: getBboxAsString(),
     };
@@ -131,9 +137,8 @@ function getCqlLayerQuery(cql) {
         service: 'WFS',
         version: '2.0.0',
         request: 'GetFeature',
-        // maxFeatures: 200,
         outputFormat: 'application/json',
-        cql_filter: cql, // BBOX('SHAPE', -37.853854677977594,148.09321731872052,-36.620632663222686,150.03230420798283)
+        cql_filter: cql,
     };
 }
 ////////////////////////////////////////////////

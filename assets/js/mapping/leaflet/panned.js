@@ -151,14 +151,17 @@ pannedLayerSet.prototype.getControlledPannedProcessLayer = function (title, URL,
     return getGeojson(URL, this.onmap, styling, titledIsShown, title, process, this.waitOnLayer("ctrl:" + title));
 }
 
-pannedLayerSet.prototype.getBoundedRequest = function (fit) {
-    var layerParameters = getGeneralLayerQuery();
-
+pannedLayerSet.prototype.getLesserBoundsAsList = function (fit) {
     var paneBoxList = toLatLngBBoxString(hangEdges(this.onmap.getBounds(), fit)).split(",");
     var worldBoxList = getBboxAsString().split(",");
     var panePoly = turf.bboxPolygon(paneBoxList);
     var worldPoly = turf.bboxPolygon(worldBoxList);
     var clipped = turf.bbox(turf.intersect(panePoly, worldPoly));
+    return clipped;
+}
+pannedLayerSet.prototype.getBoundedRequest = function (fit) {
+    var layerParameters = getGeneralLayerQuery();
+    var clipped = this.getLesserBoundsAsList(fit);
     layerParameters.bbox = clipped[0] + "," + clipped[1] + "," + clipped[2] + "," + clipped[3];
 
     return layerParameters;

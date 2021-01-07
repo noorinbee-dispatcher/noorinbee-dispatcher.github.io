@@ -38,6 +38,11 @@ const siteCoverage = [
 
 ];
 
+const _globalBounds = [-37.853854677977594,148.09321731872052,-36.620632663222686,150.03230420798283];
+const _globalViewFrom = [-37.56655532524054,149.1559270001807];
+
+////////////////////////////////////////////////////////////
+
 window.onload = function () {
     var currentUrl = document.URL;
     var optParts = currentUrl.split('?');
