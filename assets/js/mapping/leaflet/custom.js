@@ -17,7 +17,7 @@ function buildCustomMap(pageMap, pageLegend, mapSettings) {
     var mymap = L.map(pageMap, { attributionControl: false })
         .setView([atLat, atLng], atZoom);
     var legend = L.map(pageLegend, {
-        zoomControl: false, attributionControl: false, dragging: false
+        zoomControl: false, attributionControl: true, dragging: false
     }).setView([0, 0], 1);
 
     connectMap(mymap);
