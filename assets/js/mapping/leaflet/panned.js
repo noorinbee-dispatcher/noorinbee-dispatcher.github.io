@@ -156,14 +156,18 @@ pannedLayerSet.prototype.getLesserBoundsAsList = function (fit) {
     var worldBoxList = getBboxAsString().split(",");
     var panePoly = turf.bboxPolygon(paneBoxList);
     var worldPoly = turf.bboxPolygon(worldBoxList);
-    var clipped = turf.bbox(turf.intersect(panePoly, worldPoly));
-    return clipped;
+    var measure = turf.intersect(panePoly, worldPoly);
+    if (!measure) {
+        measure = turf.bboxPolygon([0,0,0,0]);
+    }
+    return turf.bbox(measure);
 }
+
 pannedLayerSet.prototype.getBoundedRequest = function (fit) {
     var layerParameters = getGeneralLayerQuery();
     var clipped = this.getLesserBoundsAsList(fit);
     layerParameters.bbox = clipped[0] + "," + clipped[1] + "," + clipped[2] + "," + clipped[3];
-
+    console.log(layerParameters.bbox);
     return layerParameters;
 }
 
