@@ -4,10 +4,11 @@ var biomeLayers = new pannedLayerSet();
 
 function buildCustomBiome(mymap) {
 
-    biomeLayers.isInZoomRange = function () {
-        return true;
-    }
-
+    // biomeLayers.isInZoomRange = function () {
+    //     return true;
+    // }
+    biomeLayers.zoomSnap=10;
+    
     biomeLayers.buildLayeredSet =
         function () {
 

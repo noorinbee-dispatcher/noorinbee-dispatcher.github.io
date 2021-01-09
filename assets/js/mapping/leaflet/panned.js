@@ -2,6 +2,7 @@ function pannedLayerSet() {
 
     this._holdSet = [];
     this._setIsLoading = false;
+    this._setRetouch = false;
     this._setStack = {};
 
     this.onmap = null;
@@ -60,6 +61,8 @@ pannedLayerSet.prototype.applySetLoader = function () {
             for (i = 0; i < this._holdSet.length; i++) {
                 removeOverlay(this._holdSet[i].layer);
             }
+        } else {
+            this._setRetouch = true;
         }
     }
 }
@@ -97,6 +100,7 @@ pannedLayerSet.prototype.isSetLoaded = function (self) {
         }
     }
     self._setIsLoading = false;
+
     return true;
 }
 
@@ -118,6 +122,13 @@ pannedLayerSet.prototype.builtSetCallback = function (self) {
     self.dropSet();
     Object.assign(self._holdSet, newHoldSet);
     self.freshenSet();
+
+    if(self._setRetouch) {
+        self._setRetouch = false;
+        self.applySetLoader();
+        return false;
+    }
+
     return true;
 }
 
