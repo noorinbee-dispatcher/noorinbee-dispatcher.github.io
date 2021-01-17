@@ -84,7 +84,7 @@ function buildCustomInterests(mymap) {
         if (layer.feature.properties.FEATURE_CODE) {
             return (layer.feature.properties.PLACE_NAME) ? layer.feature.properties.PLACE_NAME : layer.feature.properties.FEATURE;
         }
-        console.log(layer.feature.properties);
+        // console.log(layer.feature.properties);
         return layer.feature.properties.ASSET_CLS;
     }
 

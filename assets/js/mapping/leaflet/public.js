@@ -60,7 +60,7 @@ function buildCustomAreas(mymap) {
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_H_A_C_FEAT_RES';
     URL = rootUrl + L.Util.getParamString(layerParameters);
     // getGeojson(URL, mymap, commonStyling, false, "Historical (Public)");
-    this.getControlledPannedLayer("Historical (Public)", URL, commonStyling);
+    this.getControlledPannedLayer("Historic (Public)", URL, commonStyling);
     layerParameters.typeName = 'datavic:CROWNLAND_PLM25_COMM_USE_AREA';
     URL = rootUrl + L.Util.getParamString(layerParameters);
     // getGeojson(URL, mymap, commonStyling, false, "Community (Public)");

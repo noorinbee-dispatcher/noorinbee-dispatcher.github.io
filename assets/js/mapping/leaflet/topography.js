@@ -121,7 +121,7 @@ function buildCustomHydroLines(mymap) {
               if(!layer.feature.properties.NAMED_FEATURE_ID) {
             return "Minor Watercourse";
          }
-            console.log(layer.feature.properties);
+            // console.log(layer.feature.properties);
             return layer.feature.properties.NAME;
         }
         var majorStyling = {

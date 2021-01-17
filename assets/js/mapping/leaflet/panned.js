@@ -178,7 +178,7 @@ pannedLayerSet.prototype.getBoundedRequest = function (fit) {
     var layerParameters = getGeneralLayerQuery();
     var clipped = this.getLesserBoundsAsList(fit);
     layerParameters.bbox = clipped[0] + "," + clipped[1] + "," + clipped[2] + "," + clipped[3];
-    console.log(layerParameters.bbox);
+    // console.log(layerParameters.bbox);
     return layerParameters;
 }
 
