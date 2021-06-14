@@ -12,7 +12,7 @@ var dstr2 = dfinish.substr(0, 4) + '-' + dfinish.substr(4, 2) + '-' + dfinish.su
 
 var url = 'https://api.vic.gov.au:443/vicgov/v2.0/dates?' 
     + 'type=PUBLIC_HOLIDAY%2CDAYLIGHT_SAVING%2CSCHOOL_TERM%2CSCHOOL_HOLIDAY'
-    + '&from_date=' + dstr1
+    // + '&from_date=' + dstr1
     + '&to_date=' + dstr2
     + '&format=json'
     + '&limit=800'
