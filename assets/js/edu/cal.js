@@ -12,7 +12,7 @@ var dstr2 = dfinish.substr(0, 4) + '-' + dfinish.substr(4, 2) + '-' + dfinish.su
 
 var url = 'https://api.vic.gov.au:443/vicgov/v2.0/dates?' 
     + 'type=PUBLIC_HOLIDAY%2CDAYLIGHT_SAVING%2CSCHOOL_TERM%2CSCHOOL_HOLIDAY'
-    // + '&from_date=' + dstr1
+    + '&from_date=' + dstr1
     + '&to_date=' + dstr2
     + '&format=json'
     + '&limit=800'
@@ -23,11 +23,7 @@ function pageLaunch() {
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json",
-            "apikey": "fec2e8c1-bad8-4b2e-965b-a0a648db7861",
-            // value="fec2e8c1-bad8-4b2e-965b-a0a648db7861" data-sec="4a7dc04f-b501-4a9a-8af6-6f0c35460657"
-            //"324d5c8f-096c-4837-8784-2c423e9a3028",
-            //"f2f72d5e-b357-4c1f-aa25-29583fbd3af6", //"1c0f397e-c6e9-4517-ba06-48e731d64075"
-         }
+            "apikey": "66d78397-09c8-4946-8b98-a348804a8040"         }
     }, function (response) {
         response.json().then(function (dat) {
 
